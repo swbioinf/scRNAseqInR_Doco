@@ -1,0 +1,10 @@
+# Load data {#load}
+
+
+Look at the counts files.
+
+Load them.
+
+Look at the cell metadata (there's basically none)
+
+

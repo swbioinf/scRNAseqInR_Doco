@@ -1,0 +1,200 @@
+# DE {#de}
+
+Discussion of pseudobulk, contrasted with wilxcox test
+
+Would run as demo. Needs a new and different dataset with replicates, and alog of mucking about.
+
+
+```{r eval=FALSE}
+################################################################################
+# Pseudobulk demo
+
+
+library(SeuratData)
+library(Seurat)
+
+library(tidyverse)
+library(patchwork)
+
+
+################################################################################
+# Prepare a datasets
+
+
+library(SeuratData)
+data("hcabm40k") #maybe?
+
+
+# grab 4000 random cells
+keep_cells <- sample(1:ncol(hcabm40k), size=4000)
+  
+# Subsample down to a toy sized dataset
+hcabm40k.mini <- hcabm40k[1:2000,keep_cells] 
+
+
+
+
+
+
+# clear large object from memory
+rm(hcabm40k)
+
+# Add a group of contidion vs control to test. Not real
+# This is the first 4 of 8 bio replicates
+condition_lookup <- 
+  c('MantonBM1'="fake_treat",   'MantonBM2'="fake_treat",   'MantonBM3'="fake_treat",   'MantonBM4'="fake_treat",
+    'MantonBM5'="fake_control", 'MantonBM6'="fake_control", 'MantonBM7'="fake_control", 'MantonBM8'="fake_control")
+hcabm40k.mini$condition <- condition_lookup[hcabm40k.mini@meta.data$orig.ident]
+
+table( hcabm40k.mini@meta.data$orig.ident, hcabm40k.mini$condition)
+
+
+
+# When Diing DE, it makes sense to remove genes with too-low counts to find anything in.
+# There's alot of these in single cell. 
+total_per_gene <- rowSums(GetAssayData(hcabm40k.mini, 'counts'))
+hist(log10(total_per_gene))
+hcabm40k.mini <- hcabm40k.mini[total_per_gene >= 100, ]
+
+
+
+# ADDING SOME FAKE VARIATION!
+# This only works because this data is ordered by the samples!
+# multipling first 5 genes of the the 'fake treat' group by 4 - so we expect these to be DE.
+# when in reality, these are simply healthy replicates and shouldn't be significantly different
+alter_cells <- which(condition_lookup[hcabm40k.mini$orig.ident] == "fake_treat")
+hcabm40k.mini@assays$RNA@counts[1:20, alter_cells ] <- hcabm40k.mini@assays$RNA@counts[1:20, alter_cells  ]* 2
+alter_genes <- rownames(hcabm40k.mini@assays$RNA@counts)[1:20]
+
+
+
+#-------------------------------------------------------------------------------
+#  Run thorough a basic processing, with no QC
+
+hcabm40k.mini <- NormalizeData(hcabm40k.mini, normalization.method = "LogNormalize", scale.factor = 10000)
+hcabm40k.mini <- FindVariableFeatures(hcabm40k.mini, selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(hcabm40k.mini)
+hcabm40k.mini <- ScaleData(hcabm40k.mini, features = all.genes)
+hcabm40k.mini <- RunPCA(hcabm40k.mini, features = VariableFeatures(object = hcabm40k.mini))
+hcabm40k.mini <- RunUMAP(hcabm40k.mini, dims = 1:10)
+hcabm40k.mini <- FindNeighbors(hcabm40k.mini, dims = 1:10)
+hcabm40k.mini <- FindClusters(hcabm40k.mini, resolution = 0.1) # Low res
+
+
+
+
+#-------------------------------------------------------------------------------
+#  The object;
+
+p1 <- DimPlot(hcabm40k.mini, reduction = 'umap', group.by = 'seurat_clusters')
+p2 <- DimPlot(hcabm40k.mini, reduction = 'umap', group.by = 'orig.ident')
+p1+p2
+
+
+################################################################################
+# What is different between 'fake treat' and 'fake control'?
+# Expect the 20 genes that we altered, but little else
+
+#-------------------------------------------------------------------------------
+# Find all markers
+
+hcabm40k.mini.c0 <- hcabm40k.mini[, hcabm40k.mini$seurat_clusters == 0]
+
+
+# Change Ident to condition
+Idents(hcabm40k.mini.c0)
+Idents(hcabm40k.mini.c0) <- hcabm40k.mini.c0$condition
+
+
+
+# default, wilcox test
+de_result_wilcox <- FindMarkers(hcabm40k.mini.c0, 
+            ident.1 = 'fake_treat',
+            ident.2 = 'fake_control',
+            logfc.threshold = 0, # Give me ALL results
+            min.pct = 0
+            )
+
+# the  'DE' genes
+de_result_wilcox$was_altered <- rownames(de_result_wilcox ) %in% alter_genes
+
+filter(de_result_wilcox, p_val_adj < 0.01)
+#> filter(de_result_wilcox, p_val_adj < 0.01)
+#p_val  avg_log2FC pct.1 pct.2    p_val_adj
+#JUN       5.200733e-34 -0.75819184 0.593 0.779 5.138324e-31
+#RPS8      2.630468e-08 -0.15303403 0.996 0.996 2.598902e-05
+#RPS27     1.982738e-07 -0.09901833 0.999 0.999 1.958945e-04
+#YBX1      3.822587e-07  0.27747948 0.798 0.711 3.776716e-04
+#RPL11     1.287260e-06 -0.11034247 0.998 0.998 1.271813e-03
+#FCGR3A    1.355810e-06  0.67263878 0.097 0.044 1.339541e-03
+#SNAP47    3.074629e-06  1.06663146 0.072 0.029 3.037734e-03
+#CHRM3-AS2 4.247678e-06 -0.90931480 0.042 0.091 4.196705e-03
+#RPS7      8.027267e-06 -0.11818369 0.990 0.995 7.930940e-03
+
+filter(de_result_wilcox, p_val_adj < 0.01)
+
+filter(de_result_wilcox, was_altered == TRUE)
+
+#-------------------------------------------------------------------------------
+# Pseudobuilk
+
+# Change idents to sample fro grouping.
+levels(Idents(hcabm40k.mini.c0))
+Idents(hcabm40k.mini.c0) <- hcabm40k.mini.c0$orig.ident
+levels(Idents(hcabm40k.mini.c0))
+
+pseudobulk_matrix <- AggregateExpression( hcabm40k.mini.c0,  slot = 'counts', assays='RNA' )[['RNA']]
+
+
+# treat like a bulk DE
+library(limma)
+library(edgeR)
+
+dge <- DGEList(pseudobulk_matrix)
+dge <- calcNormFactors(dge)
+
+condition <- factor(condition_lookup[colnames(pseudobulk_matrix)])
+design <- model.matrix(~condition)
+vm  <- voom(dge, design = design, plot = TRUE)
+fit <- lmFit(vm, design = design)
+fit <- eBayes(fit)
+de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
+de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
+de_result_pseudobulk$was_altered <- rownames(de_result_pseudobulk ) %in% alter_genes
+
+
+
+filter(de_result_pseudobulk,    adj.P.Val < 0.01)
+filter(de_result_pseudobulk, was_altered == TRUE)
+
+
+#-----------------------------------------------------------
+
+p1 <- ggplot(de_result_pseudobulk, aes(x=AveExpr, y=logFC, col=adj.P.Val < 0.5)) +
+  geom_point() +
+  geom_point(data=filter(de_result_pseudobulk, was_altered), pch=3, col='blue', size=5 ) +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
+  theme_bw() +
+  ggtitle("Pseudobulk")
+
+# Seurat doesn't give aveg expression by default, just grab it from the psuedobulk
+de_result_wilcox$AveExpr <- de_result_pseudobulk[rownames(de_result_wilcox),c('AveExpr')]
+
+p2 <- ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.5)) +
+  geom_point() +
+  geom_point(data=filter(de_result_wilcox, was_altered), pch=3, col='blue', size=5 ) +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
+  theme_bw() +
+  ggtitle("Wilcox Test")
+
+
+
+
+p1 + p2
+
+```
+
+
+
+
+

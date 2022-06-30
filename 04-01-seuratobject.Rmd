@@ -1,0 +1,19 @@
+# Using a seurat object {#seuratobject}
+
+
+Load an existing object
+
+Plot some clusters on a umap.
+
+Plot some gene expression on a umap
+
+plot some gene expression by cluster.
+
+
+
+Look at a table of cell metadata.
+
+Look at counts data / expression data
+
+Does gene exist?
+

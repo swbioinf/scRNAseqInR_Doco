@@ -1,0 +1,15 @@
+# QC FIltering {#qc}
+
+
+Discuss counts per cell/gene and make plots
+
+Discuss that there's no one threshold
+
+everyone pick a threshold and go filter
+
+check numbers of cells.
+
+save your object
+
+(other qc metrics = Mt gene content, cell cycle asignment, low seq diversity e.t.c)
+

@@ -1,6 +1,5 @@
 --- 
-title: "A Minimal Book Example"
-author: "John Doe"
+title: "scRNAseq Analysis in R with Seurat"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -19,11 +18,10 @@ Material for scRNAseq analysis in R with Seurat workshop.
 
 
 
-
-
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+  .packages(), 
+  'bookdown', 'knitr', 'rmarkdown'
+  ), 'packages.bib')
 ```
