@@ -4,25 +4,25 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>7 QC FIltering | scRNAseq Analysis in R with Seurat</title>
+  <title>7 QC Filtering | scRNAseq Analysis in R with Seurat</title>
   <meta name="description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="7 QC FIltering | scRNAseq Analysis in R with Seurat" />
+  <meta property="og:title" content="7 QC Filtering | scRNAseq Analysis in R with Seurat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="7 QC FIltering | scRNAseq Analysis in R with Seurat" />
+  <meta name="twitter:title" content="7 QC Filtering | scRNAseq Analysis in R with Seurat" />
   
   <meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material" />
   
 
 
 
-<meta name="date" content="2022-06-30" />
+<meta name="date" content="2022-07-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="load.html"/>
-<link rel="next" href="reducedims.html"/>
+<link rel="next" href="norm.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -136,31 +136,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> About</a></li>
-<li class="chapter" data-level="2" data-path="hello-bookdown.html"><a href="hello-bookdown.html"><i class="fa fa-check"></i><b>2</b> Hello bookdown</a>
-<ul>
-<li class="chapter" data-level="2.1" data-path="hello-bookdown.html"><a href="hello-bookdown.html#a-section"><i class="fa fa-check"></i><b>2.1</b> A section</a>
-<ul>
-<li class="chapter" data-level="" data-path="hello-bookdown.html"><a href="hello-bookdown.html#an-unnumbered-section"><i class="fa fa-check"></i>An unnumbered section</a></li>
-</ul></li>
-</ul></li>
+<li class="chapter" data-level="2" data-path="welcome.html"><a href="welcome.html"><i class="fa fa-check"></i><b>2</b> Welcome</a></li>
 <li class="chapter" data-level="3" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i><b>3</b> Schedule</a>
 <ul>
 <li class="chapter" data-level="3.1" data-path="schedule.html"><a href="schedule.html#day-1"><i class="fa fa-check"></i><b>3.1</b> Day 1</a></li>
 <li class="chapter" data-level="3.2" data-path="schedule.html"><a href="schedule.html#day-2"><i class="fa fa-check"></i><b>3.2</b> Day 2</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a>
-<ul>
-<li class="chapter" data-level="4.1" data-path="overview.html"><a href="overview.html#day-1-1"><i class="fa fa-check"></i><b>4.1</b> Day 1</a></li>
-<li class="chapter" data-level="4.2" data-path="overview.html"><a href="overview.html#day-2-1"><i class="fa fa-check"></i><b>4.2</b> Day 2</a></li>
-</ul></li>
+<li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a></li>
 <li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a></li>
-<li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a></li>
-<li class="chapter" data-level="7" data-path="qc.html"><a href="qc.html"><i class="fa fa-check"></i><b>7</b> QC FIltering</a></li>
-<li class="chapter" data-level="8" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>8</b> PCAs and UMAPs</a></li>
-<li class="chapter" data-level="9" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>9</b> Clustering</a></li>
-<li class="chapter" data-level="10" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>10</b> DE</a></li>
-<li class="chapter" data-level="11" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>11</b> Finishing up</a></li>
-<li class="chapter" data-level="12" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>12</b> Resources</a></li>
+<li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="load.html"><a href="load.html#setup-the-seurat-object"><i class="fa fa-check"></i><b>6.1</b> Setup the Seurat Object</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="qc.html"><a href="qc.html"><i class="fa fa-check"></i><b>7</b> QC Filtering</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="qc.html"><a href="qc.html#qc-and-selecting-cells-for-further-analysis"><i class="fa fa-check"></i><b>7.1</b> QC and selecting cells for further analysis</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="qc.html"><a href="qc.html#section"><i class="fa fa-check"></i><b>7.1.1</b> </a></li>
+<li class="chapter" data-level="7.1.2" data-path="qc.html"><a href="qc.html#section-1"><i class="fa fa-check"></i><b>7.1.2</b> </a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="norm.html"><a href="norm.html#normalisation"><i class="fa fa-check"></i><b>8.1</b> Normalisation</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> Normalisation, PCAs and UMAPs</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="reducedims.html"><a href="reducedims.html#identification-of-highly-variable-features-feature-selection"><i class="fa fa-check"></i><b>9.1</b> Identification of highly variable features (feature selection)</a></li>
+<li class="chapter" data-level="9.2" data-path="reducedims.html"><a href="reducedims.html#scaling-the-data"><i class="fa fa-check"></i><b>9.2</b> Scaling the data</a></li>
+<li class="chapter" data-level="9.3" data-path="reducedims.html"><a href="reducedims.html#perform-linear-dimensional-reduction"><i class="fa fa-check"></i><b>9.3</b> Perform linear dimensional reduction</a></li>
+<li class="chapter" data-level="9.4" data-path="reducedims.html"><a href="reducedims.html#determine-the-dimensionality-of-the-dataset"><i class="fa fa-check"></i><b>9.4</b> Determine the ‘dimensionality’ of the dataset</a></li>
+<li class="chapter" data-level="9.5" data-path="reducedims.html"><a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne"><i class="fa fa-check"></i><b>9.5</b> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>10</b> Clustering</a></li>
+<li class="chapter" data-level="11" data-path="cluster-the-cells.html"><a href="cluster-the-cells.html"><i class="fa fa-check"></i><b>11</b> Cluster the cells</a></li>
+<li class="chapter" data-level="12" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>12</b> Cluster Markers</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>12.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="assigning-cell-type-identity-to-clusters.html"><a href="assigning-cell-type-identity-to-clusters.html"><i class="fa fa-check"></i><b>13</b> Assigning cell type identity to clusters</a></li>
+<li class="chapter" data-level="14" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>14</b> SingleR</a></li>
+<li class="chapter" data-level="15" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>15</b> DE</a></li>
+<li class="chapter" data-level="16" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>16</b> Finishing up</a></li>
+<li class="chapter" data-level="17" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>17</b> Resources</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -183,14 +201,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="qc" class="section level1 hasAnchor" number="7">
-<h1><span class="header-section-number">7</span> QC FIltering<a href="qc.html#qc" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">7</span> QC Filtering<a href="qc.html#qc" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Discuss counts per cell/gene and make plots</p>
 <p>Discuss that there’s no one threshold</p>
 <p>everyone pick a threshold and go filter</p>
 <p>check numbers of cells.</p>
 <p>save your object</p>
 <p>(other qc metrics = Mt gene content, cell cycle asignment, low seq diversity e.t.c)</p>
+<hr />
+<p>The steps below encompass the standard pre-processing workflow for scRNA-seq data in Seurat. These represent the selection and filtration of cells based on QC metrics, data normalization and scaling, and the detection of highly variable features.</p>
+<div id="qc-and-selecting-cells-for-further-analysis" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> QC and selecting cells for further analysis<a href="qc.html#qc-and-selecting-cells-for-further-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Seurat allows you to easily explore QC metrics and filter cells based on any user-defined criteria. A few QC metrics <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4758103/">commonly used</a> by the community include</p>
+<ul>
+<li>The number of unique genes detected in each cell.
+<ul>
+<li>Low-quality cells or empty droplets will often have very few genes</li>
+<li>Cell doublets or multiplets may exhibit an aberrantly high gene count</li>
+</ul></li>
+<li>Similarly, the total number of molecules detected within a cell (correlates strongly with unique genes)</li>
+<li>The percentage of reads that map to the mitochondrial genome
+<ul>
+<li>Low-quality / dying cells often exhibit extensive mitochondrial contamination</li>
+<li>We calculate mitochondrial QC metrics with the <code>PercentageFeatureSet()</code> function, which calculates the percentage of counts originating from a set of features</li>
+<li>We use the set of all genes starting with <code>MT-</code> as a set of mitochondrial genes</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="qc.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The $ operator can add columns to object metadata. This is a great place to stash QC stats</span></span>
+<span id="cb26-2"><a href="qc.html#cb26-2" aria-hidden="true" tabindex="-1"></a>pbmc<span class="sc">$</span>percent.mt <span class="ot">&lt;-</span> <span class="fu">PercentageFeatureSet</span>(pbmc, <span class="at">pattern =</span> <span class="st">&quot;^MT-&quot;</span>)</span></code></pre></div>
+<div id="challenge-the-meta.data-slot-in-the-seurat-object" class="section level4 challenge hasAnchor" number="7.1.0.1">
+<h4><span class="header-section-number">7.1.0.1</span> Challenge: The meta.data slot in the Seurat object<a href="qc.html#challenge-the-meta.data-slot-in-the-seurat-object" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Where are QC metrics stored in Seurat?</p>
+<ul>
+<li>The number of unique genes and total molecules are automatically calculated during <code>CreateSeuratObject()</code>
+<ul>
+<li>You can find them stored in the object meta data</li>
+</ul></li>
+</ul>
+<p>What do you notice has changed within the <code>meta.data</code> table now that we have calculated mitochondrial gene proportion?</p>
+<p>Could we add more data into the <code>meta.data</code> table?</p>
+</div>
+<div id="section" class="section level3" number="7.1.1">
+<h3><span class="header-section-number">7.1.1</span> </h3>
+<p>In the example below, we visualize QC metrics, and use these to filter cells.</p>
+<ul>
+<li>We filter cells that have unique feature counts over 2,500 or less than 200</li>
+<li>We filter cells that have &gt;5% mitochondrial counts</li>
+</ul>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="qc.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualize QC metrics as a violin plot</span></span>
+<span id="cb27-2"><a href="qc.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;nFeature_RNA&quot;</span>, <span class="st">&quot;nCount_RNA&quot;</span>, <span class="st">&quot;percent.mt&quot;</span>), <span class="at">ncol =</span> <span class="dv">3</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/qc2-1.png" width="1248" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="qc.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># FeatureScatter is typically used to visualize feature-feature relationships, but can be used for anything calculated by the object, i.e. columns in object metadata, PC scores etc.</span></span>
+<span id="cb28-2"><a href="qc.html#cb28-2" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;percent.mt&quot;</span>) </span>
+<span id="cb28-3"><a href="qc.html#cb28-3" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>) </span>
+<span id="cb28-4"><a href="qc.html#cb28-4" aria-hidden="true" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
+<p><img src="_main_files/figure-html/qc2-2.png" width="1248" /></p>
+<p>Lets look at the number of features (genes) to the percent mitochondrial genes plot.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="qc.html#cb29-1" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;percent.mt&quot;</span>) </span>
+<span id="cb29-2"><a href="qc.html#cb29-2" aria-hidden="true" tabindex="-1"></a>plot3</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="challenge-ribosomal-gene-expression-as-a-qc-metric" class="section level4 challenge hasAnchor" number="7.1.1.1">
+<h4><span class="header-section-number">7.1.1.1</span> Challenge: Ribosomal gene expression as a QC metric<a href="qc.html#challenge-ribosomal-gene-expression-as-a-qc-metric" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Ribosomal gene expression could be another factor to look into your cells within your experiment.</p>
+<p>Create more columns of metadata using <code>PercentageFeatureSet</code> function, this time search for ribosomal genes. We can calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.</p>
+<p>Use <code>FeatureScatter</code> to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out.</p>
+<details>
+<summary>
+<strong>Code for challenge</strong>
+</summary>
+<p>Create new meta.data columns to contain percentages of the large and small ribosomal genes.</p>
+<p>Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell.</p>
+<p>What about with mitochondria and gene, feature counts?</p>
+These are the cells you may want to exclude.
+</details>
+<details>
+<summary>
+<strong>Advanced Challenge</strong>
+</summary>
+Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with <code>FeatureScatter</code> make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage.
+</details>
+</div>
+</div>
+<div id="section-1" class="section level3" number="7.1.2">
+<h3><span class="header-section-number">7.1.2</span> </h3>
+<p>Okay we are happy with our thresholds for mitochondrial percentage in cells, lets apply them and subset our data. This will remove the cells we think are of poor quality.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="qc.html#cb30-1" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">subset</span>(pbmc, <span class="at">subset =</span> nFeature_RNA <span class="sc">&gt;</span> <span class="dv">200</span> <span class="sc">&amp;</span> nFeature_RNA <span class="sc">&lt;</span> <span class="dv">2500</span> <span class="sc">&amp;</span> percent.mt <span class="sc">&lt;</span> <span class="dv">5</span>)</span></code></pre></div>
+<p>Lets replot the feature scatters and see what they look like.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="qc.html#cb31-1" aria-hidden="true" tabindex="-1"></a>plot5 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;percent.mt&quot;</span>) </span>
+<span id="cb31-2"><a href="qc.html#cb31-2" aria-hidden="true" tabindex="-1"></a>plot6 <span class="ot">&lt;-</span> <span class="fu">FeatureScatter</span>(pbmc, <span class="at">feature1 =</span> <span class="st">&quot;nCount_RNA&quot;</span>, <span class="at">feature2 =</span> <span class="st">&quot;nFeature_RNA&quot;</span>) </span>
+<span id="cb31-3"><a href="qc.html#cb31-3" aria-hidden="true" tabindex="-1"></a>plot5 <span class="sc">+</span> plot6</span></code></pre></div>
+<p><img src="_main_files/figure-html/qc2_sidebar-1.png" width="1248" /></p>
 
+</div>
+</div>
 </div>
             </section>
 
@@ -198,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="load.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="reducedims.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="norm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

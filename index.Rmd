@@ -17,6 +17,15 @@ github-repo: rstudio/bookdown-demo
 Material for scRNAseq analysis in R with Seurat workshop.
 
 
+This workshop follows the introductory [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) tutorial from Seurat.
+
+
+It is also drawing from a similar workshop held by Monash Bioinformatics Platform [Single-Cell-Workshop](https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/), with material [here](https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/pbmc3k_tutorial.html)
+<!-- I've asked, share and share-alike -->
+
+
+
+
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

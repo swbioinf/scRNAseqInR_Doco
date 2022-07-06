@@ -33,9 +33,6 @@ hcabm40k.mini <- hcabm40k[1:2000,keep_cells]
 
 
 
-
-
-
 # clear large object from memory
 rm(hcabm40k)
 

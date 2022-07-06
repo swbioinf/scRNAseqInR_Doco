@@ -2,3 +2,23 @@
 
 
 Useful resources for next steps.
+
+* Many Seurat Vignettes: https://satijalab.org/seurat/index.html
+* Ochestrating Single Cell Analysis with bioconductor: https://bioconductor.org/books/release/OSCA/
+* Bunch of useful links listed here: https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/
+* TidySeurat
+
+
+tidyverse
+
+singleR
+celldex
+library(SingleCellExperiment)
+library(SingleR)
+library(celldex)
+
+For monocle: (not done.)
+remotes::install_github('satijalab/seurat-wrappers')
+onfigure: error: gdal-config not found or not executable.
+remotes::install_github('rspatial/terra')
+devtools::install_github('cole-trapnell-lab/monocle3')
