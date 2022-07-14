@@ -4,32 +4,32 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>14 SingleR | scRNAseq Analysis in R with Seurat</title>
+  <title>12 SingleR | scRNAseq Analysis in R with Seurat</title>
   <meta name="description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="14 SingleR | scRNAseq Analysis in R with Seurat" />
+  <meta property="og:title" content="12 SingleR | scRNAseq Analysis in R with Seurat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="14 SingleR | scRNAseq Analysis in R with Seurat" />
+  <meta name="twitter:title" content="12 SingleR | scRNAseq Analysis in R with Seurat" />
   
   <meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material" />
   
 
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="assigning-cell-type-identity-to-clusters.html"/>
+<link rel="prev" href="cluster-markers.html"/>
 <link rel="next" href="de.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -143,7 +143,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="schedule.html"><a href="schedule.html#day-2"><i class="fa fa-check"></i><b>3.2</b> Day 2</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a></li>
-<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a></li>
+<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seuratobject.html"><a href="seuratobject.html#load-an-existing-seurat-object"><i class="fa fa-check"></i><b>5.1</b> Load an existing Seurat object</a></li>
+<li class="chapter" data-level="5.2" data-path="seuratobject.html"><a href="seuratobject.html#plotting"><i class="fa fa-check"></i><b>5.2</b> Plotting</a></li>
+<li class="chapter" data-level="5.3" data-path="seuratobject.html"><a href="seuratobject.html#how-is-the-data-stored"><i class="fa fa-check"></i><b>5.3</b> How is the data stored?</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="load.html"><a href="load.html#setup-the-seurat-object"><i class="fa fa-check"></i><b>6.1</b> Setup the Seurat Object</a></li>
@@ -156,11 +161,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1.2" data-path="qc.html"><a href="qc.html#section-1"><i class="fa fa-check"></i><b>7.1.2</b> </a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="norm.html"><a href="norm.html#normalisation"><i class="fa fa-check"></i><b>8.1</b> Normalisation</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> Normalisation, PCAs and UMAPs</a>
+<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a></li>
+<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> PCAs and UMAPs</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="reducedims.html"><a href="reducedims.html#identification-of-highly-variable-features-feature-selection"><i class="fa fa-check"></i><b>9.1</b> Identification of highly variable features (feature selection)</a></li>
 <li class="chapter" data-level="9.2" data-path="reducedims.html"><a href="reducedims.html#scaling-the-data"><i class="fa fa-check"></i><b>9.2</b> Scaling the data</a></li>
@@ -169,16 +171,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="reducedims.html"><a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne"><i class="fa fa-check"></i><b>9.5</b> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>10</b> Clustering</a></li>
-<li class="chapter" data-level="11" data-path="cluster-the-cells.html"><a href="cluster-the-cells.html"><i class="fa fa-check"></i><b>11</b> Cluster the cells</a></li>
-<li class="chapter" data-level="12" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>12</b> Cluster Markers</a>
+<li class="chapter" data-level="11" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>11</b> Cluster Markers</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>12.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>11.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.2" data-path="cluster-markers.html"><a href="cluster-markers.html#assigning-cell-type-identity-to-clusters"><i class="fa fa-check"></i><b>11.2</b> Assigning cell type identity to clusters</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="assigning-cell-type-identity-to-clusters.html"><a href="assigning-cell-type-identity-to-clusters.html"><i class="fa fa-check"></i><b>13</b> Assigning cell type identity to clusters</a></li>
-<li class="chapter" data-level="14" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>14</b> SingleR</a></li>
-<li class="chapter" data-level="15" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>15</b> DE</a></li>
-<li class="chapter" data-level="16" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>16</b> Finishing up</a></li>
-<li class="chapter" data-level="17" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>17</b> Resources</a></li>
+<li class="chapter" data-level="12" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>12</b> SingleR</a></li>
+<li class="chapter" data-level="13" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>13</b> DE</a></li>
+<li class="chapter" data-level="14" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>14</b> Finishing up</a></li>
+<li class="chapter" data-level="15" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>15</b> Resources</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -200,148 +201,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="singler" class="section level1 hasAnchor" number="14">
-<h1><span class="header-section-number">14</span> SingleR<a href="singler.html#singler" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="singler.html#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;BiocManager&quot;)</span></span>
-<span id="cb109-2"><a href="singler.html#cb109-2" aria-hidden="true" tabindex="-1"></a><span class="co">#BiocManager::install(c(&quot;SingleCellExperiment&quot;,&quot;SingleR&quot;,&quot;celldex&quot;),ask=F)</span></span>
-<span id="cb109-3"><a href="singler.html#cb109-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span></code></pre></div>
-<pre><code>## Warning: package &#39;SingleCellExperiment&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## Loading required package: SummarizedExperiment</code></pre>
-<pre><code>## Warning: package &#39;SummarizedExperiment&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## Loading required package: MatrixGenerics</code></pre>
-<pre><code>## Warning: package &#39;MatrixGenerics&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## Loading required package: matrixStats</code></pre>
-<pre><code>## 
-## Attaching package: &#39;matrixStats&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
-## 
-##     count</code></pre>
-<pre><code>## 
-## Attaching package: &#39;MatrixGenerics&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:matrixStats&#39;:
-## 
-##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
-##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
-##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
-##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
-##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
-##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
-##     colWeightedMeans, colWeightedMedians, colWeightedSds,
-##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
-##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
-##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
-##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
-##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
-##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
-##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
-##     rowWeightedSds, rowWeightedVars</code></pre>
-<pre><code>## Loading required package: GenomicRanges</code></pre>
-<pre><code>## Warning: package &#39;GenomicRanges&#39; was built under R version 4.1.2</code></pre>
-<pre><code>## Loading required package: stats4</code></pre>
-<pre><code>## Loading required package: BiocGenerics</code></pre>
-<pre><code>## Warning: package &#39;BiocGenerics&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## 
-## Attaching package: &#39;BiocGenerics&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     combine, intersect, setdiff, union</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     IQR, mad, sd, var, xtabs</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     anyDuplicated, append, as.data.frame, basename, cbind, colnames,
-##     dirname, do.call, duplicated, eval, evalq, Filter, Find, get, grep,
-##     grepl, intersect, is.unsorted, lapply, Map, mapply, match, mget,
-##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-##     rbind, Reduce, rownames, sapply, setdiff, sort, table, tapply,
-##     union, unique, unsplit, which.max, which.min</code></pre>
-<pre><code>## Loading required package: S4Vectors</code></pre>
-<pre><code>## Warning: package &#39;S4Vectors&#39; was built under R version 4.1.3</code></pre>
-<pre><code>## 
-## Attaching package: &#39;S4Vectors&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     first, rename</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     expand.grid, I, unname</code></pre>
-<pre><code>## Loading required package: IRanges</code></pre>
-<pre><code>## Warning: package &#39;IRanges&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## 
-## Attaching package: &#39;IRanges&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:sp&#39;:
-## 
-##     %over%</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     collapse, desc, slice</code></pre>
-<pre><code>## Loading required package: GenomeInfoDb</code></pre>
-<pre><code>## Warning: package &#39;GenomeInfoDb&#39; was built under R version 4.1.2</code></pre>
-<pre><code>## Loading required package: Biobase</code></pre>
-<pre><code>## Warning: package &#39;Biobase&#39; was built under R version 4.1.1</code></pre>
-<pre><code>## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
-##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.</code></pre>
-<pre><code>## 
-## Attaching package: &#39;Biobase&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:MatrixGenerics&#39;:
-## 
-##     rowMedians</code></pre>
-<pre><code>## The following objects are masked from &#39;package:matrixStats&#39;:
-## 
-##     anyMissing, rowMedians</code></pre>
-<pre><code>## 
-## Attaching package: &#39;SummarizedExperiment&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:SeuratObject&#39;:
-## 
-##     Assays</code></pre>
-<pre><code>## The following object is masked from &#39;package:Seurat&#39;:
-## 
-##     Assays</code></pre>
-<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="singler.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span></code></pre></div>
-<pre><code>## Warning: package &#39;SingleR&#39; was built under R version 4.1.2</code></pre>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="singler.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(celldex)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;celldex&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:SingleR&#39;:
-## 
-##     BlueprintEncodeData, DatabaseImmuneCellExpressionData,
-##     HumanPrimaryCellAtlasData, ImmGenData, MonacoImmuneData,
-##     MouseRNAseqData, NovershternHematopoieticData</code></pre>
+<div id="singler" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">12</span> SingleR<a href="singler.html#singler" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="singler.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;BiocManager&quot;)</span></span>
+<span id="cb106-2"><a href="singler.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="co">#BiocManager::install(c(&quot;SingleCellExperiment&quot;,&quot;SingleR&quot;,&quot;celldex&quot;),ask=F)</span></span>
+<span id="cb106-3"><a href="singler.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleCellExperiment)</span>
+<span id="cb106-4"><a href="singler.html#cb106-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SingleR)</span>
+<span id="cb106-5"><a href="singler.html#cb106-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(celldex)</span></code></pre></div>
 <p>In this workshop we have focused on the Seurat package. However, there is another whole ecosystem of R packages for single cell analysis within Bioconductor. We won’t go into any detail on these packages in this workshop, but there is good material describing the object type online : <a href="https://robertamezquita.github.io/orchestratingSingleCellAnalysis/data-infrastructure.html">OSCA</a>.</p>
 <p>For now, we’ll just convert our Seurat object into an object called SingleCellExperiment. Some popular packages from Bioconductor that work with this type are Slingshot, Scran, Scater.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="singler.html#cb155-1" aria-hidden="true" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">as.SingleCellExperiment</span>(pbmc)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="singler.html#cb107-1" aria-hidden="true" tabindex="-1"></a>sce <span class="ot">&lt;-</span> <span class="fu">as.SingleCellExperiment</span>(pbmc)</span></code></pre></div>
 <p>We will now use a package called SingleR to label each cell. SingleR uses a reference data set of cell types with expression data to infer the best label for each cell. A convenient collection of cell type reference is in the <code>celldex</code> package which currently contains the follow sets:</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="singler.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="st">&#39;package:celldex&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="singler.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>(<span class="st">&#39;package:celldex&#39;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;BlueprintEncodeData&quot;              &quot;DatabaseImmuneCellExpressionData&quot;
 ## [3] &quot;HumanPrimaryCellAtlasData&quot;        &quot;ImmGenData&quot;                      
 ## [5] &quot;MonacoImmuneData&quot;                 &quot;MouseRNAseqData&quot;                 
 ## [7] &quot;NovershternHematopoieticData&quot;</code></pre>
 <p>In this example, we’ll use the <code>HumanPrimaryCellAtlasData</code> set, which contains high-level, and fine-grained label types. Lets download the reference dataset</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="singler.html#cb158-1" aria-hidden="true" tabindex="-1"></a>ref.set <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">HumanPrimaryCellAtlasData</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="singler.html#cb110-1" aria-hidden="true" tabindex="-1"></a>ref.set <span class="ot">&lt;-</span> celldex<span class="sc">::</span><span class="fu">HumanPrimaryCellAtlasData</span>()</span></code></pre></div>
 <pre><code>## snapshotDate(): 2021-10-19</code></pre>
 <pre><code>## see ?celldex and browseVignettes(&#39;celldex&#39;) for documentation</code></pre>
 <pre><code>## loading from cache</code></pre>
 <pre><code>## see ?celldex and browseVignettes(&#39;celldex&#39;) for documentation</code></pre>
 <pre><code>## loading from cache</code></pre>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb164-1"><a href="singler.html#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">unique</span>(ref.set<span class="sc">$</span>label.main))</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="singler.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">unique</span>(ref.set<span class="sc">$</span>label.main))</span></code></pre></div>
 <pre><code>## [1] &quot;DC&quot;                  &quot;Smooth_muscle_cells&quot; &quot;Epithelial_cells&quot;   
 ## [4] &quot;B_cell&quot;              &quot;Neutrophils&quot;         &quot;T_cells&quot;</code></pre>
 <p>An example of the types of “fine” labels.</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="singler.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">unique</span>(ref.set<span class="sc">$</span>label.fine))</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="singler.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">unique</span>(ref.set<span class="sc">$</span>label.fine))</span></code></pre></div>
 <pre><code>## [1] &quot;DC:monocyte-derived:immature&quot;        &quot;DC:monocyte-derived:Galectin-1&quot;     
 ## [3] &quot;DC:monocyte-derived:LPS&quot;             &quot;DC:monocyte-derived&quot;                
 ## [5] &quot;Smooth_muscle_cells:bronchial:vit_D&quot; &quot;Smooth_muscle_cells:bronchial&quot;</code></pre>
 <p>Now we’ll label our cells using the SingleCellExperiment object, with the above reference set.</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="singler.html#cb168-1" aria-hidden="true" tabindex="-1"></a>pred.cnts <span class="ot">&lt;-</span> SingleR<span class="sc">::</span><span class="fu">SingleR</span>(<span class="at">test =</span> sce, <span class="at">ref =</span> ref.set, <span class="at">labels =</span> ref.set<span class="sc">$</span>label.main)</span></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="singler.html#cb120-1" aria-hidden="true" tabindex="-1"></a>pred.cnts <span class="ot">&lt;-</span> SingleR<span class="sc">::</span><span class="fu">SingleR</span>(<span class="at">test =</span> sce, <span class="at">ref =</span> ref.set, <span class="at">labels =</span> ref.set<span class="sc">$</span>label.main)</span></code></pre></div>
 <p>Keep any types that have more than 10 cells to the label, and put those labels back on our Seurat object and plot our on our umap.</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb169-1"><a href="singler.html#cb169-1" aria-hidden="true" tabindex="-1"></a>lbls.keep <span class="ot">&lt;-</span> <span class="fu">table</span>(pred.cnts<span class="sc">$</span>first.labels)<span class="sc">&gt;</span><span class="dv">10</span></span>
-<span id="cb169-2"><a href="singler.html#cb169-2" aria-hidden="true" tabindex="-1"></a>pbmc<span class="sc">$</span>SingleR.labels <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lbls.keep[pred.cnts<span class="sc">$</span>first.labels], pred.cnts<span class="sc">$</span>first.labels, <span class="st">&#39;Other&#39;</span>)</span>
-<span id="cb169-3"><a href="singler.html#cb169-3" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction=</span><span class="st">&#39;umap&#39;</span>, <span class="at">group.by=</span><span class="st">&#39;SingleR.labels&#39;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="singler.html#cb121-1" aria-hidden="true" tabindex="-1"></a>lbls.keep <span class="ot">&lt;-</span> <span class="fu">table</span>(pred.cnts<span class="sc">$</span>first.labels)<span class="sc">&gt;</span><span class="dv">10</span></span>
+<span id="cb121-2"><a href="singler.html#cb121-2" aria-hidden="true" tabindex="-1"></a>pbmc<span class="sc">$</span>SingleR.labels <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lbls.keep[pred.cnts<span class="sc">$</span>first.labels], pred.cnts<span class="sc">$</span>first.labels, <span class="st">&#39;Other&#39;</span>)</span>
+<span id="cb121-3"><a href="singler.html#cb121-3" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction=</span><span class="st">&#39;umap&#39;</span>, <span class="at">group.by=</span><span class="st">&#39;SingleR.labels&#39;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>It is nice to see that SingleR does not use the clusters we computed earlier, but the labels do seem to match those clusters reasonably well.</p>
 
 </div>
@@ -350,7 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="assigning-cell-type-identity-to-clusters.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cluster-markers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="de.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

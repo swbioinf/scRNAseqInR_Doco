@@ -4,33 +4,33 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>12 Cluster Markers | scRNAseq Analysis in R with Seurat</title>
+  <title>11 Cluster Markers | scRNAseq Analysis in R with Seurat</title>
   <meta name="description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="12 Cluster Markers | scRNAseq Analysis in R with Seurat" />
+  <meta property="og:title" content="11 Cluster Markers | scRNAseq Analysis in R with Seurat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="12 Cluster Markers | scRNAseq Analysis in R with Seurat" />
+  <meta name="twitter:title" content="11 Cluster Markers | scRNAseq Analysis in R with Seurat" />
   
   <meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material" />
   
 
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="cluster-the-cells.html"/>
-<link rel="next" href="assigning-cell-type-identity-to-clusters.html"/>
+<link rel="prev" href="clustering.html"/>
+<link rel="next" href="singler.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -143,7 +143,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="schedule.html"><a href="schedule.html#day-2"><i class="fa fa-check"></i><b>3.2</b> Day 2</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a></li>
-<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a></li>
+<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seuratobject.html"><a href="seuratobject.html#load-an-existing-seurat-object"><i class="fa fa-check"></i><b>5.1</b> Load an existing Seurat object</a></li>
+<li class="chapter" data-level="5.2" data-path="seuratobject.html"><a href="seuratobject.html#plotting"><i class="fa fa-check"></i><b>5.2</b> Plotting</a></li>
+<li class="chapter" data-level="5.3" data-path="seuratobject.html"><a href="seuratobject.html#how-is-the-data-stored"><i class="fa fa-check"></i><b>5.3</b> How is the data stored?</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="load.html"><a href="load.html#setup-the-seurat-object"><i class="fa fa-check"></i><b>6.1</b> Setup the Seurat Object</a></li>
@@ -156,11 +161,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1.2" data-path="qc.html"><a href="qc.html#section-1"><i class="fa fa-check"></i><b>7.1.2</b> </a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="norm.html"><a href="norm.html#normalisation"><i class="fa fa-check"></i><b>8.1</b> Normalisation</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> Normalisation, PCAs and UMAPs</a>
+<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a></li>
+<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> PCAs and UMAPs</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="reducedims.html"><a href="reducedims.html#identification-of-highly-variable-features-feature-selection"><i class="fa fa-check"></i><b>9.1</b> Identification of highly variable features (feature selection)</a></li>
 <li class="chapter" data-level="9.2" data-path="reducedims.html"><a href="reducedims.html#scaling-the-data"><i class="fa fa-check"></i><b>9.2</b> Scaling the data</a></li>
@@ -169,16 +171,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="reducedims.html"><a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne"><i class="fa fa-check"></i><b>9.5</b> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>10</b> Clustering</a></li>
-<li class="chapter" data-level="11" data-path="cluster-the-cells.html"><a href="cluster-the-cells.html"><i class="fa fa-check"></i><b>11</b> Cluster the cells</a></li>
-<li class="chapter" data-level="12" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>12</b> Cluster Markers</a>
+<li class="chapter" data-level="11" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>11</b> Cluster Markers</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>12.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>11.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.2" data-path="cluster-markers.html"><a href="cluster-markers.html#assigning-cell-type-identity-to-clusters"><i class="fa fa-check"></i><b>11.2</b> Assigning cell type identity to clusters</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="assigning-cell-type-identity-to-clusters.html"><a href="assigning-cell-type-identity-to-clusters.html"><i class="fa fa-check"></i><b>13</b> Assigning cell type identity to clusters</a></li>
-<li class="chapter" data-level="14" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>14</b> SingleR</a></li>
-<li class="chapter" data-level="15" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>15</b> DE</a></li>
-<li class="chapter" data-level="16" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>16</b> Finishing up</a></li>
-<li class="chapter" data-level="17" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>17</b> Resources</a></li>
+<li class="chapter" data-level="12" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>12</b> SingleR</a></li>
+<li class="chapter" data-level="13" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>13</b> DE</a></li>
+<li class="chapter" data-level="14" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>14</b> Finishing up</a></li>
+<li class="chapter" data-level="15" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>15</b> Resources</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -200,32 +201,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="cluster-markers" class="section level1 hasAnchor" number="12">
-<h1><span class="header-section-number">12</span> Cluster Markers<a href="cluster-markers.html#cluster-markers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="finding-differentially-expressed-features-cluster-biomarkers" class="section level2 hasAnchor" number="12.1">
-<h2><span class="header-section-number">12.1</span> Finding differentially expressed features (cluster biomarkers)<a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="cluster-markers" class="section level1 hasAnchor" number="11">
+<h1><span class="header-section-number">11</span> Cluster Markers<a href="cluster-markers.html#cluster-markers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="finding-differentially-expressed-features-cluster-biomarkers" class="section level2 hasAnchor" number="11.1">
+<h2><span class="header-section-number">11.1</span> Finding differentially expressed features (cluster biomarkers)<a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Seurat can help you find markers that define clusters via differential expression. By default, it identifies positive and negative markers of a single cluster (specified in <code>ident.1</code>), compared to all other cells. <code>FindAllMarkers()</code> automates this process for all clusters, but you can also test groups of clusters vs. each other, or against all cells.</p>
 <p>The <code>min.pct</code> argument requires a feature to be detected at a minimum percentage in either of the two groups of cells, and the thresh.test argument requires a feature to be differentially expressed (on average) by some amount between the two groups. You can set both of these to 0, but with a dramatic increase in time - since this will test a large number of features that are unlikely to be highly discriminatory. As another option to speed up these computations, <code>max.cells.per.ident</code> can be set. This will downsample each identity class to have no more cells than whatever this is set to. While there is generally going to be a loss in power, the speed increases can be significant and the most highly differentially expressed features will likely still rise to the top.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="cluster-markers.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find all markers of cluster 2</span></span>
-<span id="cb72-2"><a href="cluster-markers.html#cb72-2" aria-hidden="true" tabindex="-1"></a>cluster2.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">2</span>, <span class="at">min.pct =</span> <span class="fl">0.25</span>)</span>
-<span id="cb72-3"><a href="cluster-markers.html#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster2.markers, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="cluster-markers.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find all markers of cluster 2</span></span>
+<span id="cb69-2"><a href="cluster-markers.html#cb69-2" aria-hidden="true" tabindex="-1"></a>cluster2.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">2</span>, <span class="at">min.pct =</span> <span class="fl">0.25</span>)</span>
+<span id="cb69-3"><a href="cluster-markers.html#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster2.markers, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##             p_val avg_log2FC pct.1 pct.2    p_val_adj
 ## IL32 2.593535e-91  1.2154360 0.949 0.466 3.556774e-87
 ## LTB  7.994465e-87  1.2828597 0.981 0.644 1.096361e-82
 ## CD3D 3.922451e-70  0.9359210 0.922 0.433 5.379250e-66
 ## IL7R 1.130870e-66  1.1776027 0.748 0.327 1.550876e-62
 ## LDHB 4.082189e-65  0.8837324 0.953 0.614 5.598314e-61</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="cluster-markers.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find all markers distinguishing cluster 5 from clusters 0 and 3</span></span>
-<span id="cb74-2"><a href="cluster-markers.html#cb74-2" aria-hidden="true" tabindex="-1"></a>cluster5.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">5</span>, <span class="at">ident.2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">min.pct =</span> <span class="fl">0.25</span>)</span>
-<span id="cb74-3"><a href="cluster-markers.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster5.markers, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="cluster-markers.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find all markers distinguishing cluster 5 from clusters 0 and 3</span></span>
+<span id="cb71-2"><a href="cluster-markers.html#cb71-2" aria-hidden="true" tabindex="-1"></a>cluster5.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">5</span>, <span class="at">ident.2 =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>), <span class="at">min.pct =</span> <span class="fl">0.25</span>)</span>
+<span id="cb71-3"><a href="cluster-markers.html#cb71-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cluster5.markers, <span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##                       p_val avg_log2FC pct.1 pct.2     p_val_adj
 ## FCGR3A        2.150929e-209   4.267579 0.975 0.039 2.949784e-205
 ## IFITM3        6.103366e-199   3.877105 0.975 0.048 8.370156e-195
 ## CFD           8.891428e-198   3.411039 0.938 0.037 1.219370e-193
 ## CD68          2.374425e-194   3.014535 0.926 0.035 3.256286e-190
 ## RP11-290F20.3 9.308287e-191   2.722684 0.840 0.016 1.276538e-186</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="cluster-markers.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find markers for every cluster compared to all remaining cells, report only the positive ones</span></span>
-<span id="cb76-2"><a href="cluster-markers.html#cb76-2" aria-hidden="true" tabindex="-1"></a>pbmc.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(pbmc, <span class="at">only.pos =</span> <span class="cn">TRUE</span>, <span class="at">min.pct =</span> <span class="fl">0.25</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="cluster-markers.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find markers for every cluster compared to all remaining cells, report only the positive ones</span></span>
+<span id="cb73-2"><a href="cluster-markers.html#cb73-2" aria-hidden="true" tabindex="-1"></a>pbmc.markers <span class="ot">&lt;-</span> <span class="fu">FindAllMarkers</span>(pbmc, <span class="at">only.pos =</span> <span class="cn">TRUE</span>, <span class="at">min.pct =</span> <span class="fl">0.25</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>)</span></code></pre></div>
 <pre><code>## Calculating cluster 0</code></pre>
 <pre><code>## Calculating cluster 1</code></pre>
 <pre><code>## Calculating cluster 2</code></pre>
@@ -235,7 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Calculating cluster 6</code></pre>
 <pre><code>## Calculating cluster 7</code></pre>
 <pre><code>## Calculating cluster 8</code></pre>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="cluster-markers.html#cb86-1" aria-hidden="true" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">n =</span> <span class="dv">2</span>, <span class="at">order_by =</span> avg_log2FC)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="cluster-markers.html#cb83-1" aria-hidden="true" tabindex="-1"></a>pbmc.markers <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="fu">slice_max</span>(<span class="at">n =</span> <span class="dv">2</span>, <span class="at">order_by =</span> avg_log2FC)</span></code></pre></div>
 <pre><code>## # A tibble: 18 × 7
 ## # Groups:   cluster [9]
 ##        p_val avg_log2FC pct.1 pct.2 p_val_adj cluster gene    
@@ -259,21 +260,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 17 3.68e-110       8.58 1     0.024 5.05e-106 8       PPBP    
 ## 18 7.73e-200       7.24 1     0.01  1.06e-195 8       PF4</code></pre>
 <p>Seurat has several tests for differential expression which can be set with the test.use parameter (see our <a href="de_vignette.html">DE vignette</a> for details). For example, the ROC test returns the ‘classification power’ <code>abs(AUC-0.5)*2</code> for any individual marker, ranging from 0 = random to 1 = perfect.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="cluster-markers.html#cb88-1" aria-hidden="true" tabindex="-1"></a>cluster0.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">0</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>, <span class="at">test.use =</span> <span class="st">&quot;roc&quot;</span>, <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="cluster-markers.html#cb85-1" aria-hidden="true" tabindex="-1"></a>cluster0.markers <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(pbmc, <span class="at">ident.1 =</span> <span class="dv">0</span>, <span class="at">logfc.threshold =</span> <span class="fl">0.25</span>, <span class="at">test.use =</span> <span class="st">&quot;roc&quot;</span>, <span class="at">only.pos =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>We include several tools for visualizing marker expression. <code>VlnPlot()</code> (shows expression probability distributions across clusters), and <code>FeaturePlot()</code> (visualizes feature expression on a tSNE or PCA plot) are our most commonly used visualizations. We also suggest exploring <code>RidgePlot()</code>, <code>CellScatter()</code>, and <code>DotPlot()</code> as additional methods to view your dataset.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="cluster-markers.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;CD79A&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="cluster-markers.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;CD79A&quot;</span>))</span></code></pre></div>
 <p><img src="_main_files/figure-html/markerplots-1.png" width="1440" /></p>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="cluster-markers.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can plot raw counts as well</span></span>
-<span id="cb90-2"><a href="cluster-markers.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;NKG7&quot;</span>, <span class="st">&quot;PF4&quot;</span>), <span class="at">slot =</span> <span class="st">&#39;counts&#39;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="cluster-markers.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can plot raw counts as well</span></span>
+<span id="cb87-2"><a href="cluster-markers.html#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">VlnPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;NKG7&quot;</span>, <span class="st">&quot;PF4&quot;</span>), <span class="at">slot =</span> <span class="st">&#39;counts&#39;</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/markerplots-2.png" width="1440" /></p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="cluster-markers.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FeaturePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="cluster-markers.html#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">FeaturePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
 <img src="_main_files/figure-html/markerplots-3.png" width="1440" />
 <details>
 <summary>
 <strong>Other useful plots</strong>
 </summary>
 <p>These are ridgeplots, cell scatter plots and dotplots. Replace <code>FeaturePlot</code> with the other functions.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="cluster-markers.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">RidgePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="cluster-markers.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">RidgePlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
 <pre><code>## Picking joint bandwidth of 0.0236</code></pre>
 <pre><code>## Picking joint bandwidth of 0.0971</code></pre>
 <pre><code>## Picking joint bandwidth of 0.125</code></pre>
@@ -285,7 +286,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Picking joint bandwidth of 0.0368</code></pre>
 <p><img src="_main_files/figure-html/ridgeplots-1.png" width="1440" />
 For CellScatter plots, will need the cell id of the cells you want to look at. You can get this from the cell metadata (<code>pbmc@meta.data</code>).</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="cluster-markers.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>( pbmc<span class="sc">@</span>meta.data )</span></code></pre></div>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="cluster-markers.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>( pbmc<span class="sc">@</span>meta.data )</span></code></pre></div>
 <pre><code>##                  orig.ident nCount_RNA nFeature_RNA percent.mt RNA_snn_res.0.5
 ## AAACATACAACCAC-1     pbmc3k       2419          779  3.0177759               2
 ## AAACATTGAGCTAC-1     pbmc3k       4903         1352  3.7935958               3
@@ -300,18 +301,85 @@ For CellScatter plots, will need the cell id of the cells you want to look at. Y
 ## AAACCGTGCTTCCG-1               1
 ## AAACCGTGTATGCG-1               6
 ## AAACGCACTGGTAC-1               2</code></pre>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="cluster-markers.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CellScatter</span>(pbmc, <span class="at">cell1 =</span> <span class="st">&quot;AAACATACAACCAC-1&quot;</span>, <span class="at">cell2 =</span> <span class="st">&quot;AAACATTGAGCTAC-1&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="cluster-markers.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CellScatter</span>(pbmc, <span class="at">cell1 =</span> <span class="st">&quot;AAACATACAACCAC-1&quot;</span>, <span class="at">cell2 =</span> <span class="st">&quot;AAACATTGAGCTAC-1&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>DotPlots</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="cluster-markers.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DotPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="cluster-markers.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DotPlot</span>(pbmc, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">&quot;MS4A1&quot;</span>, <span class="st">&quot;GNLY&quot;</span>, <span class="st">&quot;CD3E&quot;</span>, <span class="st">&quot;CD14&quot;</span>, <span class="st">&quot;FCER1A&quot;</span>, <span class="st">&quot;FCGR3A&quot;</span>, <span class="st">&quot;LYZ&quot;</span>, <span class="st">&quot;PPBP&quot;</span>, <span class="st">&quot;CD8A&quot;</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Which plots do you prefer? Discuss.</p>
 </details>
 <p><code>DoHeatmap()</code> generates an expression heatmap for given cells and features. In this case, we are plotting the top 20 markers (or all markers if less than 20) for each cluster.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="cluster-markers.html#cb106-1" aria-hidden="true" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> pbmc.markers <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">wt =</span> avg_log2FC)</span>
-<span id="cb106-2"><a href="cluster-markers.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">DoHeatmap</span>(pbmc, <span class="at">features =</span> top10<span class="sc">$</span>gene) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="cluster-markers.html#cb103-1" aria-hidden="true" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> pbmc.markers <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(cluster) <span class="sc">%&gt;%</span> <span class="fu">top_n</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">wt =</span> avg_log2FC)</span>
+<span id="cb103-2"><a href="cluster-markers.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">DoHeatmap</span>(pbmc, <span class="at">features =</span> top10<span class="sc">$</span>gene) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
 <p><img src="_main_files/figure-html/clusterHeatmap-1.png" width="1440" /></p>
 <hr />
+</div>
+<div id="assigning-cell-type-identity-to-clusters" class="section level2 hasAnchor" number="11.2">
+<h2><span class="header-section-number">11.2</span> Assigning cell type identity to clusters<a href="cluster-markers.html#assigning-cell-type-identity-to-clusters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Fortunately in the case of this dataset, we can use canonical markers to easily match the unbiased clustering to known cell types:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Cluster ID</th>
+<th>Markers</th>
+<th>Cell Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>IL7R, CCR7</td>
+<td>Naive CD4+ T</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>CD14, LYZ</td>
+<td>CD14+ Mono</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>IL7R, S100A4</td>
+<td>Memory CD4+</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>MS4A1</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>CD8A</td>
+<td>CD8+ T</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>FCGR3A, MS4A7</td>
+<td>FCGR3A+ Mono</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>GNLY, NKG7</td>
+<td>NK</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>FCER1A, CST3</td>
+<td>DC</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>PPBP</td>
+<td>Platelet</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="cluster-markers.html#cb104-1" aria-hidden="true" tabindex="-1"></a>new.cluster.ids <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Naive CD4 T&quot;</span>, <span class="st">&quot;CD14+ Mono&quot;</span>, <span class="st">&quot;Memory CD4 T&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;CD8 T&quot;</span>, <span class="st">&quot;FCGR3A+ Mono&quot;</span>, <span class="st">&quot;NK&quot;</span>, <span class="st">&quot;DC&quot;</span>, <span class="st">&quot;Platelet&quot;</span>)</span>
+<span id="cb104-2"><a href="cluster-markers.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(new.cluster.ids) <span class="ot">&lt;-</span> <span class="fu">levels</span>(pbmc)</span>
+<span id="cb104-3"><a href="cluster-markers.html#cb104-3" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RenameIdents</span>(pbmc, new.cluster.ids)</span>
+<span id="cb104-4"><a href="cluster-markers.html#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">pt.size =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">NoLegend</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/labelplot-1.png" width="864" /></p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="cluster-markers.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;pbmc3k_final.rds&quot;</span>)</span></code></pre></div>
+
 </div>
 </div>
             </section>
@@ -319,8 +387,8 @@ For CellScatter plots, will need the cell id of the cells you want to look at. Y
           </div>
         </div>
       </div>
-<a href="cluster-the-cells.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="assigning-cell-type-identity-to-clusters.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="clustering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="singler.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -65,7 +65,8 @@ DoHeatmap(pbmc, features = top10$gene) + NoLegend()
 ```
 
 ***
-# Assigning cell type identity to clusters
+
+## Assigning cell type identity to clusters
 
 Fortunately in the case of this dataset, we can use canonical markers to easily match the unbiased clustering to known cell types:
 

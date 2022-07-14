@@ -18,6 +18,54 @@ Look at counts data / expression data
 Does gene exist?
 
 
+## Load an existing Seurat object
+
+
+
+```{r libloader, results='hide', message=FALSE, warning=FALSE} 
+library(tidyverse)
+library(Seurat)
+```
+
+```{r}
+pbmc <- readRDS("data/pbmc_tutorial.rds")
+```
+
+
+## Plotting
+
+
+```{r}
+DimPlot(pbmc, reduction = "umap")
+```
+
+
+
+```{r}
+FeaturePlot(pbmc, features =  "CD14")
+```
+
+```{r}
+VlnPlot(pbmc, features = 'CD14')
+```
+
+
+
+## How is the data stored?
+
+
+Some of the most important information for working with Seurat objects is in the metatdata.
+This is cell level information.
+
+```{r}
+head(pbmc@meta.data)
+```
+
+That doesn't have any gene expression though, that's stored in 
+
+
+
+
 
 
 <!-- Taken from MBP material,  -->

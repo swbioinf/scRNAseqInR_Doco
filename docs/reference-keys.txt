@@ -5,6 +5,9 @@ day-1
 day-2
 overview
 seuratobject
+load-an-existing-seurat-object
+plotting
+how-is-the-data-stored
 discussion-the-seurat-object-in-r
 load
 setup-the-seurat-object
@@ -15,7 +18,6 @@ section
 challenge-ribosomal-gene-expression-as-a-qc-metric
 section-1
 norm
-normalisation
 reducedims
 identification-of-highly-variable-features-feature-selection
 challenge-labelling-genes-of-interest
@@ -24,7 +26,6 @@ perform-linear-dimensional-reduction
 determine-the-dimensionality-of-the-dataset
 run-non-linear-dimensional-reduction-umaptsne
 clustering
-cluster-the-cells
 challenge-try-different-cluster-settings
 cluster-markers
 finding-differentially-expressed-features-cluster-biomarkers

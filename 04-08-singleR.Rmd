@@ -1,6 +1,6 @@
 # SingleR
 
-```{r}
+```{r results='hide', message=FALSE, warning=FALSE}
 #install.packages("BiocManager")
 #BiocManager::install(c("SingleCellExperiment","SingleR","celldex"),ask=F)
 library(SingleCellExperiment)

@@ -1,12 +1,7 @@
 # Load data {#load}
 
-1. Look at the counts files.
-2. Load them.
-3. Look at the cell metadata (there's basically none)
-
 
 This workshop follows the introductory [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) tutorial from Seurat.
-
 
 
 ## Setup the Seurat Object
@@ -19,15 +14,17 @@ We next use the count matrix to create a `Seurat` object. The object serves as a
 
 
 
-<!-- Go look at the input files first --> 
-<!-- screenshot a modern 10X output in the full dir structure -->
-<!-- maybe an example GEO? --> 
 
-```{r init}
+
+
+```{r libloader2, results='hide', message=FALSE, warning=FALSE} 
 library(dplyr)
 library(ggplot2)
 library(Seurat)
 library(patchwork)
+```
+
+```{r init }
 
 # Load the PBMC dataset
 pbmc.data <- Read10X(data.dir = "data/pbmc3k/filtered_gene_bc_matrices/hg19/")

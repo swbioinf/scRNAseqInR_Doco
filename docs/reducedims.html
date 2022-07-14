@@ -4,25 +4,25 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 Normalisation, PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
+  <title>9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
   <meta name="description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 Normalisation, PCAs and UMAPs | scRNAseq Analysis in R with Seurat" />
+  <meta property="og:title" content="9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 Normalisation, PCAs and UMAPs | scRNAseq Analysis in R with Seurat" />
+  <meta name="twitter:title" content="9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat" />
   
   <meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material" />
   
 
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,7 +143,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="schedule.html"><a href="schedule.html#day-2"><i class="fa fa-check"></i><b>3.2</b> Day 2</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a></li>
-<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a></li>
+<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seuratobject.html"><a href="seuratobject.html#load-an-existing-seurat-object"><i class="fa fa-check"></i><b>5.1</b> Load an existing Seurat object</a></li>
+<li class="chapter" data-level="5.2" data-path="seuratobject.html"><a href="seuratobject.html#plotting"><i class="fa fa-check"></i><b>5.2</b> Plotting</a></li>
+<li class="chapter" data-level="5.3" data-path="seuratobject.html"><a href="seuratobject.html#how-is-the-data-stored"><i class="fa fa-check"></i><b>5.3</b> How is the data stored?</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="load.html"><a href="load.html#setup-the-seurat-object"><i class="fa fa-check"></i><b>6.1</b> Setup the Seurat Object</a></li>
@@ -156,11 +161,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1.2" data-path="qc.html"><a href="qc.html#section-1"><i class="fa fa-check"></i><b>7.1.2</b> </a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="norm.html"><a href="norm.html#normalisation"><i class="fa fa-check"></i><b>8.1</b> Normalisation</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> Normalisation, PCAs and UMAPs</a>
+<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a></li>
+<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> PCAs and UMAPs</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="reducedims.html"><a href="reducedims.html#identification-of-highly-variable-features-feature-selection"><i class="fa fa-check"></i><b>9.1</b> Identification of highly variable features (feature selection)</a></li>
 <li class="chapter" data-level="9.2" data-path="reducedims.html"><a href="reducedims.html#scaling-the-data"><i class="fa fa-check"></i><b>9.2</b> Scaling the data</a></li>
@@ -169,16 +171,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="reducedims.html"><a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne"><i class="fa fa-check"></i><b>9.5</b> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>10</b> Clustering</a></li>
-<li class="chapter" data-level="11" data-path="cluster-the-cells.html"><a href="cluster-the-cells.html"><i class="fa fa-check"></i><b>11</b> Cluster the cells</a></li>
-<li class="chapter" data-level="12" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>12</b> Cluster Markers</a>
+<li class="chapter" data-level="11" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>11</b> Cluster Markers</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>12.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>11.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.2" data-path="cluster-markers.html"><a href="cluster-markers.html#assigning-cell-type-identity-to-clusters"><i class="fa fa-check"></i><b>11.2</b> Assigning cell type identity to clusters</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="assigning-cell-type-identity-to-clusters.html"><a href="assigning-cell-type-identity-to-clusters.html"><i class="fa fa-check"></i><b>13</b> Assigning cell type identity to clusters</a></li>
-<li class="chapter" data-level="14" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>14</b> SingleR</a></li>
-<li class="chapter" data-level="15" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>15</b> DE</a></li>
-<li class="chapter" data-level="16" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>16</b> Finishing up</a></li>
-<li class="chapter" data-level="17" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>17</b> Resources</a></li>
+<li class="chapter" data-level="12" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>12</b> SingleR</a></li>
+<li class="chapter" data-level="13" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>13</b> DE</a></li>
+<li class="chapter" data-level="14" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>14</b> Finishing up</a></li>
+<li class="chapter" data-level="15" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>15</b> Resources</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -201,25 +202,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="reducedims" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">9</span> Normalisation, PCAs and UMAPs<a href="reducedims.html#reducedims" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>why pca</p>
-<p>how to pick genes for pca</p>
-<p>why not pca? the blob of not very usefulness.</p>
-<p>Elbow plots</p>
-<p>oooh umap.</p>
-<hr />
+<h1><span class="header-section-number">9</span> PCAs and UMAPs<a href="reducedims.html#reducedims" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<!-- why pca -->
+<!-- how to pick genes for pca -->
+<!-- why not pca? the blob of not very usefulness. -->
+<!-- Elbow plots -->
+<!-- oooh umap. -->
 <div id="identification-of-highly-variable-features-feature-selection" class="section level2 hasAnchor" number="9.1">
 <h2><span class="header-section-number">9.1</span> Identification of highly variable features (feature selection)<a href="reducedims.html#identification-of-highly-variable-features-feature-selection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). We and <a href="https://www.nature.com/articles/nmeth.2645">others</a> have found that focusing on these genes in downstream analysis helps to highlight biological signal in single-cell datasets.</p>
 <p>Our procedure in Seurat is described in detail <a href="https://doi.org/10.1016/j.cell.2019.05.031">here</a>, and improves on previous versions by directly modeling the mean-variance relationship inherent in single-cell data, and is implemented in the <code>FindVariableFeatures()</code> function. By default, we return 2,000 features per dataset. These will be used in downstream analysis, like PCA.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="reducedims.html#cb34-1" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(pbmc, <span class="at">selection.method =</span> <span class="st">&#39;vst&#39;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
-<span id="cb34-2"><a href="reducedims.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the 10 most highly variable genes</span></span>
-<span id="cb34-3"><a href="reducedims.html#cb34-3" aria-hidden="true" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> <span class="fu">head</span>(<span class="fu">VariableFeatures</span>(pbmc), <span class="dv">10</span>)</span>
-<span id="cb34-4"><a href="reducedims.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot variable features with and without labels</span></span>
-<span id="cb34-5"><a href="reducedims.html#cb34-5" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">VariableFeaturePlot</span>(pbmc)</span>
-<span id="cb34-6"><a href="reducedims.html#cb34-6" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">LabelPoints</span>(<span class="at">plot =</span> plot1, <span class="at">points =</span> top10, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="reducedims.html#cb31-1" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(pbmc, <span class="at">selection.method =</span> <span class="st">&#39;vst&#39;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
+<span id="cb31-2"><a href="reducedims.html#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the 10 most highly variable genes</span></span>
+<span id="cb31-3"><a href="reducedims.html#cb31-3" aria-hidden="true" tabindex="-1"></a>top10 <span class="ot">&lt;-</span> <span class="fu">head</span>(<span class="fu">VariableFeatures</span>(pbmc), <span class="dv">10</span>)</span>
+<span id="cb31-4"><a href="reducedims.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot variable features with and without labels</span></span>
+<span id="cb31-5"><a href="reducedims.html#cb31-5" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span> <span class="fu">VariableFeaturePlot</span>(pbmc)</span>
+<span id="cb31-6"><a href="reducedims.html#cb31-6" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span> <span class="fu">LabelPoints</span>(<span class="at">plot =</span> plot1, <span class="at">points =</span> top10, <span class="at">repel =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## When using repel, set xnudge and ynudge to 0 for optimal results</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="reducedims.html#cb36-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="reducedims.html#cb33-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="sc">+</span> plot2</span></code></pre></div>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
 <pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
 <pre><code>## Warning: Transformation introduced infinite values in continuous x-axis</code></pre>
@@ -242,15 +242,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li>The results of this are stored in <code>pbmc$RNA@scale.data</code></li>
 </ul>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="reducedims.html#cb41-1" aria-hidden="true" tabindex="-1"></a>all.genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pbmc)</span>
-<span id="cb41-2"><a href="reducedims.html#cb41-2" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">features =</span> all.genes)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="reducedims.html#cb38-1" aria-hidden="true" tabindex="-1"></a>all.genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(pbmc)</span>
+<span id="cb38-2"><a href="reducedims.html#cb38-2" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(pbmc, <span class="at">features =</span> all.genes)</span></code></pre></div>
 <pre><code>## Centering and scaling data matrix</code></pre>
 <details>
 <summary>
 <strong>This step takes too long! Can I make it faster?</strong>
 </summary>
 <p>Scaling is an essential step in the Seurat workflow, but only on genes that will be used as input to PCA. Therefore, the default in <code>ScaleData()</code> is only to perform scaling on the previously identified variable features (2,000 by default). To do this, omit the <code>features</code> argument in the previous function call, i.e.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="reducedims.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pbmc &lt;- ScaleData(pbmc)</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="reducedims.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pbmc &lt;- ScaleData(pbmc)</span></span></code></pre></div>
 Your PCA and clustering results will be unaffected. However, Seurat heatmaps (produced as shown below with <code>DoHeatmap()</code>) require genes in the heatmap to be scaled, to make sure highly-expressed genes don’t dominate the heatmap. To make sure we don’t leave any genes out of the heatmap later, we are scaling all genes in this tutorial.
 </details>
  
@@ -259,7 +259,7 @@ Your PCA and clustering results will be unaffected. However, Seurat heatmaps (pr
 <strong>How can I remove unwanted sources of variation, as in Seurat v2?</strong>
 </summary>
 <p>In <code>Seurat v2</code> we also use the <code>ScaleData()</code> function to remove unwanted sources of variation from a single-cell dataset. For example, we could ‘regress out’ heterogeneity associated with (for example) cell cycle stage, or mitochondrial contamination. These features are still supported in <code>ScaleData()</code> in <code>Seurat v3</code>, i.e.:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="reducedims.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pbmc &lt;- ScaleData(pbmc, vars.to.regress = &#39;percent.mt&#39;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="reducedims.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pbmc &lt;- ScaleData(pbmc, vars.to.regress = &#39;percent.mt&#39;)</span></span></code></pre></div>
 However, particularly for advanced users who would like to use this functionality, we strongly recommend the use of our new normalization workflow, <code>SCTransform()</code>. The method is described in our <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1">paper</a>, with a separate vignette using Seurat v3 <a href="sctransform_vignette.html">here</a>. As with <code>ScaleData()</code>, the function <code>SCTransform()</code> also includes a <code>vars.to.regress</code> parameter.
 </details>
 <p> </p>
@@ -268,7 +268,7 @@ However, particularly for advanced users who would like to use this functionalit
 <div id="perform-linear-dimensional-reduction" class="section level2 hasAnchor" number="9.3">
 <h2><span class="header-section-number">9.3</span> Perform linear dimensional reduction<a href="reducedims.html#perform-linear-dimensional-reduction" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Next we perform PCA on the scaled data. By default, only the previously determined variable features are used as input, but can be defined using <code>features</code> argument if you wish to choose a different subset.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="reducedims.html#cb45-1" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(pbmc, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> pbmc))</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="reducedims.html#cb42-1" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(pbmc, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> pbmc))</span></code></pre></div>
 <pre><code>## PC_ 1 
 ## Positive:  CST3, TYROBP, LST1, AIF1, FTL, FTH1, LYZ, FCN1, S100A9, TYMP 
 ##     FCER1G, CFD, LGALS1, S100A8, CTSS, LGALS2, SERPINA1, IFITM3, SPI1, CFP 
@@ -305,8 +305,8 @@ However, particularly for advanced users who would like to use this functionalit
 ##     PTGES3, LILRB2, MAL, CD27, HN1, CD2, GDI2, ANXA5, CORO1B, TUBA1B 
 ##     FAM110A, ATP1A1, TRADD, PPA1, CCDC109B, ABRACL, CTD-2006K23.1, WARS, VMO1, FYB</code></pre>
 <p>Seurat provides several useful ways of visualizing both cells and features that define the PCA, including <code>VizDimReduction()</code>, <code>DimPlot()</code>, and <code>DimHeatmap()</code></p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="reducedims.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine and visualize PCA results a few different ways</span></span>
-<span id="cb47-2"><a href="reducedims.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pbmc<span class="sc">$</span>pca, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nfeatures =</span> <span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="reducedims.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine and visualize PCA results a few different ways</span></span>
+<span id="cb44-2"><a href="reducedims.html#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(pbmc<span class="sc">$</span>pca, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nfeatures =</span> <span class="dv">5</span>)</span></code></pre></div>
 <pre><code>## PC_ 1 
 ## Positive:  CST3, TYROBP, LST1, AIF1, FTL 
 ## Negative:  MALAT1, LTB, IL32, IL7R, CD2 
@@ -322,14 +322,14 @@ However, particularly for advanced users who would like to use this functionalit
 ## PC_ 5 
 ## Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY 
 ## Negative:  LTB, IL7R, CKB, VIM, MS4A7</code></pre>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="reducedims.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">VizDimLoadings</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">reduction =</span> <span class="st">&#39;pca&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="reducedims.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">VizDimLoadings</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">reduction =</span> <span class="st">&#39;pca&#39;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/pca_viz-1.png" width="672" /></p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="reducedims.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&#39;pca&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="reducedims.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&#39;pca&#39;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/pca_viz-2.png" width="672" /></p>
 <p>In particular <code>DimHeatmap()</code> allows for easy exploration of the primary sources of heterogeneity in a dataset, and can be useful when trying to decide which PCs to include for further downstream analyses. Both cells and features are ordered according to their PCA scores. Setting <code>cells</code> to a number plots the ‘extreme’ cells on both ends of the spectrum, which dramatically speeds plotting for large datasets. Though clearly a supervised analysis, we find this to be a valuable tool for exploring correlated feature sets.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="reducedims.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="reducedims.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/single-heatmap-1.png" width="672" /></p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="reducedims.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="reducedims.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">DimHeatmap</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, <span class="at">cells =</span> <span class="dv">500</span>, <span class="at">balanced =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/multi-heatmap-1.png" width="864" /></p>
 </div>
 <div id="determine-the-dimensionality-of-the-dataset" class="section level2 hasAnchor" number="9.4">
@@ -337,7 +337,7 @@ However, particularly for advanced users who would like to use this functionalit
 <p>To overcome the extensive technical noise in any single feature for scRNA-seq data, Seurat clusters cells based on their PCA scores, with each PC essentially representing a ‘metafeature’ that combines information across a correlated feature set. The top principal components therefore represent a robust compression of the dataset. However, how many components should we choose to include? 10? 20? 100?</p>
 <p>Note: The seurat developers suggest using a JackStraw resampling test to determine this. See <a href="http://www.cell.com/abstract/S0092-8674(15)00549-8">Macosko <em>et al</em></a>, and the original <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1">pbmc3 vignette</a>. We’re going to use an Elbow Plot instead here, because its much quicker.</p>
 <p>An alternative heuristic method generates an ‘Elbow plot’: a ranking of principle components based on the percentage of variance explained by each one (<code>ElbowPlot()</code> function). In this example, we can observe an ‘elbow’ around PC9-10, suggesting that the majority of true signal is captured in the first 10 PCs.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="reducedims.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ElbowPlot</span>(pbmc)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="reducedims.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ElbowPlot</span>(pbmc)</span></code></pre></div>
 <p><img src="_main_files/figure-html/elbow_plot-1.png" width="960" /></p>
 <p>Identifying the true dimensionality of a dataset – can be challenging/uncertain for the user. We therefore suggest these three approaches to consider. The first is more supervised, exploring PCs to determine relevant sources of heterogeneity, and could be used in conjunction with GSEA for example. The second implements a statistical test based on a random null model, but is time-consuming for large datasets, and may not return a clear PC cutoff. The third is a heuristic that is commonly used, and can be calculated instantly. In this example, all three approaches yielded similar results, but we might have been justified in choosing anything between PC 7-12 as a cutoff.</p>
 <p>We chose 10 here, but encourage users to consider the following:</p>
@@ -351,30 +351,30 @@ However, particularly for advanced users who would like to use this functionalit
 <div id="run-non-linear-dimensional-reduction-umaptsne" class="section level2 hasAnchor" number="9.5">
 <h2><span class="header-section-number">9.5</span> Run non-linear dimensional reduction (UMAP/tSNE)<a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Seurat offers several non-linear dimensional reduction techniques, such as tSNE and UMAP, to visualize and explore these datasets. The goal of these algorithms is to learn the underlying manifold of the data in order to place similar cells together in low-dimensional space. Cells within the graph-based clusters determined above should co-localize on these dimension reduction plots. As input to the UMAP and tSNE, we suggest using the same PCs as input to the clustering analysis.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="reducedims.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you haven&#39;t installed UMAP, you can do so via reticulate::py_install(packages = &quot;umap-learn&quot;)</span></span>
-<span id="cb54-2"><a href="reducedims.html#cb54-2" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="reducedims.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you haven&#39;t installed UMAP, you can do so via reticulate::py_install(packages = &quot;umap-learn&quot;)</span></span>
+<span id="cb51-2"><a href="reducedims.html#cb51-2" aria-hidden="true" tabindex="-1"></a>pbmc <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(pbmc, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric
 ## To use Python UMAP via reticulate, set umap.method to &#39;umap-learn&#39; and metric to &#39;correlation&#39;
 ## This message will be shown once per session</code></pre>
-<pre><code>## 20:05:39 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
-<pre><code>## 20:05:39 Read 2638 rows and found 10 numeric columns</code></pre>
-<pre><code>## 20:05:39 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
-<pre><code>## 20:05:39 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
+<pre><code>## 14:25:48 UMAP embedding parameters a = 0.9922 b = 1.112</code></pre>
+<pre><code>## 14:25:48 Read 2638 rows and found 10 numeric columns</code></pre>
+<pre><code>## 14:25:48 Using Annoy for neighbor search, n_neighbors = 30</code></pre>
+<pre><code>## 14:25:48 Building Annoy index with metric = cosine, n_trees = 50</code></pre>
 <pre><code>## 0%   10   20   30   40   50   60   70   80   90   100%</code></pre>
 <pre><code>## [----|----|----|----|----|----|----|----|----|----|</code></pre>
 <pre><code>## **************************************************|
-## 20:05:39 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpaE4Wjo/file6f8f5cdcafe6
-## 20:05:39 Searching Annoy index using 1 thread, search_k = 3000
-## 20:05:40 Annoy recall = 100%
-## 20:05:40 Commencing smooth kNN distance calibration using 1 thread
-## 20:05:40 Initializing from normalized Laplacian + noise
-## 20:05:40 Commencing optimization for 500 epochs, with 105124 positive edges
-## 20:05:45 Optimization finished</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="reducedims.html#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
-<span id="cb63-2"><a href="reducedims.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>)</span></code></pre></div>
+## 14:25:48 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpxuVqdB/file122314e31f150
+## 14:25:48 Searching Annoy index using 1 thread, search_k = 3000
+## 14:25:49 Annoy recall = 100%
+## 14:25:49 Commencing smooth kNN distance calibration using 1 thread
+## 14:25:49 Initializing from normalized Laplacian + noise
+## 14:25:49 Commencing optimization for 500 epochs, with 105124 positive edges
+## 14:25:54 Optimization finished</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="reducedims.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
+<span id="cb60-2"><a href="reducedims.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">DimPlot</span>(pbmc, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/tsneplot-1.png" width="672" /></p>
 <p>You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="reducedims.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;pbmc_tutorial.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="reducedims.html#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(pbmc, <span class="at">file =</span> <span class="st">&quot;pbmc_tutorial.rds&quot;</span>)</span></code></pre></div>
 
 </div>
 </div>

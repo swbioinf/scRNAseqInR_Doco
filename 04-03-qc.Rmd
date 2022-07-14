@@ -1,19 +1,14 @@
 # QC Filtering {#qc}
 
 
-Discuss counts per cell/gene and make plots
+<!-- Discuss counts per cell/gene and make plots -->
+<!-- Discuss that there's no one threshold -->
+<!-- everyone pick a threshold and go filter -->
+<!-- check numbers of cells. -->
+<!-- save your object -->
+<!-- (other qc metrics = Mt gene content, cell cycle asignment, low seq diversity e.t.c) -->
 
-Discuss that there's no one threshold
 
-everyone pick a threshold and go filter
-
-check numbers of cells.
-
-save your object
-
-(other qc metrics = Mt gene content, cell cycle asignment, low seq diversity e.t.c)
-
------
 
 
 The steps below encompass the standard pre-processing workflow for scRNA-seq data in Seurat. These represent the selection and filtration of cells based on QC metrics, data normalization and scaling, and the detection of highly variable features.
@@ -32,7 +27,8 @@ Seurat allows you to easily explore QC metrics and filter cells based on any use
     + We use the set of all genes starting with `MT-` as a set of mitochondrial genes
 
 ```{r mito, fig.height=7, fig.width=13}
-# The $ operator can add columns to object metadata. This is a great place to stash QC stats
+# The $ operator can add columns to object metadata. 
+# This is a great place to stash QC stats
 pbmc$percent.mt <- PercentageFeatureSet(pbmc, pattern = "^MT-")
 ```
 
@@ -59,7 +55,9 @@ In the example below, we visualize QC metrics, and use these to filter cells.
 ```{r qc2, fig.height=7, fig.width=13}
 #Visualize QC metrics as a violin plot
 VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
-# FeatureScatter is typically used to visualize feature-feature relationships, but can be used for anything calculated by the object, i.e. columns in object metadata, PC scores etc.
+# FeatureScatter is typically used to visualize feature-feature relationships, 
+# but can be used for anything calculated by the object, 
+# i.e. columns in object metadata, PC scores etc.
 plot1 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt") 
 plot2 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA") 
 plot1 + plot2

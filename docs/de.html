@@ -4,25 +4,25 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>15 DE | scRNAseq Analysis in R with Seurat</title>
+  <title>13 DE | scRNAseq Analysis in R with Seurat</title>
   <meta name="description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="generator" content="bookdown 0.27 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="15 DE | scRNAseq Analysis in R with Seurat" />
+  <meta property="og:title" content="13 DE | scRNAseq Analysis in R with Seurat" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material" />
   <meta name="github-repo" content="rstudio/bookdown-demo" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="15 DE | scRNAseq Analysis in R with Seurat" />
+  <meta name="twitter:title" content="13 DE | scRNAseq Analysis in R with Seurat" />
   
   <meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material" />
   
 
 
 
-<meta name="date" content="2022-07-06" />
+<meta name="date" content="2022-07-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -143,7 +143,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2" data-path="schedule.html"><a href="schedule.html#day-2"><i class="fa fa-check"></i><b>3.2</b> Day 2</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i><b>4</b> Overview</a></li>
-<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a></li>
+<li class="chapter" data-level="5" data-path="seuratobject.html"><a href="seuratobject.html"><i class="fa fa-check"></i><b>5</b> Using a seurat object</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="seuratobject.html"><a href="seuratobject.html#load-an-existing-seurat-object"><i class="fa fa-check"></i><b>5.1</b> Load an existing Seurat object</a></li>
+<li class="chapter" data-level="5.2" data-path="seuratobject.html"><a href="seuratobject.html#plotting"><i class="fa fa-check"></i><b>5.2</b> Plotting</a></li>
+<li class="chapter" data-level="5.3" data-path="seuratobject.html"><a href="seuratobject.html#how-is-the-data-stored"><i class="fa fa-check"></i><b>5.3</b> How is the data stored?</a></li>
+</ul></li>
 <li class="chapter" data-level="6" data-path="load.html"><a href="load.html"><i class="fa fa-check"></i><b>6</b> Load data</a>
 <ul>
 <li class="chapter" data-level="6.1" data-path="load.html"><a href="load.html#setup-the-seurat-object"><i class="fa fa-check"></i><b>6.1</b> Setup the Seurat Object</a></li>
@@ -156,11 +161,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.1.2" data-path="qc.html"><a href="qc.html#section-1"><i class="fa fa-check"></i><b>7.1.2</b> </a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a>
-<ul>
-<li class="chapter" data-level="8.1" data-path="norm.html"><a href="norm.html#normalisation"><i class="fa fa-check"></i><b>8.1</b> Normalisation</a></li>
-</ul></li>
-<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> Normalisation, PCAs and UMAPs</a>
+<li class="chapter" data-level="8" data-path="norm.html"><a href="norm.html"><i class="fa fa-check"></i><b>8</b> Normalisation</a></li>
+<li class="chapter" data-level="9" data-path="reducedims.html"><a href="reducedims.html"><i class="fa fa-check"></i><b>9</b> PCAs and UMAPs</a>
 <ul>
 <li class="chapter" data-level="9.1" data-path="reducedims.html"><a href="reducedims.html#identification-of-highly-variable-features-feature-selection"><i class="fa fa-check"></i><b>9.1</b> Identification of highly variable features (feature selection)</a></li>
 <li class="chapter" data-level="9.2" data-path="reducedims.html"><a href="reducedims.html#scaling-the-data"><i class="fa fa-check"></i><b>9.2</b> Scaling the data</a></li>
@@ -169,16 +171,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9.5" data-path="reducedims.html"><a href="reducedims.html#run-non-linear-dimensional-reduction-umaptsne"><i class="fa fa-check"></i><b>9.5</b> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
 </ul></li>
 <li class="chapter" data-level="10" data-path="clustering.html"><a href="clustering.html"><i class="fa fa-check"></i><b>10</b> Clustering</a></li>
-<li class="chapter" data-level="11" data-path="cluster-the-cells.html"><a href="cluster-the-cells.html"><i class="fa fa-check"></i><b>11</b> Cluster the cells</a></li>
-<li class="chapter" data-level="12" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>12</b> Cluster Markers</a>
+<li class="chapter" data-level="11" data-path="cluster-markers.html"><a href="cluster-markers.html"><i class="fa fa-check"></i><b>11</b> Cluster Markers</a>
 <ul>
-<li class="chapter" data-level="12.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>12.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.1" data-path="cluster-markers.html"><a href="cluster-markers.html#finding-differentially-expressed-features-cluster-biomarkers"><i class="fa fa-check"></i><b>11.1</b> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li class="chapter" data-level="11.2" data-path="cluster-markers.html"><a href="cluster-markers.html#assigning-cell-type-identity-to-clusters"><i class="fa fa-check"></i><b>11.2</b> Assigning cell type identity to clusters</a></li>
 </ul></li>
-<li class="chapter" data-level="13" data-path="assigning-cell-type-identity-to-clusters.html"><a href="assigning-cell-type-identity-to-clusters.html"><i class="fa fa-check"></i><b>13</b> Assigning cell type identity to clusters</a></li>
-<li class="chapter" data-level="14" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>14</b> SingleR</a></li>
-<li class="chapter" data-level="15" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>15</b> DE</a></li>
-<li class="chapter" data-level="16" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>16</b> Finishing up</a></li>
-<li class="chapter" data-level="17" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>17</b> Resources</a></li>
+<li class="chapter" data-level="12" data-path="singler.html"><a href="singler.html"><i class="fa fa-check"></i><b>12</b> SingleR</a></li>
+<li class="chapter" data-level="13" data-path="de.html"><a href="de.html"><i class="fa fa-check"></i><b>13</b> DE</a></li>
+<li class="chapter" data-level="14" data-path="finishing-up.html"><a href="finishing-up.html"><i class="fa fa-check"></i><b>14</b> Finishing up</a></li>
+<li class="chapter" data-level="15" data-path="resources.html"><a href="resources.html"><i class="fa fa-check"></i><b>15</b> Resources</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -200,192 +201,203 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="de" class="section level1 hasAnchor" number="15">
-<h1><span class="header-section-number">15</span> DE<a href="de.html#de" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Discussion of pseudobulk, contrasted with wilxcox test</p>
-<p>Would run as demo. Needs a new and different dataset with replicates, and alog of mucking about.</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="de.html#cb170-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
-<span id="cb170-2"><a href="de.html#cb170-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Pseudobulk demo</span></span>
-<span id="cb170-3"><a href="de.html#cb170-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-4"><a href="de.html#cb170-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-5"><a href="de.html#cb170-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SeuratData)</span>
-<span id="cb170-6"><a href="de.html#cb170-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
-<span id="cb170-7"><a href="de.html#cb170-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-8"><a href="de.html#cb170-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb170-9"><a href="de.html#cb170-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb170-10"><a href="de.html#cb170-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-11"><a href="de.html#cb170-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-12"><a href="de.html#cb170-12" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
-<span id="cb170-13"><a href="de.html#cb170-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a datasets</span></span>
-<span id="cb170-14"><a href="de.html#cb170-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-15"><a href="de.html#cb170-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-16"><a href="de.html#cb170-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SeuratData)</span>
-<span id="cb170-17"><a href="de.html#cb170-17" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;hcabm40k&quot;</span>) <span class="co">#maybe?</span></span>
-<span id="cb170-18"><a href="de.html#cb170-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-19"><a href="de.html#cb170-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-20"><a href="de.html#cb170-20" aria-hidden="true" tabindex="-1"></a><span class="co"># grab 4000 random cells</span></span>
-<span id="cb170-21"><a href="de.html#cb170-21" aria-hidden="true" tabindex="-1"></a>keep_cells <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(hcabm40k), <span class="at">size=</span><span class="dv">4000</span>)</span>
-<span id="cb170-22"><a href="de.html#cb170-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb170-23"><a href="de.html#cb170-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsample down to a toy sized dataset</span></span>
-<span id="cb170-24"><a href="de.html#cb170-24" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> hcabm40k[<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>,keep_cells] </span>
-<span id="cb170-25"><a href="de.html#cb170-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-26"><a href="de.html#cb170-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-27"><a href="de.html#cb170-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-28"><a href="de.html#cb170-28" aria-hidden="true" tabindex="-1"></a><span class="co"># clear large object from memory</span></span>
-<span id="cb170-29"><a href="de.html#cb170-29" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(hcabm40k)</span>
-<span id="cb170-30"><a href="de.html#cb170-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-31"><a href="de.html#cb170-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a group of contidion vs control to test. Not real</span></span>
-<span id="cb170-32"><a href="de.html#cb170-32" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the first 4 of 8 bio replicates</span></span>
-<span id="cb170-33"><a href="de.html#cb170-33" aria-hidden="true" tabindex="-1"></a>condition_lookup <span class="ot">&lt;-</span> </span>
-<span id="cb170-34"><a href="de.html#cb170-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&#39;MantonBM1&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM2&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM3&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM4&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,</span>
-<span id="cb170-35"><a href="de.html#cb170-35" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;MantonBM5&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM6&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM7&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM8&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>)</span>
-<span id="cb170-36"><a href="de.html#cb170-36" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini<span class="sc">$</span>condition <span class="ot">&lt;-</span> condition_lookup[hcabm40k.mini<span class="sc">@</span>meta.data<span class="sc">$</span>orig.ident]</span>
-<span id="cb170-37"><a href="de.html#cb170-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-38"><a href="de.html#cb170-38" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>( hcabm40k.mini<span class="sc">@</span>meta.data<span class="sc">$</span>orig.ident, hcabm40k.mini<span class="sc">$</span>condition)</span>
-<span id="cb170-39"><a href="de.html#cb170-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-40"><a href="de.html#cb170-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-41"><a href="de.html#cb170-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-42"><a href="de.html#cb170-42" aria-hidden="true" tabindex="-1"></a><span class="co"># When Diing DE, it makes sense to remove genes with too-low counts to find anything in.</span></span>
-<span id="cb170-43"><a href="de.html#cb170-43" aria-hidden="true" tabindex="-1"></a><span class="co"># There&#39;s alot of these in single cell. </span></span>
-<span id="cb170-44"><a href="de.html#cb170-44" aria-hidden="true" tabindex="-1"></a>total_per_gene <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">GetAssayData</span>(hcabm40k.mini, <span class="st">&#39;counts&#39;</span>))</span>
-<span id="cb170-45"><a href="de.html#cb170-45" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">log10</span>(total_per_gene))</span>
-<span id="cb170-46"><a href="de.html#cb170-46" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> hcabm40k.mini[total_per_gene <span class="sc">&gt;=</span> <span class="dv">100</span>, ]</span>
-<span id="cb170-47"><a href="de.html#cb170-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-48"><a href="de.html#cb170-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-49"><a href="de.html#cb170-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-50"><a href="de.html#cb170-50" aria-hidden="true" tabindex="-1"></a><span class="co"># ADDING SOME FAKE VARIATION!</span></span>
-<span id="cb170-51"><a href="de.html#cb170-51" aria-hidden="true" tabindex="-1"></a><span class="co"># This only works because this data is ordered by the samples!</span></span>
-<span id="cb170-52"><a href="de.html#cb170-52" aria-hidden="true" tabindex="-1"></a><span class="co"># multipling first 5 genes of the the &#39;fake treat&#39; group by 4 - so we expect these to be DE.</span></span>
-<span id="cb170-53"><a href="de.html#cb170-53" aria-hidden="true" tabindex="-1"></a><span class="co"># when in reality, these are simply healthy replicates and shouldn&#39;t be significantly different</span></span>
-<span id="cb170-54"><a href="de.html#cb170-54" aria-hidden="true" tabindex="-1"></a>alter_cells <span class="ot">&lt;-</span> <span class="fu">which</span>(condition_lookup[hcabm40k.mini<span class="sc">$</span>orig.ident] <span class="sc">==</span> <span class="st">&quot;fake_treat&quot;</span>)</span>
-<span id="cb170-55"><a href="de.html#cb170-55" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, alter_cells ] <span class="ot">&lt;-</span> hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, alter_cells  ]<span class="sc">*</span> <span class="dv">2</span></span>
-<span id="cb170-56"><a href="de.html#cb170-56" aria-hidden="true" tabindex="-1"></a>alter_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts)[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>]</span>
-<span id="cb170-57"><a href="de.html#cb170-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-58"><a href="de.html#cb170-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-59"><a href="de.html#cb170-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-60"><a href="de.html#cb170-60" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span id="cb170-61"><a href="de.html#cb170-61" aria-hidden="true" tabindex="-1"></a><span class="co">#  Run thorough a basic processing, with no QC</span></span>
-<span id="cb170-62"><a href="de.html#cb170-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-63"><a href="de.html#cb170-63" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">NormalizeData</span>(hcabm40k.mini, <span class="at">normalization.method =</span> <span class="st">&quot;LogNormalize&quot;</span>, <span class="at">scale.factor =</span> <span class="dv">10000</span>)</span>
-<span id="cb170-64"><a href="de.html#cb170-64" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(hcabm40k.mini, <span class="at">selection.method =</span> <span class="st">&quot;vst&quot;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
-<span id="cb170-65"><a href="de.html#cb170-65" aria-hidden="true" tabindex="-1"></a>all.genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini)</span>
-<span id="cb170-66"><a href="de.html#cb170-66" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(hcabm40k.mini, <span class="at">features =</span> all.genes)</span>
-<span id="cb170-67"><a href="de.html#cb170-67" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(hcabm40k.mini, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> hcabm40k.mini))</span>
-<span id="cb170-68"><a href="de.html#cb170-68" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(hcabm40k.mini, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb170-69"><a href="de.html#cb170-69" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindNeighbors</span>(hcabm40k.mini, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb170-70"><a href="de.html#cb170-70" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindClusters</span>(hcabm40k.mini, <span class="at">resolution =</span> <span class="fl">0.1</span>) <span class="co"># Low res</span></span>
-<span id="cb170-71"><a href="de.html#cb170-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-72"><a href="de.html#cb170-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-73"><a href="de.html#cb170-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-74"><a href="de.html#cb170-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-75"><a href="de.html#cb170-75" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span id="cb170-76"><a href="de.html#cb170-76" aria-hidden="true" tabindex="-1"></a><span class="co">#  The object;</span></span>
-<span id="cb170-77"><a href="de.html#cb170-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-78"><a href="de.html#cb170-78" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(hcabm40k.mini, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>, <span class="at">group.by =</span> <span class="st">&#39;seurat_clusters&#39;</span>)</span>
-<span id="cb170-79"><a href="de.html#cb170-79" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(hcabm40k.mini, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>, <span class="at">group.by =</span> <span class="st">&#39;orig.ident&#39;</span>)</span>
-<span id="cb170-80"><a href="de.html#cb170-80" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">+</span>p2</span>
-<span id="cb170-81"><a href="de.html#cb170-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-82"><a href="de.html#cb170-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-83"><a href="de.html#cb170-83" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
-<span id="cb170-84"><a href="de.html#cb170-84" aria-hidden="true" tabindex="-1"></a><span class="co"># What is different between &#39;fake treat&#39; and &#39;fake control&#39;?</span></span>
-<span id="cb170-85"><a href="de.html#cb170-85" aria-hidden="true" tabindex="-1"></a><span class="co"># Expect the 20 genes that we altered, but little else</span></span>
-<span id="cb170-86"><a href="de.html#cb170-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-87"><a href="de.html#cb170-87" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span id="cb170-88"><a href="de.html#cb170-88" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all markers</span></span>
-<span id="cb170-89"><a href="de.html#cb170-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-90"><a href="de.html#cb170-90" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini.c0 <span class="ot">&lt;-</span> hcabm40k.mini[, hcabm40k.mini<span class="sc">$</span>seurat_clusters <span class="sc">==</span> <span class="dv">0</span>]</span>
-<span id="cb170-91"><a href="de.html#cb170-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-92"><a href="de.html#cb170-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-93"><a href="de.html#cb170-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Change Ident to condition</span></span>
-<span id="cb170-94"><a href="de.html#cb170-94" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0)</span>
-<span id="cb170-95"><a href="de.html#cb170-95" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0) <span class="ot">&lt;-</span> hcabm40k.mini.c0<span class="sc">$</span>condition</span>
-<span id="cb170-96"><a href="de.html#cb170-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-97"><a href="de.html#cb170-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-98"><a href="de.html#cb170-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-99"><a href="de.html#cb170-99" aria-hidden="true" tabindex="-1"></a><span class="co"># default, wilcox test</span></span>
-<span id="cb170-100"><a href="de.html#cb170-100" aria-hidden="true" tabindex="-1"></a>de_result_wilcox <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(hcabm40k.mini.c0, </span>
-<span id="cb170-101"><a href="de.html#cb170-101" aria-hidden="true" tabindex="-1"></a>            <span class="at">ident.1 =</span> <span class="st">&#39;fake_treat&#39;</span>,</span>
-<span id="cb170-102"><a href="de.html#cb170-102" aria-hidden="true" tabindex="-1"></a>            <span class="at">ident.2 =</span> <span class="st">&#39;fake_control&#39;</span>,</span>
-<span id="cb170-103"><a href="de.html#cb170-103" aria-hidden="true" tabindex="-1"></a>            <span class="at">logfc.threshold =</span> <span class="dv">0</span>, <span class="co"># Give me ALL results</span></span>
-<span id="cb170-104"><a href="de.html#cb170-104" aria-hidden="true" tabindex="-1"></a>            <span class="at">min.pct =</span> <span class="dv">0</span></span>
-<span id="cb170-105"><a href="de.html#cb170-105" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb170-106"><a href="de.html#cb170-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-107"><a href="de.html#cb170-107" aria-hidden="true" tabindex="-1"></a><span class="co"># the  &#39;DE&#39; genes</span></span>
-<span id="cb170-108"><a href="de.html#cb170-108" aria-hidden="true" tabindex="-1"></a>de_result_wilcox<span class="sc">$</span>was_altered <span class="ot">&lt;-</span> <span class="fu">rownames</span>(de_result_wilcox ) <span class="sc">%in%</span> alter_genes</span>
-<span id="cb170-109"><a href="de.html#cb170-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-110"><a href="de.html#cb170-110" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_wilcox, p_val_adj <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
-<span id="cb170-111"><a href="de.html#cb170-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; filter(de_result_wilcox, p_val_adj &lt; 0.01)</span></span>
-<span id="cb170-112"><a href="de.html#cb170-112" aria-hidden="true" tabindex="-1"></a><span class="co">#p_val  avg_log2FC pct.1 pct.2    p_val_adj</span></span>
-<span id="cb170-113"><a href="de.html#cb170-113" aria-hidden="true" tabindex="-1"></a><span class="co">#JUN       5.200733e-34 -0.75819184 0.593 0.779 5.138324e-31</span></span>
-<span id="cb170-114"><a href="de.html#cb170-114" aria-hidden="true" tabindex="-1"></a><span class="co">#RPS8      2.630468e-08 -0.15303403 0.996 0.996 2.598902e-05</span></span>
-<span id="cb170-115"><a href="de.html#cb170-115" aria-hidden="true" tabindex="-1"></a><span class="co">#RPS27     1.982738e-07 -0.09901833 0.999 0.999 1.958945e-04</span></span>
-<span id="cb170-116"><a href="de.html#cb170-116" aria-hidden="true" tabindex="-1"></a><span class="co">#YBX1      3.822587e-07  0.27747948 0.798 0.711 3.776716e-04</span></span>
-<span id="cb170-117"><a href="de.html#cb170-117" aria-hidden="true" tabindex="-1"></a><span class="co">#RPL11     1.287260e-06 -0.11034247 0.998 0.998 1.271813e-03</span></span>
-<span id="cb170-118"><a href="de.html#cb170-118" aria-hidden="true" tabindex="-1"></a><span class="co">#FCGR3A    1.355810e-06  0.67263878 0.097 0.044 1.339541e-03</span></span>
-<span id="cb170-119"><a href="de.html#cb170-119" aria-hidden="true" tabindex="-1"></a><span class="co">#SNAP47    3.074629e-06  1.06663146 0.072 0.029 3.037734e-03</span></span>
-<span id="cb170-120"><a href="de.html#cb170-120" aria-hidden="true" tabindex="-1"></a><span class="co">#CHRM3-AS2 4.247678e-06 -0.90931480 0.042 0.091 4.196705e-03</span></span>
-<span id="cb170-121"><a href="de.html#cb170-121" aria-hidden="true" tabindex="-1"></a><span class="co">#RPS7      8.027267e-06 -0.11818369 0.990 0.995 7.930940e-03</span></span>
-<span id="cb170-122"><a href="de.html#cb170-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-123"><a href="de.html#cb170-123" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_wilcox, p_val_adj <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
-<span id="cb170-124"><a href="de.html#cb170-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-125"><a href="de.html#cb170-125" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_wilcox, was_altered <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
-<span id="cb170-126"><a href="de.html#cb170-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-127"><a href="de.html#cb170-127" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span id="cb170-128"><a href="de.html#cb170-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Pseudobuilk</span></span>
-<span id="cb170-129"><a href="de.html#cb170-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-130"><a href="de.html#cb170-130" aria-hidden="true" tabindex="-1"></a><span class="co"># Change idents to sample fro grouping.</span></span>
-<span id="cb170-131"><a href="de.html#cb170-131" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">Idents</span>(hcabm40k.mini.c0))</span>
-<span id="cb170-132"><a href="de.html#cb170-132" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0) <span class="ot">&lt;-</span> hcabm40k.mini.c0<span class="sc">$</span>orig.ident</span>
-<span id="cb170-133"><a href="de.html#cb170-133" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">Idents</span>(hcabm40k.mini.c0))</span>
-<span id="cb170-134"><a href="de.html#cb170-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-135"><a href="de.html#cb170-135" aria-hidden="true" tabindex="-1"></a>pseudobulk_matrix <span class="ot">&lt;-</span> <span class="fu">AggregateExpression</span>( hcabm40k.mini.c0,  <span class="at">slot =</span> <span class="st">&#39;counts&#39;</span>, <span class="at">assays=</span><span class="st">&#39;RNA&#39;</span> )[[<span class="st">&#39;RNA&#39;</span>]]</span>
-<span id="cb170-136"><a href="de.html#cb170-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-137"><a href="de.html#cb170-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-138"><a href="de.html#cb170-138" aria-hidden="true" tabindex="-1"></a><span class="co"># treat like a bulk DE</span></span>
-<span id="cb170-139"><a href="de.html#cb170-139" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(limma)</span>
-<span id="cb170-140"><a href="de.html#cb170-140" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
-<span id="cb170-141"><a href="de.html#cb170-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-142"><a href="de.html#cb170-142" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(pseudobulk_matrix)</span>
-<span id="cb170-143"><a href="de.html#cb170-143" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge)</span>
-<span id="cb170-144"><a href="de.html#cb170-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-145"><a href="de.html#cb170-145" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">&lt;-</span> <span class="fu">factor</span>(condition_lookup[<span class="fu">colnames</span>(pseudobulk_matrix)])</span>
-<span id="cb170-146"><a href="de.html#cb170-146" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>condition)</span>
-<span id="cb170-147"><a href="de.html#cb170-147" aria-hidden="true" tabindex="-1"></a>vm  <span class="ot">&lt;-</span> <span class="fu">voom</span>(dge, <span class="at">design =</span> design, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb170-148"><a href="de.html#cb170-148" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(vm, <span class="at">design =</span> design)</span>
-<span id="cb170-149"><a href="de.html#cb170-149" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
-<span id="cb170-150"><a href="de.html#cb170-150" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk <span class="ot">&lt;-</span> <span class="fu">topTable</span>(fit, <span class="at">n =</span> <span class="cn">Inf</span>, <span class="at">adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
-<span id="cb170-151"><a href="de.html#cb170-151" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk <span class="ot">&lt;-</span> <span class="fu">arrange</span>(de_result_pseudobulk , adj.P.Val)</span>
-<span id="cb170-152"><a href="de.html#cb170-152" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk<span class="sc">$</span>was_altered <span class="ot">&lt;-</span> <span class="fu">rownames</span>(de_result_pseudobulk ) <span class="sc">%in%</span> alter_genes</span>
-<span id="cb170-153"><a href="de.html#cb170-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-154"><a href="de.html#cb170-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-155"><a href="de.html#cb170-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-156"><a href="de.html#cb170-156" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_pseudobulk,    adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
-<span id="cb170-157"><a href="de.html#cb170-157" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_pseudobulk, was_altered <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
-<span id="cb170-158"><a href="de.html#cb170-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-159"><a href="de.html#cb170-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-160"><a href="de.html#cb170-160" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------------------------------</span></span>
-<span id="cb170-161"><a href="de.html#cb170-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-162"><a href="de.html#cb170-162" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(de_result_pseudobulk, <span class="fu">aes</span>(<span class="at">x=</span>AveExpr, <span class="at">y=</span>logFC, <span class="at">col=</span>adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb170-163"><a href="de.html#cb170-163" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb170-164"><a href="de.html#cb170-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">filter</span>(de_result_pseudobulk, was_altered), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>, <span class="at">size=</span><span class="dv">5</span> ) <span class="sc">+</span></span>
-<span id="cb170-165"><a href="de.html#cb170-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&#39;TRUE&#39;</span><span class="ot">=</span><span class="st">&quot;red&quot;</span>,<span class="st">&#39;FALSE&#39;</span><span class="ot">=</span><span class="st">&quot;black&quot;</span>)) <span class="sc">+</span> </span>
-<span id="cb170-166"><a href="de.html#cb170-166" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb170-167"><a href="de.html#cb170-167" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pseudobulk&quot;</span>)</span>
-<span id="cb170-168"><a href="de.html#cb170-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-169"><a href="de.html#cb170-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Seurat doesn&#39;t give aveg expression by default, just grab it from the psuedobulk</span></span>
-<span id="cb170-170"><a href="de.html#cb170-170" aria-hidden="true" tabindex="-1"></a>de_result_wilcox<span class="sc">$</span>AveExpr <span class="ot">&lt;-</span> de_result_pseudobulk[<span class="fu">rownames</span>(de_result_wilcox),<span class="fu">c</span>(<span class="st">&#39;AveExpr&#39;</span>)]</span>
-<span id="cb170-171"><a href="de.html#cb170-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-172"><a href="de.html#cb170-172" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(de_result_wilcox, <span class="fu">aes</span>(<span class="at">x=</span>AveExpr, <span class="at">y=</span>avg_log2FC, <span class="at">col=</span>p_val_adj <span class="sc">&lt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb170-173"><a href="de.html#cb170-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb170-174"><a href="de.html#cb170-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">filter</span>(de_result_wilcox, was_altered), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>, <span class="at">size=</span><span class="dv">5</span> ) <span class="sc">+</span></span>
-<span id="cb170-175"><a href="de.html#cb170-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&#39;TRUE&#39;</span><span class="ot">=</span><span class="st">&quot;red&quot;</span>,<span class="st">&#39;FALSE&#39;</span><span class="ot">=</span><span class="st">&quot;black&quot;</span>)) <span class="sc">+</span> </span>
-<span id="cb170-176"><a href="de.html#cb170-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb170-177"><a href="de.html#cb170-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Wilcox Test&quot;</span>)</span>
-<span id="cb170-178"><a href="de.html#cb170-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-179"><a href="de.html#cb170-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-180"><a href="de.html#cb170-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-181"><a href="de.html#cb170-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb170-182"><a href="de.html#cb170-182" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div>
+<div id="de" class="section level1 hasAnchor" number="13">
+<h1><span class="header-section-number">13</span> DE<a href="de.html#de" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>No need to run this - load up the preprepared Seurat object.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="de.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
+<span id="cb122-2"><a href="de.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare a datasets</span></span>
+<span id="cb122-3"><a href="de.html#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Seurat)</span>
+<span id="cb122-4"><a href="de.html#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SeuratData)</span>
+<span id="cb122-5"><a href="de.html#cb122-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb122-6"><a href="de.html#cb122-6" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;hcabm40k&quot;</span>) <span class="co">#maybe?</span></span>
+<span id="cb122-7"><a href="de.html#cb122-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-8"><a href="de.html#cb122-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-9"><a href="de.html#cb122-9" aria-hidden="true" tabindex="-1"></a><span class="co"># grab 4000 random cells</span></span>
+<span id="cb122-10"><a href="de.html#cb122-10" aria-hidden="true" tabindex="-1"></a>keep_cells <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(hcabm40k), <span class="at">size=</span><span class="dv">4000</span>)</span>
+<span id="cb122-11"><a href="de.html#cb122-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb122-12"><a href="de.html#cb122-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Subsample down to a toy sized dataset</span></span>
+<span id="cb122-13"><a href="de.html#cb122-13" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> hcabm40k[,keep_cells] </span>
+<span id="cb122-14"><a href="de.html#cb122-14" aria-hidden="true" tabindex="-1"></a><span class="co"># clear large object from memory</span></span>
+<span id="cb122-15"><a href="de.html#cb122-15" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(hcabm40k)</span>
+<span id="cb122-16"><a href="de.html#cb122-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-17"><a href="de.html#cb122-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a group of contidion vs control to test. Not real</span></span>
+<span id="cb122-18"><a href="de.html#cb122-18" aria-hidden="true" tabindex="-1"></a><span class="co"># This is the first 4 of 8 bio replicates</span></span>
+<span id="cb122-19"><a href="de.html#cb122-19" aria-hidden="true" tabindex="-1"></a>condition_lookup <span class="ot">&lt;-</span> </span>
+<span id="cb122-20"><a href="de.html#cb122-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">&#39;MantonBM1&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM2&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM3&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,   <span class="st">&#39;MantonBM4&#39;</span><span class="ot">=</span><span class="st">&quot;fake_treat&quot;</span>,</span>
+<span id="cb122-21"><a href="de.html#cb122-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">&#39;MantonBM5&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM6&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM7&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>, <span class="st">&#39;MantonBM8&#39;</span><span class="ot">=</span><span class="st">&quot;fake_control&quot;</span>)</span>
+<span id="cb122-22"><a href="de.html#cb122-22" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini<span class="sc">$</span>condition <span class="ot">&lt;-</span> condition_lookup[hcabm40k.mini<span class="sc">@</span>meta.data<span class="sc">$</span>orig.ident]</span>
+<span id="cb122-23"><a href="de.html#cb122-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-24"><a href="de.html#cb122-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-25"><a href="de.html#cb122-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-26"><a href="de.html#cb122-26" aria-hidden="true" tabindex="-1"></a><span class="co"># ADDING SOME FAKE VARIATION!</span></span>
+<span id="cb122-27"><a href="de.html#cb122-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Mmultipling first 40 genes of the the &#39;fake treat&#39; group by 4 - so we expect these to be DE.</span></span>
+<span id="cb122-28"><a href="de.html#cb122-28" aria-hidden="true" tabindex="-1"></a><span class="co"># In reality, these are simply healthy replicates and shouldn&#39;t be significantly different</span></span>
+<span id="cb122-29"><a href="de.html#cb122-29" aria-hidden="true" tabindex="-1"></a>alter_cells <span class="ot">&lt;-</span> <span class="fu">which</span>(condition_lookup[hcabm40k.mini<span class="sc">$</span>orig.ident] <span class="sc">==</span> <span class="st">&quot;fake_treat&quot;</span>)</span>
+<span id="cb122-30"><a href="de.html#cb122-30" aria-hidden="true" tabindex="-1"></a>alter_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts)[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>] </span>
+<span id="cb122-31"><a href="de.html#cb122-31" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[alter_genes, alter_cells ] <span class="ot">&lt;-</span> hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[alter_genes, alter_cells  ]<span class="sc">*</span> <span class="dv">4</span></span>
+<span id="cb122-32"><a href="de.html#cb122-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Plus - add 1 to some of them too (2*0 is 0)</span></span>
+<span id="cb122-33"><a href="de.html#cb122-33" aria-hidden="true" tabindex="-1"></a>alter_cells2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(alter_cells, <span class="dv">500</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>) <span class="co"># add 1 to x of 1979 cells.</span></span>
+<span id="cb122-34"><a href="de.html#cb122-34" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[alter_genes, alter_cells2 ] <span class="ot">&lt;-</span> hcabm40k.mini<span class="sc">@</span>assays<span class="sc">$</span>RNA<span class="sc">@</span>counts[alter_genes, alter_cells2  ]<span class="sc">*</span> <span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb122-35"><a href="de.html#cb122-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-36"><a href="de.html#cb122-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-37"><a href="de.html#cb122-37" aria-hidden="true" tabindex="-1"></a><span class="co"># there&#39;s gene level meta data (meta.features) for each assay. </span></span>
+<span id="cb122-38"><a href="de.html#cb122-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Recodring which values we changed.</span></span>
+<span id="cb122-39"><a href="de.html#cb122-39" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini[[<span class="st">&#39;RNA&#39;</span>]][[<span class="st">&#39;is_altered&#39;</span>]] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini[[<span class="st">&#39;RNA&#39;</span>]]) <span class="sc">%in%</span> alter_genes</span>
+<span id="cb122-40"><a href="de.html#cb122-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-41"><a href="de.html#cb122-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-42"><a href="de.html#cb122-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-43"><a href="de.html#cb122-43" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb122-44"><a href="de.html#cb122-44" aria-hidden="true" tabindex="-1"></a><span class="co">#  Run thorough a basic processing, with no QC</span></span>
+<span id="cb122-45"><a href="de.html#cb122-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-46"><a href="de.html#cb122-46" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">NormalizeData</span>(hcabm40k.mini, <span class="at">normalization.method =</span> <span class="st">&quot;LogNormalize&quot;</span>, <span class="at">scale.factor =</span> <span class="dv">10000</span>)</span>
+<span id="cb122-47"><a href="de.html#cb122-47" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindVariableFeatures</span>(hcabm40k.mini, <span class="at">selection.method =</span> <span class="st">&quot;vst&quot;</span>, <span class="at">nfeatures =</span> <span class="dv">2000</span>)</span>
+<span id="cb122-48"><a href="de.html#cb122-48" aria-hidden="true" tabindex="-1"></a>all.genes     <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini)</span>
+<span id="cb122-49"><a href="de.html#cb122-49" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">ScaleData</span>(hcabm40k.mini, <span class="at">features =</span> all.genes)</span>
+<span id="cb122-50"><a href="de.html#cb122-50" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">RunPCA</span>(hcabm40k.mini, <span class="at">features =</span> <span class="fu">VariableFeatures</span>(<span class="at">object =</span> hcabm40k.mini))</span>
+<span id="cb122-51"><a href="de.html#cb122-51" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">RunUMAP</span>(hcabm40k.mini, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb122-52"><a href="de.html#cb122-52" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindNeighbors</span>(hcabm40k.mini, <span class="at">dims =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb122-53"><a href="de.html#cb122-53" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">FindClusters</span>(hcabm40k.mini, <span class="at">resolution =</span> <span class="fl">0.1</span>) <span class="co"># Low res</span></span>
+<span id="cb122-54"><a href="de.html#cb122-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-55"><a href="de.html#cb122-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-56"><a href="de.html#cb122-56" aria-hidden="true" tabindex="-1"></a><span class="co">#------------------------------------------------------------------------------</span></span>
+<span id="cb122-57"><a href="de.html#cb122-57" aria-hidden="true" tabindex="-1"></a><span class="co"># save</span></span>
+<span id="cb122-58"><a href="de.html#cb122-58" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(hcabm40k.mini, <span class="at">file=</span><span class="st">&quot;data/hcabm40k_mini_withfakevariation.rds&quot;</span>)</span></code></pre></div>
+<p>Load up the small (4000cell) subset of data. The replicates have been divided in to control and test groups This is just a demo, they’re all healthy controls.</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="de.html#cb123-1" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file=</span><span class="st">&quot;data/hcabm40k_mini_withfakevariation.rds&quot;</span>)</span>
+<span id="cb123-2"><a href="de.html#cb123-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-3"><a href="de.html#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>( hcabm40k.mini<span class="sc">$</span>orig.ident, hcabm40k.mini<span class="sc">$</span>condition)</span></code></pre></div>
+<pre><code>##            
+##             fake_control fake_treat
+##   MantonBM1            0        502
+##   MantonBM2            0        498
+##   MantonBM3            0        481
+##   MantonBM4            0        524
+##   MantonBM5          467          0
+##   MantonBM6          522          0
+##   MantonBM7          476          0
+##   MantonBM8          530          0</code></pre>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="de.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The first 40 genes were altered.</span></span>
+<span id="cb125-2"><a href="de.html#cb125-2" aria-hidden="true" tabindex="-1"></a>altered_genes <span class="ot">&lt;-</span> <span class="fu">rownames</span>(hcabm40k.mini[[<span class="st">&#39;RNA&#39;</span>]])[<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>]</span>
+<span id="cb125-3"><a href="de.html#cb125-3" aria-hidden="true" tabindex="-1"></a>altered_genes</span></code></pre></div>
+<pre><code>##  [1] &quot;RP11-34P13.7&quot;  &quot;FO538757.2&quot;    &quot;AP006222.2&quot;    &quot;RP4-669L17.10&quot;
+##  [5] &quot;RP5-857K21.4&quot;  &quot;RP11-206L10.9&quot; &quot;LINC00115&quot;     &quot;FAM41C&quot;       
+##  [9] &quot;SAMD11&quot;        &quot;NOC2L&quot;         &quot;KLHL17&quot;        &quot;PLEKHN1&quot;      
+## [13] &quot;HES4&quot;          &quot;ISG15&quot;         &quot;AGRN&quot;          &quot;C1orf159&quot;     
+## [17] &quot;TTLL10&quot;        &quot;TNFRSF18&quot;      &quot;TNFRSF4&quot;       &quot;SDF4&quot;         
+## [21] &quot;B3GALT6&quot;       &quot;FAM132A&quot;       &quot;RP5-902P8.12&quot;  &quot;UBE2J2&quot;       
+## [25] &quot;RP5-902P8.10&quot;  &quot;SCNN1D&quot;        &quot;ACAP3&quot;         &quot;PUSL1&quot;        
+## [29] &quot;CPSF3L&quot;        &quot;CPTP&quot;          &quot;TAS1R3&quot;        &quot;DVL1&quot;         
+## [33] &quot;MXRA8&quot;         &quot;AURKAIP1&quot;      &quot;CCNL2&quot;         &quot;MRPL20&quot;       
+## [37] &quot;RP4-758J18.13&quot; &quot;ANKRD65&quot;       &quot;VWA1&quot;          &quot;ATAD3C&quot;       
+## [41] &quot;ATAD3B&quot;        &quot;ATAD3A&quot;        &quot;SSU72&quot;         &quot;RP5-832C2.5&quot;  
+## [45] &quot;C1orf233&quot;      &quot;RP11-345P4.9&quot;  &quot;MIB2&quot;          &quot;MMP23B&quot;       
+## [49] &quot;CDK11B&quot;        &quot;RP11-345P4.10&quot;</code></pre>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="de.html#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="co"># When Diing DE, it makes sense to remove genes with too-low counts to find anything in.</span></span>
+<span id="cb127-2"><a href="de.html#cb127-2" aria-hidden="true" tabindex="-1"></a><span class="co"># There&#39;s alot of these in single cell. </span></span>
+<span id="cb127-3"><a href="de.html#cb127-3" aria-hidden="true" tabindex="-1"></a>total_per_gene <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(<span class="fu">GetAssayData</span>(hcabm40k.mini, <span class="st">&#39;counts&#39;</span>))</span>
+<span id="cb127-4"><a href="de.html#cb127-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">log10</span>(total_per_gene))</span>
+<span id="cb127-5"><a href="de.html#cb127-5" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini <span class="ot">&lt;-</span> hcabm40k.mini[total_per_gene <span class="sc">&gt;=</span> <span class="dv">100</span>, ]</span>
+<span id="cb127-6"><a href="de.html#cb127-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-7"><a href="de.html#cb127-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-8"><a href="de.html#cb127-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-9"><a href="de.html#cb127-9" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb127-10"><a href="de.html#cb127-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  The object;</span></span>
+<span id="cb127-11"><a href="de.html#cb127-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-12"><a href="de.html#cb127-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(hcabm40k.mini, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>, <span class="at">group.by =</span> <span class="st">&#39;seurat_clusters&#39;</span>)</span>
+<span id="cb127-13"><a href="de.html#cb127-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">DimPlot</span>(hcabm40k.mini, <span class="at">reduction =</span> <span class="st">&#39;umap&#39;</span>, <span class="at">group.by =</span> <span class="st">&#39;orig.ident&#39;</span>)</span>
+<span id="cb127-14"><a href="de.html#cb127-14" aria-hidden="true" tabindex="-1"></a>p1<span class="sc">+</span>p2</span>
+<span id="cb127-15"><a href="de.html#cb127-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-16"><a href="de.html#cb127-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-17"><a href="de.html#cb127-17" aria-hidden="true" tabindex="-1"></a><span class="do">################################################################################</span></span>
+<span id="cb127-18"><a href="de.html#cb127-18" aria-hidden="true" tabindex="-1"></a><span class="co"># What is different between &#39;fake treat&#39; and &#39;fake control&#39;?</span></span>
+<span id="cb127-19"><a href="de.html#cb127-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Expect the 20 genes that we altered, but little else</span></span>
+<span id="cb127-20"><a href="de.html#cb127-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-21"><a href="de.html#cb127-21" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb127-22"><a href="de.html#cb127-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all markers</span></span>
+<span id="cb127-23"><a href="de.html#cb127-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-24"><a href="de.html#cb127-24" aria-hidden="true" tabindex="-1"></a>hcabm40k.mini.c0 <span class="ot">&lt;-</span> hcabm40k.mini[, hcabm40k.mini<span class="sc">$</span>seurat_clusters <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb127-25"><a href="de.html#cb127-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-26"><a href="de.html#cb127-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-27"><a href="de.html#cb127-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Change Ident to condition</span></span>
+<span id="cb127-28"><a href="de.html#cb127-28" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0)</span>
+<span id="cb127-29"><a href="de.html#cb127-29" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0) <span class="ot">&lt;-</span> hcabm40k.mini.c0<span class="sc">$</span>condition</span>
+<span id="cb127-30"><a href="de.html#cb127-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-31"><a href="de.html#cb127-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-32"><a href="de.html#cb127-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-33"><a href="de.html#cb127-33" aria-hidden="true" tabindex="-1"></a><span class="co"># default, wilcox test</span></span>
+<span id="cb127-34"><a href="de.html#cb127-34" aria-hidden="true" tabindex="-1"></a>de_result_wilcox <span class="ot">&lt;-</span> <span class="fu">FindMarkers</span>(hcabm40k.mini.c0, </span>
+<span id="cb127-35"><a href="de.html#cb127-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">ident.1 =</span> <span class="st">&#39;fake_treat&#39;</span>,</span>
+<span id="cb127-36"><a href="de.html#cb127-36" aria-hidden="true" tabindex="-1"></a>            <span class="at">ident.2 =</span> <span class="st">&#39;fake_control&#39;</span>,</span>
+<span id="cb127-37"><a href="de.html#cb127-37" aria-hidden="true" tabindex="-1"></a>            <span class="at">logfc.threshold =</span> <span class="dv">0</span>, <span class="co"># Give me ALL results</span></span>
+<span id="cb127-38"><a href="de.html#cb127-38" aria-hidden="true" tabindex="-1"></a>            <span class="at">min.pct =</span> <span class="dv">0</span></span>
+<span id="cb127-39"><a href="de.html#cb127-39" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb127-40"><a href="de.html#cb127-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-41"><a href="de.html#cb127-41" aria-hidden="true" tabindex="-1"></a><span class="co"># the  &#39;DE&#39; genes</span></span>
+<span id="cb127-42"><a href="de.html#cb127-42" aria-hidden="true" tabindex="-1"></a>de_result_wilcox<span class="sc">$</span>was_altered <span class="ot">&lt;-</span> <span class="fu">rownames</span>(de_result_wilcox ) <span class="sc">%in%</span> alter_genes</span>
+<span id="cb127-43"><a href="de.html#cb127-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-44"><a href="de.html#cb127-44" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_wilcox, p_val_adj <span class="sc">&lt;</span> <span class="fl">0.01</span>)</span>
+<span id="cb127-45"><a href="de.html#cb127-45" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_wilcox, was_altered <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb127-46"><a href="de.html#cb127-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-47"><a href="de.html#cb127-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-48"><a href="de.html#cb127-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-49"><a href="de.html#cb127-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-50"><a href="de.html#cb127-50" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span id="cb127-51"><a href="de.html#cb127-51" aria-hidden="true" tabindex="-1"></a><span class="co"># Pseudobuilk</span></span>
+<span id="cb127-52"><a href="de.html#cb127-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-53"><a href="de.html#cb127-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Change idents to sample fro grouping.</span></span>
+<span id="cb127-54"><a href="de.html#cb127-54" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">Idents</span>(hcabm40k.mini.c0))</span>
+<span id="cb127-55"><a href="de.html#cb127-55" aria-hidden="true" tabindex="-1"></a><span class="fu">Idents</span>(hcabm40k.mini.c0) <span class="ot">&lt;-</span> hcabm40k.mini.c0<span class="sc">$</span>orig.ident</span>
+<span id="cb127-56"><a href="de.html#cb127-56" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">Idents</span>(hcabm40k.mini.c0))</span>
+<span id="cb127-57"><a href="de.html#cb127-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-58"><a href="de.html#cb127-58" aria-hidden="true" tabindex="-1"></a>pseudobulk_matrix <span class="ot">&lt;-</span> <span class="fu">AggregateExpression</span>( hcabm40k.mini.c0,  <span class="at">slot =</span> <span class="st">&#39;counts&#39;</span>, <span class="at">assays=</span><span class="st">&#39;RNA&#39;</span> )[[<span class="st">&#39;RNA&#39;</span>]]</span>
+<span id="cb127-59"><a href="de.html#cb127-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-60"><a href="de.html#cb127-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-61"><a href="de.html#cb127-61" aria-hidden="true" tabindex="-1"></a><span class="co"># treat like a bulk DE</span></span>
+<span id="cb127-62"><a href="de.html#cb127-62" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(limma)</span>
+<span id="cb127-63"><a href="de.html#cb127-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(edgeR)</span>
+<span id="cb127-64"><a href="de.html#cb127-64" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb127-65"><a href="de.html#cb127-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-66"><a href="de.html#cb127-66" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">DGEList</span>(pseudobulk_matrix)</span>
+<span id="cb127-67"><a href="de.html#cb127-67" aria-hidden="true" tabindex="-1"></a>dge <span class="ot">&lt;-</span> <span class="fu">calcNormFactors</span>(dge)</span>
+<span id="cb127-68"><a href="de.html#cb127-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-69"><a href="de.html#cb127-69" aria-hidden="true" tabindex="-1"></a>condition <span class="ot">&lt;-</span> <span class="fu">factor</span>(condition_lookup[<span class="fu">colnames</span>(pseudobulk_matrix)])</span>
+<span id="cb127-70"><a href="de.html#cb127-70" aria-hidden="true" tabindex="-1"></a>design <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(<span class="sc">~</span>condition)</span>
+<span id="cb127-71"><a href="de.html#cb127-71" aria-hidden="true" tabindex="-1"></a>vm  <span class="ot">&lt;-</span> <span class="fu">voom</span>(dge, <span class="at">design =</span> design, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb127-72"><a href="de.html#cb127-72" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lmFit</span>(vm, <span class="at">design =</span> design)</span>
+<span id="cb127-73"><a href="de.html#cb127-73" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">eBayes</span>(fit)</span>
+<span id="cb127-74"><a href="de.html#cb127-74" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk <span class="ot">&lt;-</span> <span class="fu">topTable</span>(fit, <span class="at">n =</span> <span class="cn">Inf</span>, <span class="at">adjust.method =</span> <span class="st">&quot;BH&quot;</span>)</span>
+<span id="cb127-75"><a href="de.html#cb127-75" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk <span class="ot">&lt;-</span> <span class="fu">arrange</span>(de_result_pseudobulk , adj.P.Val)</span>
+<span id="cb127-76"><a href="de.html#cb127-76" aria-hidden="true" tabindex="-1"></a>de_result_pseudobulk<span class="sc">$</span>was_altered <span class="ot">&lt;-</span> <span class="fu">rownames</span>(de_result_pseudobulk ) <span class="sc">%in%</span> alter_genes</span>
+<span id="cb127-77"><a href="de.html#cb127-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-78"><a href="de.html#cb127-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-79"><a href="de.html#cb127-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-80"><a href="de.html#cb127-80" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_pseudobulk,    adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb127-81"><a href="de.html#cb127-81" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(de_result_pseudobulk, was_altered <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb127-82"><a href="de.html#cb127-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-83"><a href="de.html#cb127-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-84"><a href="de.html#cb127-84" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------------------------------</span></span>
+<span id="cb127-85"><a href="de.html#cb127-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-86"><a href="de.html#cb127-86" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(de_result_pseudobulk, <span class="fu">aes</span>(<span class="at">x=</span>AveExpr, <span class="at">y=</span>logFC, <span class="at">col=</span>adj.P.Val <span class="sc">&lt;</span> <span class="fl">0.05</span>)) <span class="sc">+</span></span>
+<span id="cb127-87"><a href="de.html#cb127-87" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb127-88"><a href="de.html#cb127-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">filter</span>(de_result_pseudobulk, was_altered), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>, <span class="at">size=</span><span class="dv">5</span> ) <span class="sc">+</span></span>
+<span id="cb127-89"><a href="de.html#cb127-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&#39;TRUE&#39;</span><span class="ot">=</span><span class="st">&quot;red&quot;</span>,<span class="st">&#39;FALSE&#39;</span><span class="ot">=</span><span class="st">&quot;black&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb127-90"><a href="de.html#cb127-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb127-91"><a href="de.html#cb127-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pseudobulk&quot;</span>)</span>
+<span id="cb127-92"><a href="de.html#cb127-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-93"><a href="de.html#cb127-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Seurat doesn&#39;t give aveg expression by default, just grab it from the psuedobulk</span></span>
+<span id="cb127-94"><a href="de.html#cb127-94" aria-hidden="true" tabindex="-1"></a>de_result_wilcox<span class="sc">$</span>AveExpr <span class="ot">&lt;-</span> de_result_pseudobulk[<span class="fu">rownames</span>(de_result_wilcox),<span class="fu">c</span>(<span class="st">&#39;AveExpr&#39;</span>)]</span>
+<span id="cb127-95"><a href="de.html#cb127-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-96"><a href="de.html#cb127-96" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(de_result_wilcox, <span class="fu">aes</span>(<span class="at">x=</span>AveExpr, <span class="at">y=</span>avg_log2FC, <span class="at">col=</span>p_val_adj <span class="sc">&lt;</span> <span class="fl">0.05</span>)) <span class="sc">+</span></span>
+<span id="cb127-97"><a href="de.html#cb127-97" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb127-98"><a href="de.html#cb127-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span><span class="fu">filter</span>(de_result_wilcox, was_altered), <span class="at">pch=</span><span class="dv">3</span>, <span class="at">col=</span><span class="st">&#39;blue&#39;</span>, <span class="at">size=</span><span class="dv">5</span> ) <span class="sc">+</span></span>
+<span id="cb127-99"><a href="de.html#cb127-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&#39;TRUE&#39;</span><span class="ot">=</span><span class="st">&quot;red&quot;</span>,<span class="st">&#39;FALSE&#39;</span><span class="ot">=</span><span class="st">&quot;black&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb127-100"><a href="de.html#cb127-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb127-101"><a href="de.html#cb127-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Wilcox Test&quot;</span>)</span>
+<span id="cb127-102"><a href="de.html#cb127-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-103"><a href="de.html#cb127-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-104"><a href="de.html#cb127-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-105"><a href="de.html#cb127-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb127-106"><a href="de.html#cb127-106" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div>
 
 </div>
             </section>
