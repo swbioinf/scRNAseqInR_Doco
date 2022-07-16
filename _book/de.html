@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 13 DE | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Chapter 13 DE | scRNAseq Analysis in R with Seurat">
+<meta property="og:type" content="book">
+<meta property="og:description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 13 DE | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">scRNAseq Analysis in R with Seurat</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
+<li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
+<li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
+<li><a class="active" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="de" class="section level1" number="13">
+<h1>
+<span class="header-section-number">13</span> DE<a class="anchor" aria-label="anchor" href="#de"><i class="fas fa-link"></i></a>
+</h1>
+<p>No need to run this - load up the preprepared Seurat object.</p>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">################################################################################</span></span>
+<span><span class="co"># Prepare a datasets</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.satijalab.org/seurat">SeuratData</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"hcabm40k"</span><span class="op">)</span> <span class="co">#maybe?</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># grab 4000 random cells</span></span>
+<span><span class="va">keep_cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">hcabm40k</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">4000</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># Subsample down to a toy sized dataset</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="va">hcabm40k</span><span class="op">[</span>,<span class="va">keep_cells</span><span class="op">]</span> </span>
+<span><span class="co"># clear large object from memory</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">hcabm40k</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add a group of contidion vs control to test. Not real</span></span>
+<span><span class="co"># This is the first 4 of 8 bio replicates</span></span>
+<span><span class="va">condition_lookup</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MantonBM1'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM2'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM3'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM4'</span><span class="op">=</span><span class="st">"fake_treat"</span>,</span>
+<span>    <span class="st">'MantonBM5'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM6'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM7'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM8'</span><span class="op">=</span><span class="st">"fake_control"</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="va">condition_lookup</span><span class="op">[</span><span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">orig.ident</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ADDING SOME FAKE VARIATION!</span></span>
+<span><span class="co"># Mmultipling first 40 genes of the the 'fake treat' group by 4 - so we expect these to be DE.</span></span>
+<span><span class="co"># In reality, these are simply healthy replicates and shouldn't be significantly different</span></span>
+<span><span class="va">alter_cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">condition_lookup</span><span class="op">[</span><span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">orig.ident</span><span class="op">]</span> <span class="op">==</span> <span class="st">"fake_treat"</span><span class="op">)</span></span>
+<span><span class="va">alter_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span> </span>
+<span><span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">[</span><span class="va">alter_genes</span>, <span class="va">alter_cells</span> <span class="op">]</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">[</span><span class="va">alter_genes</span>, <span class="va">alter_cells</span>  <span class="op">]</span><span class="op">*</span> <span class="fl">4</span></span>
+<span><span class="co"># Plus - add 1 to some of them too (2*0 is 0)</span></span>
+<span><span class="va">alter_cells2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="va">alter_cells</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># add 1 to x of 1979 cells.</span></span>
+<span><span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">[</span><span class="va">alter_genes</span>, <span class="va">alter_cells2</span> <span class="op">]</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">assays</span><span class="op">$</span><span class="va">RNA</span><span class="op">@</span><span class="va">counts</span><span class="op">[</span><span class="va">alter_genes</span>, <span class="va">alter_cells2</span>  <span class="op">]</span><span class="op">*</span> <span class="op">+</span><span class="fl">1</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># there's gene level meta data (meta.features) for each assay. </span></span>
+<span><span class="co"># Recodring which values we changed.</span></span>
+<span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="st">'is_altered'</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">alter_genes</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span><span class="co">#  Run thorough a basic processing, with no QC</span></span>
+<span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html">NormalizeData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, scale.factor <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, selection.method <span class="op">=</span> <span class="st">"vst"</span>, nfeatures <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
+<span><span class="va">all.genes</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, features <span class="op">=</span> <span class="va">all.genes</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, features <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">hcabm40k.mini</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, resolution <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="co"># Low res</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#------------------------------------------------------------------------------</span></span>
+<span><span class="co"># save</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span></code></pre></div>
+<p>Load up the small (4000cell) subset of data. The replicates have been divided in to control and test groups This is just a demo, they’re all healthy controls.</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span> <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">orig.ident</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span></span>
+<span><span class="co">#&gt;            </span></span>
+<span><span class="co">#&gt;             fake_control fake_treat</span></span>
+<span><span class="co">#&gt;   MantonBM1            0        502</span></span>
+<span><span class="co">#&gt;   MantonBM2            0        498</span></span>
+<span><span class="co">#&gt;   MantonBM3            0        481</span></span>
+<span><span class="co">#&gt;   MantonBM4            0        524</span></span>
+<span><span class="co">#&gt;   MantonBM5          467          0</span></span>
+<span><span class="co">#&gt;   MantonBM6          522          0</span></span>
+<span><span class="co">#&gt;   MantonBM7          476          0</span></span>
+<span><span class="co">#&gt;   MantonBM8          530          0</span></span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The first 40 genes were altered.</span></span>
+<span><span class="va">altered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span>
+<span><span class="va">altered_genes</span></span>
+<span><span class="co">#&gt;  [1] "RP11-34P13.7"  "FO538757.2"    "AP006222.2"   </span></span>
+<span><span class="co">#&gt;  [4] "RP4-669L17.10" "RP5-857K21.4"  "RP11-206L10.9"</span></span>
+<span><span class="co">#&gt;  [7] "LINC00115"     "FAM41C"        "SAMD11"       </span></span>
+<span><span class="co">#&gt; [10] "NOC2L"         "KLHL17"        "PLEKHN1"      </span></span>
+<span><span class="co">#&gt; [13] "HES4"          "ISG15"         "AGRN"         </span></span>
+<span><span class="co">#&gt; [16] "C1orf159"      "TTLL10"        "TNFRSF18"     </span></span>
+<span><span class="co">#&gt; [19] "TNFRSF4"       "SDF4"          "B3GALT6"      </span></span>
+<span><span class="co">#&gt; [22] "FAM132A"       "RP5-902P8.12"  "UBE2J2"       </span></span>
+<span><span class="co">#&gt; [25] "RP5-902P8.10"  "SCNN1D"        "ACAP3"        </span></span>
+<span><span class="co">#&gt; [28] "PUSL1"         "CPSF3L"        "CPTP"         </span></span>
+<span><span class="co">#&gt; [31] "TAS1R3"        "DVL1"          "MXRA8"        </span></span>
+<span><span class="co">#&gt; [34] "AURKAIP1"      "CCNL2"         "MRPL20"       </span></span>
+<span><span class="co">#&gt; [37] "RP4-758J18.13" "ANKRD65"       "VWA1"         </span></span>
+<span><span class="co">#&gt; [40] "ATAD3C"        "ATAD3B"        "ATAD3A"       </span></span>
+<span><span class="co">#&gt; [43] "SSU72"         "RP5-832C2.5"   "C1orf233"     </span></span>
+<span><span class="co">#&gt; [46] "RP11-345P4.9"  "MIB2"          "MMP23B"       </span></span>
+<span><span class="co">#&gt; [49] "CDK11B"        "RP11-345P4.10"</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># When Diing DE, it makes sense to remove genes with too-low counts to find anything in.</span></span>
+<span><span class="co"># There's alot of these in single cell. </span></span>
+<span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, <span class="st">'counts'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span><span class="va">total_per_gene</span> <span class="op">&gt;=</span> <span class="fl">100</span>, <span class="op">]</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span><span class="co">#  The object;</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">'seurat_clusters'</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">'orig.ident'</span><span class="op">)</span></span>
+<span><span class="va">p1</span><span class="op">+</span><span class="va">p2</span></span>
+<span></span>
+<span></span>
+<span><span class="co">################################################################################</span></span>
+<span><span class="co"># What is different between 'fake treat' and 'fake control'?</span></span>
+<span><span class="co"># Expect the 20 genes that we altered, but little else</span></span>
+<span></span>
+<span><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span><span class="co"># Find all markers</span></span>
+<span></span>
+<span><span class="va">hcabm40k.mini.c0</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">seurat_clusters</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Change Ident to condition</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini.c0</span><span class="op">$</span><span class="va">condition</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># default, wilcox test</span></span>
+<span><span class="va">de_result_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span>, </span>
+<span>            ident.1 <span class="op">=</span> <span class="st">'fake_treat'</span>,</span>
+<span>            ident.2 <span class="op">=</span> <span class="st">'fake_control'</span>,</span>
+<span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
+<span>            min.pct <span class="op">=</span> <span class="fl">0</span></span>
+<span>            <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># the  'DE' genes</span></span>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">alter_genes</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co">#-------------------------------------------------------------------------------</span></span>
+<span><span class="co"># Pseudobuilk</span></span>
+<span></span>
+<span><span class="co"># Change idents to sample fro grouping.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini.c0</span><span class="op">$</span><span class="va">orig.ident</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pseudobulk_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">hcabm40k.mini.c0</span>,  slot <span class="op">=</span> <span class="st">'counts'</span>, assays<span class="op">=</span><span class="st">'RNA'</span> <span class="op">)</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># treat like a bulk DE</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
+<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">condition_lookup</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">condition</span><span class="op">)</span></span>
+<span><span class="va">vm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span><span class="op">(</span><span class="va">dge</span>, design <span class="op">=</span> <span class="va">design</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, design <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, n <span class="op">=</span> <span class="cn">Inf</span>, adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> , <span class="va">adj.P.Val</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">alter_genes</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>,    <span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co">#-----------------------------------------------------------</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Seurat doesn't give aveg expression by default, just grab it from the psuedobulk</span></span>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span> <span class="op">&lt;-</span> <span class="va">de_result_pseudobulk</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'AveExpr'</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="singler.html"><span class="header-section-number">12</span> SingleR</a></div>
+<div class="next"><a href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#de"><span class="header-section-number">13</span> DE</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-10-de.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-10-de.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-15.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

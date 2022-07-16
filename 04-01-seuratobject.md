@@ -18,19 +18,21 @@ Look at counts data / expression data
 Does gene exist?
 
 
-```{css, echo=FALSE}
+<style type="text/css">
 .watch-out {
   background-color: lightpink;
   border: 3px solid red;
   font-weight: bold;
 }
-```
+</style>
 
 Then we assign a class `watch-out` to the code chunk via the
 chunk option `class.source`.
 
-```{r class.source="watch-out"}
+
+```{.r .watch-out}
 mtcars[1:5, "mpg"]
+#> [1] 21.0 21.0 22.8 21.4 18.7
 ```
 
 
@@ -39,12 +41,14 @@ mtcars[1:5, "mpg"]
 
 
 
-```{r libloader, results='hide', message=FALSE, warning=FALSE} 
+
+```r
 library(tidyverse)
 library(Seurat)
 ```
 
-```{r}
+
+```r
 pbmc <- readRDS("data/pbmc_tutorial.rds")
 ```
 
@@ -52,19 +56,28 @@ pbmc <- readRDS("data/pbmc_tutorial.rds")
 ## Plotting
 
 
-```{r}
+
+```r
 DimPlot(pbmc, reduction = "umap")
 ```
 
+<img src="04-01-seuratobject_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
 
-```{r}
+
+
+```r
 FeaturePlot(pbmc, features =  "CD14")
 ```
 
-```{r}
+<img src="04-01-seuratobject_files/figure-html/unnamed-chunk-5-1.png" width="672" />
+
+
+```r
 VlnPlot(pbmc, features = 'CD14')
 ```
+
+<img src="04-01-seuratobject_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 
 
@@ -74,8 +87,23 @@ VlnPlot(pbmc, features = 'CD14')
 Some of the most important information for working with Seurat objects is in the metatdata.
 This is cell level information.
 
-```{r}
+
+```r
 head(pbmc@meta.data)
+#>                  orig.ident nCount_RNA nFeature_RNA
+#> AAACATACAACCAC-1     pbmc3k       2419          779
+#> AAACATTGAGCTAC-1     pbmc3k       4903         1352
+#> AAACATTGATCAGC-1     pbmc3k       3147         1129
+#> AAACCGTGCTTCCG-1     pbmc3k       2639          960
+#> AAACCGTGTATGCG-1     pbmc3k        980          521
+#> AAACGCACTGGTAC-1     pbmc3k       2163          781
+#>                  percent.mt RNA_snn_res.0.5 seurat_clusters
+#> AAACATACAACCAC-1  3.0177759               0               0
+#> AAACATTGAGCTAC-1  3.7935958               3               3
+#> AAACATTGATCAGC-1  0.8897363               2               2
+#> AAACCGTGCTTCCG-1  1.7430845               5               5
+#> AAACCGTGTATGCG-1  1.2244898               6               6
+#> AAACGCACTGGTAC-1  1.6643551               2               2
 ```
 
 That doesn't have any gene expression though, that's stored in 

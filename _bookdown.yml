@@ -1,6 +1,7 @@
+book_filename: "scRNAseqInR_Doco"
+new_session: false
+before_chapter_script: _common.R
 delete_merged_file: true
-output_dir: "docs"
 language:
   ui:
-    chapter_name: ""
-# rmd_files: ["index.Rmd", "04-02-load.Rmd"]
+    chapter_name: "Chapter "

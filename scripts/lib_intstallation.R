@@ -38,8 +38,9 @@ BiocManager::install("CHETAH")
 library(celldex)
 celldex::HumanPrimaryCellAtlasData()
 
+# only for setup
 library(SeuratData)
-data("hcabm40k")  # COuld be replaced with a preset object
+#data("hcabm40k")  # COuld be replaced with a preset object
 
 
 

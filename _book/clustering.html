@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 10 Clustering | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="Seurat v3 applies a graph-based clustering approach, building upon initial strategies in (Macosko et al). Importantly, the distance metric which drives the clustering analysis (based on previously...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Chapter 10 Clustering | scRNAseq Analysis in R with Seurat">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Seurat v3 applies a graph-based clustering approach, building upon initial strategies in (Macosko et al). Importantly, the distance metric which drives the clustering analysis (based on previously...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 10 Clustering | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="Seurat v3 applies a graph-based clustering approach, building upon initial strategies in (Macosko et al). Importantly, the distance metric which drives the clustering analysis (based on previously...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">scRNAseq Analysis in R with Seurat</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
+<li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
+<li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
+<li><a class="active" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
+<li><a class="" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="clustering" class="section level1" number="10">
+<h1>
+<span class="header-section-number">10</span> Clustering<a class="anchor" aria-label="anchor" href="#clustering"><i class="fas fa-link"></i></a>
+</h1>
+<!-- Do clustering -->
+<!-- Choose a resolution -->
+<!-- What are the clusters? -->
+<!-- Find cluster markers -->
+<!-- Name some. -->
+<p>Seurat v3 applies a graph-based clustering approach, building upon initial strategies in (<a href="http://www.cell.com/abstract/S0092-8674(15)00549-8">Macosko <em>et al</em></a>). Importantly, the <em>distance metric</em> which drives the clustering analysis (based on previously identified PCs) remains the same. However, our approach to partitioning the cellular distance matrix into clusters has dramatically improved. Our approach was heavily inspired by recent manuscripts which applied graph-based clustering approaches to scRNA-seq data <a href="http://bioinformatics.oxfordjournals.org/content/early/2015/02/10/bioinformatics.btv088.abstract">[SNN-Cliq, Xu and Su, Bioinformatics, 2015]</a> and CyTOF data <a href="http://www.ncbi.nlm.nih.gov/pubmed/26095251">[PhenoGraph, Levine <em>et al</em>., Cell, 2015]</a>. Briefly, these methods embed cells in a graph structure - for example a K-nearest neighbor (KNN) graph, with edges drawn between cells with similar feature expression patterns, and then attempt to partition this graph into highly interconnected ‘quasi-cliques’ or ‘communities’.</p>
+<p>As in PhenoGraph, we first construct a KNN graph based on the euclidean distance in PCA space, and refine the edge weights between any two cells based on the shared overlap in their local neighborhoods (Jaccard similarity). This step is performed using the <code><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors()</a></code> function, and takes as input the previously defined dimensionality of the dataset (first 10 PCs).</p>
+<p>To cluster the cells, we next apply modularity optimization techniques such as the Louvain algorithm (default) or SLM <a href="http://dx.doi.org/10.1088/1742-5468/2008/10/P10008">[SLM, Blondel <em>et al</em>., Journal of Statistical Mechanics]</a>, to iteratively group cells together, with the goal of optimizing the standard modularity function. The <code><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters()</a></code> function implements this procedure, and contains a resolution parameter that sets the ‘granularity’ of the downstream clustering, with increased values leading to a greater number of clusters. We find that setting this parameter between 0.4-1.2 typically returns good results for single-cell datasets of around 3K cells. Optimal resolution often increases for larger datasets. The clusters can be found using the <code><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents()</a></code> function.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Computing nearest neighbor graph</span></span>
+<span><span class="co">#&gt; Computing SNN</span></span>
+<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindClusters.html">FindClusters</a></span><span class="op">(</span><span class="va">pbmc</span>, resolution <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Modularity Optimizer version 1.3.0 by Ludo Waltman and Nees Jan van Eck</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of nodes: 2638</span></span>
+<span><span class="co">#&gt; Number of edges: 95965</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Running Louvain algorithm...</span></span>
+<span><span class="co">#&gt; Maximum modularity in 10 random starts: 0.8723</span></span>
+<span><span class="co">#&gt; Number of communities: 9</span></span>
+<span><span class="co">#&gt; Elapsed time: 0 seconds</span></span>
+<span><span class="co"># Look at cluster IDs of the first 5 cells</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; AAACATACAACCAC-1 AAACATTGAGCTAC-1 AAACATTGATCAGC-1 </span></span>
+<span><span class="co">#&gt;                2                3                2 </span></span>
+<span><span class="co">#&gt; AAACCGTGCTTCCG-1 AAACCGTGTATGCG-1 </span></span>
+<span><span class="co">#&gt;                1                6 </span></span>
+<span><span class="co">#&gt; Levels: 0 1 2 3 4 5 6 7 8</span></span></code></pre></div>
+<hr>
+<div id="challenge-try-different-cluster-settings" class="section level4 challenge" number="10.0.0.1">
+<h4>
+<span class="header-section-number">10.0.0.1</span> Challenge: Try different cluster settings<a class="anchor" aria-label="anchor" href="#challenge-try-different-cluster-settings"><i class="fas fa-link"></i></a>
+</h4>
+<p>Run <code>FindNeighbours</code> and <code>FindClusters</code> again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using <code>DimPlot</code>.</p>
+<p>To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as <code>pbmc2</code>!</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></div>
+<div class="next"><a href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#clustering"><span class="header-section-number">10</span> Clustering</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-06-clustering.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-06-clustering.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-15.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

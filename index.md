@@ -1,6 +1,6 @@
 --- 
 title: "scRNAseq Analysis in R with Seurat"
-date: "`r Sys.Date()`"
+date: "2022-07-15"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -28,10 +28,4 @@ It is also drawing from a similar workshop held by Monash Bioinformatics Platfor
 
 
 
-```{r include=FALSE}
-# automatically create a bib database for R packages
-knitr::write_bib(c(
-  .packages(), 
-  'bookdown', 'knitr', 'rmarkdown'
-  ), 'packages.bib')
-```
+
