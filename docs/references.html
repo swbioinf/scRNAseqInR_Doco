@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 8 Normalisation | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="After removing unwanted cells from the dataset, the next step is to normalize the data. By default, we employ a global-scaling normalization method “LogNormalize” that normalizes the feature...">
+<title>References | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="scRNAseq analysis in R with Seurat workshop material">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Chapter 8 Normalisation | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="References | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="After removing unwanted cells from the dataset, the next step is to normalize the data. By default, we employ a global-scaling normalization method “LogNormalize” that normalizes the feature...">
+<meta property="og:description" content="scRNAseq analysis in R with Seurat workshop material">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 8 Normalisation | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="After removing unwanted cells from the dataset, the next step is to normalize the data. By default, we employ a global-scaling normalization method “LogNormalize” that normalizes the feature...">
+<meta name="twitter:title" content="References | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="scRNAseq analysis in R with Seurat workshop material">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -49,7 +49,7 @@
 <li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
-<li><a class="active" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
 <li><a class="" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
 <li><a class="" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
 <li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
@@ -57,7 +57,7 @@
 <li><a class="" href="de.html"><span class="header-section-number">13</span> DE</a></li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
 <li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
-<li><a class="" href="references.html">References</a></li>
+<li><a class="active" href="references.html">References</a></li>
 </ul>
 
         <div class="book-extra">
@@ -65,29 +65,22 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="norm" class="section level1" number="8">
-<h1>
-<span class="header-section-number">8</span> Normalisation<a class="anchor" aria-label="anchor" href="#norm"><i class="fas fa-link"></i></a>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="references" class="section level1 unnumbered">
+<h1>References<a class="anchor" aria-label="anchor" href="#references"><i class="fas fa-link"></i></a>
 </h1>
-<p>After removing unwanted cells from the dataset, the next step is to normalize the data. By default, we employ a global-scaling normalization method “LogNormalize” that normalizes the feature expression measurements for each cell by the total expression, multiplies this by a scale factor (10,000 by default), and log-transforms the result. Normalized values are stored in <code>pbmc$RNA@data</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html">NormalizeData</a></span><span class="op">(</span><span class="va">pbmc</span>, normalization.method <span class="op">=</span> <span class="st">"LogNormalize"</span>, scale.factor <span class="op">=</span> <span class="fl">1e4</span><span class="op">)</span></span></code></pre></div>
-<p>For clarity, in this previous line of code (and in future commands), we provide the default values for certain parameters in the function call. However, this isn’t required and the same behavior can be achieved with:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/NormalizeData.html">NormalizeData</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span></code></pre></div>
 
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></div>
-<div class="next"><a href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></div>
+<div class="prev"><a href="resources.html"><span class="header-section-number">15</span> Resources</a></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#norm"><span class="header-section-number">8</span> Normalisation</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#references">References</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-04-norm.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-04-norm.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/07-references.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/07-references.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -99,7 +92,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-15.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-16.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

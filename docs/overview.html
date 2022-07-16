@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 15 Resources | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="Useful resources for next steps. Many Seurat Vignettes: https://satijalab.org/seurat/index.html Ochestrating Single Cell Analysis with bioconductor: https://bioconductor.org/books/release/OSCA/...">
+<title>Chapter 4 Overview | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="Discuss background single cell analysis. (slides)">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Chapter 15 Resources | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 4 Overview | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Useful resources for next steps. Many Seurat Vignettes: https://satijalab.org/seurat/index.html Ochestrating Single Cell Analysis with bioconductor: https://bioconductor.org/books/release/OSCA/...">
+<meta property="og:description" content="Discuss background single cell analysis. (slides)">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 15 Resources | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="Useful resources for next steps. Many Seurat Vignettes: https://satijalab.org/seurat/index.html Ochestrating Single Cell Analysis with bioconductor: https://bioconductor.org/books/release/OSCA/...">
+<meta name="twitter:title" content="Chapter 4 Overview | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="Discuss background single cell analysis. (slides)">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -45,7 +45,7 @@
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
 <li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
-<li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
+<li><a class="active" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
 <li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
@@ -56,7 +56,7 @@
 <li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
 <li><a class="" href="de.html"><span class="header-section-number">13</span> DE</a></li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
-<li><a class="active" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -65,44 +65,25 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="resources" class="section level1" number="15">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="overview" class="section level1" number="4">
 <h1>
-<span class="header-section-number">15</span> Resources<a class="anchor" aria-label="anchor" href="#resources"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> Overview<a class="anchor" aria-label="anchor" href="#overview"><i class="fas fa-link"></i></a>
 </h1>
-<p>Useful resources for next steps.</p>
-<ul>
-<li>Many Seurat Vignettes: <a href="https://satijalab.org/seurat/index.html" class="uri">https://satijalab.org/seurat/index.html</a>
-</li>
-<li>Ochestrating Single Cell Analysis with bioconductor: <a href="https://bioconductor.org/books/release/OSCA/" class="uri">https://bioconductor.org/books/release/OSCA/</a>
-</li>
-<li>Bunch of useful links listed here: <a href="https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/" class="uri">https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/</a>
-</li>
-<li>TidySeurat</li>
-</ul>
-<p>tidyverse</p>
-<p>singleR
-celldex
-library(SingleCellExperiment)
-library(SingleR)
-library(celldex)</p>
-<p>For monocle: (not done.)
-remotes::install_github(‘satijalab/seurat-wrappers’)
-onfigure: error: gdal-config not found or not executable.
-remotes::install_github(‘rspatial/terra’)
-devtools::install_github(‘cole-trapnell-lab/monocle3’)</p>
+<p>Discuss background single cell analysis.</p>
+<p>(slides)</p>
 
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></div>
-<div class="next"><a href="references.html">References</a></div>
+<div class="prev"><a href="schedule.html"><span class="header-section-number">3</span> Schedule</a></div>
+<div class="next"><a href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#resources"><span class="header-section-number">15</span> Resources</a></li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#overview"><span class="header-section-number">4</span> Overview</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/06-resources.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/06-resources.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/03-overview.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/03-overview.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -114,7 +95,7 @@ devtools::install_github(‘cole-trapnell-lab/monocle3’)</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-15.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-16.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
