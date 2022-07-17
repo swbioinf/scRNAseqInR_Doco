@@ -45,16 +45,20 @@
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
 <li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
+<li class="book-part">Content</li>
 <li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
 <li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
+<li class="book-part">Seurat PBMC3k Tutorial</li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
 <li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
 <li><a class="" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
 <li><a class="" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
 <li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
+<li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
 <li><a class="active" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li class="book-part">End</li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
 <li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
 <li><a class="" href="references.html">References</a></li>
@@ -70,7 +74,7 @@
 <span class="header-section-number">13</span> DE<a class="anchor" aria-label="anchor" href="#de"><i class="fas fa-link"></i></a>
 </h1>
 <p>No need to run this - load up the preprepared Seurat object.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">################################################################################</span></span>
 <span><span class="co"># Prepare a datasets</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
@@ -130,7 +134,7 @@
 <span><span class="co"># save</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span></code></pre></div>
 <p>Load up the small (4000cell) subset of data. The replicates have been divided in to control and test groups This is just a demo, they’re all healthy controls.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span> <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">orig.ident</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span></span>
@@ -144,7 +148,7 @@
 <span><span class="co">#&gt;   MantonBM6          522          0</span></span>
 <span><span class="co">#&gt;   MantonBM7          476          0</span></span>
 <span><span class="co">#&gt;   MantonBM8          530          0</span></span></code></pre></div>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The first 40 genes were altered.</span></span>
 <span><span class="va">altered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span>
 <span><span class="va">altered_genes</span></span>
@@ -165,7 +169,7 @@
 <span><span class="co">#&gt; [43] "SSU72"         "RP5-832C2.5"   "C1orf233"     </span></span>
 <span><span class="co">#&gt; [46] "RP11-345P4.9"  "MIB2"          "MMP23B"       </span></span>
 <span><span class="co">#&gt; [49] "CDK11B"        "RP11-345P4.10"</span></span></code></pre></div>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># When Diing DE, it makes sense to remove genes with too-low counts to find anything in.</span></span>
 <span><span class="co"># There's alot of these in single cell. </span></span>
 <span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, <span class="st">'counts'</span><span class="op">)</span><span class="op">)</span></span>
@@ -274,6 +278,9 @@
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 
 </div>
+
+
+
   <div class="chapter-nav">
 <div class="prev"><a href="singler.html"><span class="header-section-number">12</span> SingleR</a></div>
 <div class="next"><a href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></div>
@@ -296,7 +303,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-16.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

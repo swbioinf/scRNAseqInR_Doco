@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 5 Using a seurat object | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="Load an existing object Plot some clusters on a umap. Plot some gene expression on a umap plot some gene expression by cluster. Look at a table of cell metadata. Look at counts data / expression...">
+<meta name="description" content='5.1 Load an existing Seurat object library(tidyverse) library(Seurat) pbmc &lt;- readRDS("data/pbmc_tutorial.rds")  5.2 Plotting DimPlot(pbmc, reduction = "umap") FeaturePlot(pbmc, features = "CD14")...'>
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
 <meta property="og:title" content="Chapter 5 Using a seurat object | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Load an existing object Plot some clusters on a umap. Plot some gene expression on a umap plot some gene expression by cluster. Look at a table of cell metadata. Look at counts data / expression...">
+<meta property="og:description" content='5.1 Load an existing Seurat object library(tidyverse) library(Seurat) pbmc &lt;- readRDS("data/pbmc_tutorial.rds")  5.2 Plotting DimPlot(pbmc, reduction = "umap") FeaturePlot(pbmc, features = "CD14")...'>
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 5 Using a seurat object | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="Load an existing object Plot some clusters on a umap. Plot some gene expression on a umap plot some gene expression by cluster. Look at a table of cell metadata. Look at counts data / expression...">
+<meta name="twitter:description" content='5.1 Load an existing Seurat object library(tidyverse) library(Seurat) pbmc &lt;- readRDS("data/pbmc_tutorial.rds")  5.2 Plotting DimPlot(pbmc, reduction = "umap") FeaturePlot(pbmc, features = "CD14")...'>
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -45,16 +45,20 @@
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
 <li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
+<li class="book-part">Content</li>
 <li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
 <li><a class="active" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
+<li class="book-part">Seurat PBMC3k Tutorial</li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
 <li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
 <li><a class="" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
 <li><a class="" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
 <li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
+<li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
 <li><a class="" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li class="book-part">End</li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
 <li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
 <li><a class="" href="references.html">References</a></li>
@@ -69,48 +73,36 @@
 <h1>
 <span class="header-section-number">5</span> Using a seurat object<a class="anchor" aria-label="anchor" href="#seuratobject"><i class="fas fa-link"></i></a>
 </h1>
-<p>Load an existing object</p>
-<p>Plot some clusters on a umap.</p>
-<p>Plot some gene expression on a umap</p>
-<p>plot some gene expression by cluster.</p>
-<p>Look at a table of cell metadata.</p>
-<p>Look at counts data / expression data</p>
-<p>Does gene exist?</p>
-<style type="text/css">
-.watch-out {
-  background-color: lightpink;
-  border: 3px solid red;
-  font-weight: bold;
-}
-</style>
-<p>Then we assign a class <code>watch-out</code> to the code chunk via the
-chunk option <code>class.source</code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"mpg"</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] 21.0 21.0 22.8 21.4 18.7</span></span></code></pre></div>
+<!-- Load an existing object -->
+<!-- Plot some clusters on a umap. -->
+<!-- Plot some gene expression on a umap -->
+<!-- plot some gene expression by cluster. -->
+<!-- Look at a table of cell metadata. -->
+<!-- Look at counts data / expression data -->
+<!-- Does gene exist? -->
 <div id="load-an-existing-seurat-object" class="section level2" number="5.1">
 <h2>
 <span class="header-section-number">5.1</span> Load an existing Seurat object<a class="anchor" aria-label="anchor" href="#load-an-existing-seurat-object"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/pbmc_tutorial.rds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="plotting" class="section level2" number="5.2">
 <h2>
 <span class="header-section-number">5.2</span> Plotting<a class="anchor" aria-label="anchor" href="#plotting"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">"umap"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-8-1.png" width="672"></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span>  <span class="st">"CD14"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span> <span class="st">'CD14'</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 </div>
 <div id="how-is-the-data-stored" class="section level2" number="5.3">
 <h2>
@@ -118,7 +110,7 @@ chunk option <code>class.source</code>.</p>
 </h2>
 <p>Some of the most important information for working with Seurat objects is in the metatdata.
 This is cell level information.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  orig.ident nCount_RNA nFeature_RNA</span></span>
 <span><span class="co">#&gt; AAACATACAACCAC-1     pbmc3k       2419          779</span></span>
@@ -136,9 +128,8 @@ This is cell level information.</p>
 <span><span class="co">#&gt; AAACGCACTGGTAC-1  1.6643551               2               2</span></span></code></pre></div>
 <p>That doesn’t have any gene expression though, that’s stored in</p>
 <!-- Taken from MBP material,  -->
-<div id="discussion-the-seurat-object-in-r" class="section level4 challenge" number="5.3.0.1">
-<h4>
-<span class="header-section-number">5.3.0.1</span> Discussion: The Seurat Object in R<a class="anchor" aria-label="anchor" href="#discussion-the-seurat-object-in-r"><i class="fas fa-link"></i></a>
+<div id="discussion-the-seurat-object-in-r" class="section level4 unnumbered rmdtip">
+<h4>Discussion: The Seurat Object in R<a class="anchor" aria-label="anchor" href="#discussion-the-seurat-object-in-r"><i class="fas fa-link"></i></a>
 </h4>
 <p>Lets take a look at the seurat object we have just created in R, <code>pbmc</code></p>
 <p>To accomodate the complexity of data arising from a single cell RNA seq experiment, the seurat object keeps this as a container of multiple data tables that are linked.</p>
@@ -169,6 +160,9 @@ The ways to access the slots can be through methods for the class (functions) or
 </div>
 </div>
 </div>
+
+
+
   <div class="chapter-nav">
 <div class="prev"><a href="overview.html"><span class="header-section-number">4</span> Overview</a></div>
 <div class="next"><a href="load.html"><span class="header-section-number">6</span> Load data</a></div>
@@ -196,7 +190,7 @@ The ways to access the slots can be through methods for the class (functions) or
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-16.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-17.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
