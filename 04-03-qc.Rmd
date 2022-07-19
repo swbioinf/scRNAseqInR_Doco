@@ -34,7 +34,7 @@ pbmc$percent.mt <- PercentageFeatureSet(pbmc, pattern = "^MT-")
 
   
 
-#### Challenge: The meta.data slot in the Seurat object {.challenge}
+#### Challenge: The meta.data slot in the Seurat object { - .rmdtip}
 
 Where are QC metrics stored in Seurat?
 
@@ -45,7 +45,8 @@ What do you notice has changed within the `meta.data` table now that we have cal
 
 Could we add more data into the `meta.data` table? 
 
-###
+
+### { - }
 
 In the example below, we visualize QC metrics, and use these to filter cells.
 
@@ -70,7 +71,7 @@ plot3 <- FeatureScatter(pbmc, feature1 = "nFeature_RNA", feature2 = "percent.mt"
 plot3
 ```
 
-#### Challenge: Ribosomal gene expression as a QC metric {.challenge}
+#### Challenge: Ribosomal gene expression as a QC metric {- .rmdtip}
 Ribosomal gene expression could be another factor to look into your cells within your experiment.
 
 Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes. 
@@ -93,7 +94,7 @@ These are the cells you may want to exclude.
 Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with `FeatureScatter` make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage.
 </details>
 
-###
+### { - }
 
 Okay we are happy with our thresholds for mitochondrial percentage in cells, lets apply them and subset our data. This will remove the cells we think are of poor quality. 
 

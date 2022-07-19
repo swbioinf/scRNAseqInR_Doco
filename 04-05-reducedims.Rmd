@@ -23,7 +23,7 @@ plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot1 + plot2
 ```
 
-#### Challenge: Labelling Genes of Interest {.challenge}
+#### Challenge: Labelling Genes of Interest {- .rmdtip}
 
 What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot.
 
@@ -99,9 +99,9 @@ DimHeatmap(pbmc, dims = 1:15, cells = 500, balanced = TRUE)
 
 To overcome the extensive technical noise in any single feature for scRNA-seq data, Seurat clusters cells based on their PCA scores, with each PC essentially representing a 'metafeature' that combines information across a correlated feature set. The top principal components therefore represent a robust compression of the dataset. However, how many components should we choose to include? 10? 20? 100?
 
-
-Note: The seurat developers suggest using a JackStraw resampling test to determine this. See [Macosko *et al*](http://www.cell.com/abstract/S0092-8674(15)00549-8), and the original [pbmc3 vignette](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1). We're going to use an Elbow Plot instead here, because its much quicker.
-
+-----
+*Note*: The Seurat developers suggest using a JackStraw resampling test to determine this. See [Macosko *et  al*](http://www.cell.com/abstract/S0092-8674(15)00549-8), and the original [pbmc3 vignette](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1). We're going to use an Elbow Plot instead here, because its much quicker.
+-----
 
 An alternative heuristic method generates an 'Elbow plot': a ranking of principle components based on the percentage of variance explained by each one (`ElbowPlot()` function). In this example, we can observe an 'elbow' around PC9-10, suggesting that the majority of true signal is captured in the first 10 PCs. 
 

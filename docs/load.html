@@ -47,7 +47,7 @@
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
 <li class="book-part">Content</li>
 <li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> What can we do with a Seurat object?</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
 <li><a class="active" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
@@ -82,12 +82,12 @@
 <p>For this tutorial, we will be analyzing the a dataset of Peripheral Blood Mononuclear Cells (PBMC) freely available from 10X Genomics. There are 2,700 single cells that were sequenced on the Illumina NextSeq 500. The raw data can be found <a href="https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz">here</a>.</p>
 <p>We start by reading in the data. The <code><a href="https://satijalab.org/seurat/reference/Read10X.html">Read10X()</a></code> function reads in the output of the <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">cellranger</a> pipeline from 10X, returning a unique molecular identified (UMI) count matrix. The values in this matrix represent the number of molecules for each feature (i.e. gene; row) that are detected in each cell (column).</p>
 <p>We next use the count matrix to create a <code>Seurat</code> object. The object serves as a container that contains both data (like the count matrix) and analysis (like PCA, or clustering results) for a single-cell dataset. For a technical discussion of the <code>Seurat</code> object structure, check out the <a href="https://github.com/satijalab/seurat/wiki">GitHub Wiki</a>. For example, the count matrix is stored in <code>pbmc@assays$RNA@counts</code>.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the PBMC dataset</span></span>
 <span><span class="va">pbmc.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"data/pbmc3k/filtered_gene_bc_matrices/hg19/"</span><span class="op">)</span></span>
 <span><span class="co"># Initialize the Seurat object with the raw (non-normalized data).</span></span>
@@ -97,7 +97,7 @@
 <span><span class="co">#&gt; 13714 features across 2700 samples within 1 assay </span></span>
 <span><span class="co">#&gt; Active assay: RNA (13714 features, 0 variable features)</span></span></code></pre></div>
 <details><summary><strong>What does data in a count matrix look like?</strong>
-</summary><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lets examine a few genes in the first thirty cells</span></span>
 <span><span class="va">pbmc.data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CD3D"</span>,<span class="st">"TCL1A"</span>,<span class="st">"MS4A1"</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span></span>
 <span><span class="co">#&gt; 3 x 30 sparse Matrix of class "dgCMatrix"</span></span>
@@ -111,7 +111,7 @@
 <span><span class="co">#&gt; TCL1A . . . .</span></span>
 <span><span class="co">#&gt; MS4A1 . . . .</span></span></code></pre></div>
 <p>The <code>.</code> values in the matrix represent 0s (no molecules detected). Since most values in an scRNA-seq matrix are 0, Seurat uses a sparse-matrix representation whenever possible. This results in significant memory and speed savings for Drop-seq/inDrop/10x data.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dense.size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">pbmc.data</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dense.size</span></span>
 <span><span class="co">#&gt; 709591472 bytes</span></span>
@@ -124,7 +124,7 @@
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="seuratobject.html"><span class="header-section-number">5</span> Using a seurat object</a></div>
+<div class="prev"><a href="seuratobject.html"><span class="header-section-number">5</span> What can we do with a Seurat object?</a></div>
 <div class="next"><a href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
@@ -148,7 +148,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-17.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-19.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

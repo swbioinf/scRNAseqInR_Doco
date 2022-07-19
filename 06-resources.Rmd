@@ -8,6 +8,11 @@ Useful resources for next steps.
 * Bunch of useful links listed here: https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/
 * TidySeurat
 
+* Demo 10X data is here - variations on the technolgy; https://www.10xgenomics.com/resources/datasets
+
+Seurat command cheat sheet. For when you're trying to figure out how to find something in the object: https://satijalab.org/seurat/articles/essential_commands.html
+
+
 
 tidyverse
 
@@ -22,3 +27,4 @@ remotes::install_github('satijalab/seurat-wrappers')
 onfigure: error: gdal-config not found or not executable.
 remotes::install_github('rspatial/terra')
 devtools::install_github('cole-trapnell-lab/monocle3')
+

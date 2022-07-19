@@ -1,8 +1,11 @@
+# (PART) Seurat PBMC3k Tutorial {-} 
+
 # Load data {#load}
 
 
 This workshop follows the introductory [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) tutorial from Seurat. 
-The bulk of this workshop may be foun din its original format there.
+
+The bulk of this workshop may be found in its original format there.
 
 
 ## Setup the Seurat Object
@@ -16,9 +19,7 @@ We next use the count matrix to create a `Seurat` object. The object serves as a
 
 
 
-
 ```{r libloader2, results='hide', message=FALSE, warning=FALSE} 
-#```{r libloader2, results='hide', message=FALSE, warning=FALSE} 
 library(dplyr)
 library(ggplot2)
 library(Seurat)

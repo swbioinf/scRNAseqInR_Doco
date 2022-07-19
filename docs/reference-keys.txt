@@ -6,8 +6,8 @@ day-2
 overview
 seuratobject
 load-an-existing-seurat-object
+whats-in-there
 plotting
-how-is-the-data-stored
 load
 setup-the-seurat-object
 qc

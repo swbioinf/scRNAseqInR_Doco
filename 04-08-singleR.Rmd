@@ -1,4 +1,7 @@
-# SingleR
+# (PART) Futher Analysis {-} 
+
+
+# SingleR {#singler}
 
 ```{r results='hide', message=FALSE, warning=FALSE}
 #install.packages("BiocManager")

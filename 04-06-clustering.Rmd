@@ -24,7 +24,7 @@ head(Idents(pbmc), 5)
 
 
 
-#### Challenge: Try different cluster settings {.challenge}
+#### Challenge: Try different cluster settings {- .rmdtip}
 
 Run `FindNeighbours` and `FindClusters` again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using `DimPlot`.
 

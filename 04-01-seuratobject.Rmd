@@ -1,84 +1,109 @@
-# Using a seurat object {#seuratobject}
+# What can we do with a Seurat object? {#seuratobject}
 
 
-Load an existing object
+<!-- Load an existing object -->
 
-Plot some clusters on a umap.
+<!-- Plot some clusters on a umap. -->
 
-Plot some gene expression on a umap
+<!-- Plot some gene expression on a umap -->
 
-plot some gene expression by cluster.
+<!-- plot some gene expression by cluster. -->
 
+<!-- Look at a table of cell metadata. -->
 
+<!-- Look at counts data / expression data -->
 
-Look at a table of cell metadata.
-
-Look at counts data / expression data
-
-Does gene exist?
+<!-- Does gene exist? -->
 
 
-```{css, echo=FALSE}
-.watch-out {
-  background-color: lightpink;
-  border: 3px solid red;
-  font-weight: bold;
-}
-```
 
-Then we assign a class `watch-out` to the code chunk via the
-chunk option `class.source`.
+Most of todays workshop will be following the Seurat PBMC tutorial (reproduced in the next section).
+We'll load raw counts data, do some QC and setup various useful information in a Seurat object. 
 
-```{r class.source="watch-out"}
-mtcars[1:5, "mpg"]
-```
+But before that - what does a Seurat object look like, and what can we do with it once we've made one?
 
+Lets have a look at a Seurat object that's already setup. 
 
 
 ## Load an existing Seurat object
 
+The data we're working with today is a small dataset of about 3000 PBMCs (peripheral blood mononuclear cells) from a healthy doner. 
+
+This is an early demo dataset from 10X genomics (called pbmc3k) - you can find more information like qc reports [here](https://www.10xgenomics.com/resources/datasets/3-k-pbm-cs-from-a-healthy-donor-1-standard-1-1-0).
 
 
+First, load Seurat package.
 ```{r libloader, results='hide', message=FALSE, warning=FALSE} 
-library(tidyverse)
 library(Seurat)
 ```
 
+
+And heres the one we prepared earlier. Seurat objects are usually saved as '.rds' files, which is an R format for storing binary data (not-text or human-readable). The functions `readRDS()` can load it.
+
 ```{r}
-pbmc <- readRDS("data/pbmc_tutorial.rds")
+pbmc_processed <- readRDS("data/pbmc_tutorial.rds")
+pbmc_processed
 ```
+
+
+## What's in there?
+
+Some of the most important information for working with Seurat objects is in the metadata.
+This is cell level information - each row is one cell, identified by its barcode.
+
+```{r}
+head(pbmc_processed@meta.data)
+```
+
+
+
+That doesn't have any gene expression though, that's stored in an 'Assay'. The Assay structure has some nuances (see discussion below), but there are functions that get the assay data out for you. 
+
+By default this object will return the normalised data - becuase usually that's what you want. Every '.' is a zero.
+
+```{r}
+GetAssayData(pbmc_processed)[1:15,1:5]
+```
+
+
+But the raw counts data is accessible too.
+```{r}
+GetAssayData(pbmc_processed, slot='counts')[1:15,1:5]
+```
+
+
+Seurat generally hides alot of this data complexity, and provides functions for typical tasks. Like plotting.
 
 
 ## Plotting
 
+Lets plot a classic UMAP with `DimPlot`- defaults to the clusters on a 'umap' view. 
 
 ```{r}
-DimPlot(pbmc, reduction = "umap")
+DimPlot(pbmc_processed)
+# equivalent to
+#DimPlot(pbmc_processed, reduction = 'umap')
+```
+
+What about checking some gene expression? Genes are called 'features' in a Seurat object (because if it was CITE-seq they'd be proteins!). So the `FeaturePlot()` function will show gene expression.
+
+```{r}
+FeaturePlot(pbmc_processed, features =  "CD14")
+```
+
+It also works for continuous cell-level data - any column in the metadata table.
+
+```{r}
+FeaturePlot(pbmc_processed, features =  "percent.mt")
 ```
 
 
+And what about showing CD14 expression across which clusters (or any other categorical information in the metadata)
 
 ```{r}
-FeaturePlot(pbmc, features =  "CD14")
+VlnPlot(pbmc_processed, features = 'CD14')
 ```
 
-```{r}
-VlnPlot(pbmc, features = 'CD14')
-```
-
-
-
-## How is the data stored?
-
-
-Some of the most important information for working with Seurat objects is in the metatdata.
-This is cell level information.
-
-```{r}
-head(pbmc@meta.data)
-```
-
-That doesn't have any gene expression though, that's stored in 
 
 
 
@@ -87,9 +112,9 @@ That doesn't have any gene expression though, that's stored in
 
 <!-- Taken from MBP material,  -->
 
-#### Discussion: The Seurat Object in R {.challenge}
+#### Discussion: The Seurat Object in R { - .rmdtip}
 
-Lets take a look at the seurat object we have just created in R, `pbmc`
+Lets take a look at the seurat object we have just created in R, `pbmc_processed`
 
 To accomodate the complexity of data arising from a single cell RNA seq experiment, the seurat object keeps this as a container of multiple data tables that are linked.
 
@@ -127,17 +152,17 @@ The ways to access the slots can be through methods for the class (functions) or
 
 **Examples of accessing a Seurat object**
 
-The `assays` slot in `pbmc` can be accessed with `pbmc@assays`.
+The `assays` slot in `pbmc_processed` can be accessed with `pbmc_processed@assays`.
 
-The `RNA` assay can be accessed from this with `pbmc@assays$RNA`. 
+The `RNA` assay can be accessed from this with `pbmc_processed@assays$RNA`. 
 
-We often want to access assays, so Seurat nicely gives us a shortcut `pbmc$RNA`. You may sometimes see an alternative notation `pbmc[["RNA"]]`.
+We often want to access assays, so Seurat nicely gives us a shortcut `pbmc_processed$RNA`. You may sometimes see an alternative notation `pbmc_processed[["RNA"]]`.
 
 In general, slots that are always in an object are accessed with `@` and things that may be different in different data sets are accessed with `$`.
 
 **Have a go**
 
-Use `str` to look at the structure of the Seurat object `pbmc`.
+Use `str` to look at the structure of the Seurat object `pbmc_processed`.
 
 What is in the `meta.data` slot within your Seurat object currently? What type of data is contained here?
 

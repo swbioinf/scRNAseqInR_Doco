@@ -5,3 +5,5 @@
 .DS_Store
 data/
 data.zip
+_bookdown
+_bookdown_files
