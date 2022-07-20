@@ -16,7 +16,11 @@
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.20/datatables.js"></script><link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -97,6 +101,15 @@
 <span><span class="co">#&gt; ✖ S4Vectors::rename()      masks dplyr::rename()</span></span>
 <span><span class="co">#&gt; ✖ IRanges::slice()         masks dplyr::slice()</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/DT">DT</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'DT'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:SeuratObject':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     JS</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:Seurat':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     JS</span></span>
 <span></span>
 <span><span class="va">condition_lookup</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MantonBM1'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM2'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM3'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM4'</span><span class="op">=</span><span class="st">"fake_treat"</span>,</span>
@@ -249,132 +262,30 @@ If expression is below a certain level, it will be almost impossible to see diff
 <span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
 <span></span>
 <span><span class="co"># Add average expression for plotting</span></span>
-<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
-<span><span class="co">#&gt; RPS4Y1     1.112758e-35  1.3936383 0.642 0.166 6.420612e-32</span></span>
-<span><span class="co">#&gt; RPS9       1.333654e-18 -0.3109573 0.999 0.999 7.695182e-15</span></span>
-<span><span class="co">#&gt; HLA-B      7.425818e-17  0.4673660 0.993 0.975 4.284697e-13</span></span>
-<span><span class="co">#&gt; RPS4X      9.152161e-16 -0.2994496 1.000 0.999 5.280797e-12</span></span>
-<span><span class="co">#&gt; MT-CO1     3.334190e-10  0.1862243 0.999 0.997 1.923828e-06</span></span>
-<span><span class="co">#&gt; IFITM1     4.708315e-10  0.6330814 0.334 0.172 2.716698e-06</span></span>
-<span><span class="co">#&gt; CRIP1      6.560853e-10  0.7973784 0.334 0.141 3.785612e-06</span></span>
-<span><span class="co">#&gt; CTSW       1.514255e-09 -0.6990118 0.137 0.303 8.737252e-06</span></span>
-<span><span class="co">#&gt; RPS6       1.618619e-09 -0.1503779 1.000 1.000 9.339429e-06</span></span>
-<span><span class="co">#&gt; FTH1       1.872109e-09  0.4682722 0.985 0.979 1.080207e-05</span></span>
-<span><span class="co">#&gt; RNASET2    4.415456e-09  0.4433942 0.459 0.294 2.547718e-05</span></span>
-<span><span class="co">#&gt; JUN        6.181461e-09 -0.4842924 0.626 0.764 3.566703e-05</span></span>
-<span><span class="co">#&gt; MIF        1.030154e-08  0.4483803 0.447 0.281 5.943988e-05</span></span>
-<span><span class="co">#&gt; IGKC       1.435371e-08  0.4545000 0.350 0.175 8.282089e-05</span></span>
-<span><span class="co">#&gt; AC090498.1 1.468599e-08  0.4279242 0.662 0.518 8.473815e-05</span></span>
-<span><span class="co">#&gt; RPS3A      1.722304e-08  0.1391731 1.000 0.997 9.937696e-05</span></span>
-<span><span class="co">#&gt; DUSP1      4.892369e-08 -0.6420404 0.461 0.589 2.822897e-04</span></span>
-<span><span class="co">#&gt; FOS        6.224934e-08 -0.2758968 0.447 0.550 3.591787e-04</span></span>
-<span><span class="co">#&gt; SRGN       9.470426e-08  0.4988539 0.644 0.490 5.464436e-04</span></span>
-<span><span class="co">#&gt; RPL35A     1.521345e-07 -0.1073852 1.000 1.000 8.778158e-04</span></span>
-<span><span class="co">#&gt; EIF1       2.473518e-07  0.2473318 0.990 0.990 1.427220e-03</span></span>
-<span><span class="co">#&gt; TOMM7      4.709370e-07  0.3352710 0.967 0.932 2.717306e-03</span></span>
-<span><span class="co">#&gt; CDKN2D     5.682847e-07  0.3507790 0.161 0.077 3.279003e-03</span></span>
-<span><span class="co">#&gt; RPL34      6.612236e-07 -0.1291198 1.000 1.000 3.815260e-03</span></span>
-<span><span class="co">#&gt; RPL7       1.038812e-06 -0.1378494 0.999 1.000 5.993943e-03</span></span>
-<span><span class="co">#&gt; RPL21      1.221218e-06 -0.1367031 1.000 1.000 7.046429e-03</span></span>
-<span><span class="co">#&gt; SOCS3      1.428318e-06  0.4725668 0.282 0.143 8.241394e-03</span></span>
-<span><span class="co">#&gt; HCST       1.520262e-06 -0.3271970 0.593 0.666 8.771910e-03</span></span>
-<span><span class="co">#&gt;            was_altered   AveExpr</span></span>
-<span><span class="co">#&gt; RPS4Y1           FALSE 0.9202398</span></span>
-<span><span class="co">#&gt; RPS9             FALSE 3.5762744</span></span>
-<span><span class="co">#&gt; HLA-B            FALSE 3.0576721</span></span>
-<span><span class="co">#&gt; RPS4X            FALSE 4.1464346</span></span>
-<span><span class="co">#&gt; MT-CO1           FALSE 3.6496692</span></span>
-<span><span class="co">#&gt; IFITM1           FALSE 0.4033074</span></span>
-<span><span class="co">#&gt; CRIP1            FALSE 0.3850406</span></span>
-<span><span class="co">#&gt; CTSW             FALSE 0.3843436</span></span>
-<span><span class="co">#&gt; RPS6             FALSE 4.6712710</span></span>
-<span><span class="co">#&gt; FTH1             FALSE 3.0892897</span></span>
-<span><span class="co">#&gt; RNASET2          FALSE 0.6206306</span></span>
-<span><span class="co">#&gt; JUN              FALSE 1.6804090</span></span>
-<span><span class="co">#&gt; MIF              FALSE 0.5931893</span></span>
-<span><span class="co">#&gt; IGKC             FALSE 0.4192262</span></span>
-<span><span class="co">#&gt; AC090498.1       FALSE 1.0845500</span></span>
-<span><span class="co">#&gt; RPS3A            FALSE 4.3093665</span></span>
-<span><span class="co">#&gt; DUSP1            FALSE 1.1359541</span></span>
-<span><span class="co">#&gt; FOS              FALSE 1.0806135</span></span>
-<span><span class="co">#&gt; SRGN             FALSE 1.1299643</span></span>
-<span><span class="co">#&gt; RPL35A           FALSE 4.1170374</span></span>
-<span><span class="co">#&gt; EIF1             FALSE 3.1872508</span></span>
-<span><span class="co">#&gt; TOMM7            FALSE 2.4603419</span></span>
-<span><span class="co">#&gt; CDKN2D           FALSE 0.1775316</span></span>
-<span><span class="co">#&gt; RPL34            FALSE 4.9369487</span></span>
-<span><span class="co">#&gt; RPL7             FALSE 4.0209595</span></span>
-<span><span class="co">#&gt; RPL21            FALSE 4.9282558</span></span>
-<span><span class="co">#&gt; SOCS3            FALSE 0.3484458</span></span>
-<span><span class="co">#&gt; HCST             FALSE 1.2159835</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                      p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
-<span><span class="co">#&gt; SSU72         9.655274e-05 1.36281990 0.338 0.338 0.5571093</span></span>
-<span><span class="co">#&gt; FO538757.2    1.200221e-03 1.20415411 0.103 0.043 1.0000000</span></span>
-<span><span class="co">#&gt; AURKAIP1      2.211160e-02 1.16643695 0.219 0.207 1.0000000</span></span>
-<span><span class="co">#&gt; TNFRSF4       6.601041e-02 0.55608168 0.048 0.026 1.0000000</span></span>
-<span><span class="co">#&gt; ISG15         8.216535e-02 1.19360511 0.162 0.161 1.0000000</span></span>
-<span><span class="co">#&gt; UBE2J2        9.283448e-02 0.69838502 0.085 0.101 1.0000000</span></span>
-<span><span class="co">#&gt; CPTP          1.120441e-01 0.13296356 0.013 0.024 1.0000000</span></span>
-<span><span class="co">#&gt; NOC2L         1.344635e-01 0.83107706 0.092 0.070 1.0000000</span></span>
-<span><span class="co">#&gt; RP11-345P4.9  1.411112e-01 0.35268040 0.031 0.023 1.0000000</span></span>
-<span><span class="co">#&gt; ATAD3B        1.551214e-01 0.35376001 0.022 0.010 1.0000000</span></span>
-<span><span class="co">#&gt; MIB2          2.651396e-01 0.83758935 0.089 0.073 1.0000000</span></span>
-<span><span class="co">#&gt; ATAD3A        2.952490e-01 0.30026847 0.019 0.019 1.0000000</span></span>
-<span><span class="co">#&gt; MRPL20        2.967604e-01 1.06804937 0.176 0.177 1.0000000</span></span>
-<span><span class="co">#&gt; CDK11B        3.424970e-01 0.69024916 0.080 0.080 1.0000000</span></span>
-<span><span class="co">#&gt; CCNL2         4.205482e-01 0.74371725 0.070 0.062 1.0000000</span></span>
-<span><span class="co">#&gt; RP11-206L10.9 4.370370e-01 0.37788534 0.028 0.018 1.0000000</span></span>
-<span><span class="co">#&gt; SDF4          6.523233e-01 0.80646725 0.103 0.114 1.0000000</span></span>
-<span><span class="co">#&gt; TNFRSF18      6.887641e-01 0.19960131 0.019 0.016 1.0000000</span></span>
-<span><span class="co">#&gt; AP006222.2    7.795600e-01 0.06620052 0.007 0.013 1.0000000</span></span>
-<span><span class="co">#&gt; PUSL1         8.232570e-01 0.23937883 0.018 0.020 1.0000000</span></span>
-<span><span class="co">#&gt; ACAP3         8.877751e-01 0.32560006 0.027 0.031 1.0000000</span></span>
-<span><span class="co">#&gt; CPSF3L        9.748766e-01 0.72870621 0.073 0.063 1.0000000</span></span>
-<span><span class="co">#&gt;               was_altered    AveExpr</span></span>
-<span><span class="co">#&gt; SSU72                TRUE 0.73609990</span></span>
-<span><span class="co">#&gt; FO538757.2           TRUE 0.16860112</span></span>
-<span><span class="co">#&gt; AURKAIP1             TRUE 0.45191094</span></span>
-<span><span class="co">#&gt; TNFRSF4              TRUE 0.07923627</span></span>
-<span><span class="co">#&gt; ISG15                TRUE 0.35171536</span></span>
-<span><span class="co">#&gt; UBE2J2               TRUE 0.18979977</span></span>
-<span><span class="co">#&gt; CPTP                 TRUE 0.03572932</span></span>
-<span><span class="co">#&gt; NOC2L                TRUE 0.16932813</span></span>
-<span><span class="co">#&gt; RP11-345P4.9         TRUE 0.05591016</span></span>
-<span><span class="co">#&gt; ATAD3B               TRUE 0.03637473</span></span>
-<span><span class="co">#&gt; MIB2                 TRUE 0.17040047</span></span>
-<span><span class="co">#&gt; ATAD3A               TRUE 0.03975988</span></span>
-<span><span class="co">#&gt; MRPL20               TRUE 0.37428897</span></span>
-<span><span class="co">#&gt; CDK11B               TRUE 0.16470706</span></span>
-<span><span class="co">#&gt; CCNL2                TRUE 0.13617764</span></span>
-<span><span class="co">#&gt; RP11-206L10.9        TRUE 0.04904527</span></span>
-<span><span class="co">#&gt; SDF4                 TRUE 0.22599522</span></span>
-<span><span class="co">#&gt; TNFRSF18             TRUE 0.03778980</span></span>
-<span><span class="co">#&gt; AP006222.2           TRUE 0.01922010</span></span>
-<span><span class="co">#&gt; PUSL1                TRUE 0.04011121</span></span>
-<span><span class="co">#&gt; ACAP3                TRUE 0.05863448</span></span>
-<span><span class="co">#&gt; CPSF3L               TRUE 0.14041781</span></span></code></pre></div>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p>Look at the significantly differentially expressed genes.</p>
 <div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-0b89372b7b7816450716" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0b89372b7b7816450716">{"x":{"filter":"none","vertical":false,"data":[["RPS4Y1","RPS9","HLA-B","RPS4X","MT-CO1","IFITM1","CRIP1","CTSW","RPS6","FTH1","RNASET2","JUN","MIF","IGKC","AC090498.1","RPS3A","DUSP1","FOS","SRGN","RPL35A","EIF1","TOMM7","CDKN2D","RPL34","RPL7","RPL21","SOCS3","HCST","RPL13","RPS24","NUCB2","CD8A","MPZL3","PPDPF","CD8B","RPS29"],[1.11275775347644e-35,1.33365368791274e-18,7.42581758603555e-17,9.1521611822317e-16,3.33418988835378e-10,4.70831517862278e-10,6.560853473387e-10,1.51425515837624e-09,1.61861859359807e-09,1.87210898878251e-09,4.4154558393769e-09,6.18146146358439e-09,1.03015385861995e-08,1.43537066320284e-08,1.46859871989682e-08,1.72230440614433e-08,4.89236893572775e-08,6.2249337173307e-08,9.47042573195458e-08,1.52134450063921e-07,2.47351780640944e-07,4.7093696149744e-07,5.68284687700273e-07,6.61223574890475e-07,1.03881159637724e-06,1.22121816235969e-06,1.42831788992206e-06,1.520261665577e-06,2.41618293476252e-06,2.42527460220064e-06,3.78374931743423e-06,6.18090936472663e-06,6.42638143364466e-06,7.21129627693999e-06,7.40836070749986e-06,7.95255540577907e-06],[1.39363833201555,-0.310957294801806,0.467365978803999,-0.299449642390523,0.186224299116096,0.633081398515384,0.797378369504039,-0.699011811536696,-0.150377931286037,0.468272172246626,0.443394157361129,-0.484292394277563,0.448380258317102,0.45450004873331,0.427924190420527,0.139173128279262,-0.642040436461872,-0.275896788169862,0.498853852904095,-0.107385222662039,0.247331806379365,0.335271022255575,0.350778961589261,-0.129119812853113,-0.137849424427826,-0.136703067599919,0.472566782091844,-0.327196980897592,-0.09585045177145,-0.198620877642905,-0.469999545056883,-0.411437057298089,0.343309945195044,0.384653287935004,-0.737589816331237,0.114063177150514],[0.642,0.999,0.993,1,0.999,0.334,0.334,0.137,1,0.985,0.459,0.626,0.447,0.35,0.662,1,0.461,0.447,0.644,1,0.99,0.967,0.161,1,0.999,1,0.282,0.593,1,1,0.177,0.098,0.118,0.793,0.133,1],[0.166,0.999,0.975,0.999,0.997,0.172,0.141,0.303,1,0.979,0.294,0.764,0.281,0.175,0.518,0.997,0.589,0.55,0.49,1,0.99,0.932,0.077,1,1,1,0.143,0.666,1,0.997,0.293,0.193,0.044,0.675,0.273,1],[6.42061223755905e-32,7.69518177925649e-15,4.28469674714251e-13,5.28079700214769e-12,1.92382756558013e-06,2.71669785806534e-06,3.7856124541443e-06,8.73725226383091e-06,9.33942928506087e-06,1.08020688652751e-05,2.54771801932047e-05,3.56670326448819e-05,5.94398776423713e-05,8.28208872668041e-05,8.47381461380466e-05,9.93769642345277e-05,0.000282289687591491,0.000359178675489982,0.000546443564733779,0.000877815776868826,0.00142721977429825,0.00271730626784023,0.00327900264803058,0.00381526002711804,0.00599394291109665,0.00704642879681538,0.00824139422485027,0.0087719098103793,0.0139413755335797,0.0139938344546977,0.0218322335615955,0.0356638470344727,0.0370802208721297,0.0416091795179438,0.0427462412822742,0.0458862446913452],[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],[0.920239837412564,3.57627437205978,3.05767211917926,4.14643463546018,3.64966916183542,0.403307356708525,0.385040593245245,0.384343645345626,4.67127099222135,3.08928966005543,0.620630570406162,1.68040903247711,0.59318925095129,0.419226203189961,1.08455001096358,4.30936645053111,1.13595414060151,1.08061354385778,1.12996432380591,4.1170374077667,3.18725075412962,2.46034185326326,0.177531552422338,4.93694867063007,4.02095946051273,4.92825576691911,0.348445777705556,1.21598347006118,4.88042605222888,3.56275595313222,0.393248200046754,0.258245480049201,0.124647303099063,1.4475434376951,0.401509209100616,4.7015768268751]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>p_val<\/th>\n      <th>avg_log2FC<\/th>\n      <th>pct.1<\/th>\n      <th>pct.2<\/th>\n      <th>p_val_adj<\/th>\n      <th>was_altered<\/th>\n      <th>AveExpr<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>And the stats for the altered genes;</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-8c5dfa6aec61870bb2d5" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8c5dfa6aec61870bb2d5">{"x":{"filter":"none","vertical":false,"data":[["SSU72","FO538757.2","AURKAIP1","TNFRSF4","ISG15","UBE2J2","CPTP","NOC2L","RP11-345P4.9","ATAD3B","MIB2","ATAD3A","MRPL20","CDK11B","CCNL2","RP11-206L10.9","SDF4","TNFRSF18","AP006222.2","PUSL1","ACAP3","CPSF3L"],[9.65527448754897e-05,0.00120022110300729,0.0221115958961199,0.0660104105578719,0.0821653451824586,0.092834477245298,0.112044115803745,0.134463549064201,0.141111193933961,0.155121448340074,0.265139586368059,0.295248959505662,0.296760415284022,0.342497039600304,0.420548184001565,0.437036971236827,0.652323324886553,0.688764135291486,0.779560031641426,0.823256997058824,0.887775095257728,0.9748765979136],[1.36281990144545,1.20415411290446,1.16643695313443,0.556081682336015,1.19360510657403,0.698385023044602,0.132963557687957,0.831077063827109,0.352680400094964,0.353760005578406,0.837589345237074,0.300268469608446,1.06804937111771,0.690249160634361,0.743717253862625,0.377885338717425,0.806467251598397,0.199601305582793,0.0662005199658423,0.239378825139914,0.325600056356764,0.728706210074751],[0.338,0.103,0.219,0.048,0.162,0.085,0.013,0.092,0.031,0.022,0.089,0.019,0.176,0.08,0.07,0.028,0.103,0.019,0.007,0.018,0.027,0.073],[0.338,0.043,0.207,0.026,0.161,0.101,0.024,0.07,0.023,0.01,0.073,0.019,0.177,0.08,0.062,0.018,0.114,0.016,0.013,0.02,0.031,0.063],[0.557109337931576,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[0.736099896964758,0.168601118893333,0.451910936858197,0.0792362721207836,0.351715361671646,0.189799770536085,0.0357293154837701,0.169328127818687,0.0559101555020552,0.0363747254730834,0.170400468330629,0.0397598756488997,0.374288968299508,0.16470705567725,0.136177638873421,0.0490452684660153,0.225995218704633,0.0377898022419026,0.0192200976710924,0.0401112076831192,0.058634481211794,0.140417806062689]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>p_val<\/th>\n      <th>avg_log2FC<\/th>\n      <th>pct.1<\/th>\n      <th>pct.2<\/th>\n      <th>p_val_adj<\/th>\n      <th>was_altered<\/th>\n      <th>AveExpr<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>Here the blue crosses represent the altered genes, and the red are the differentially expressed.</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-42-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-44-1.png" width="672"></div>
 </div>
 <div id="seurat-negative-binomial" class="section level2" number="13.5">
 <h2>
 <span class="header-section-number">13.5</span> Seurat Negative binomial<a class="anchor" aria-label="anchor" href="#seurat-negative-binomial"><i class="fas fa-link"></i></a>
 </h2>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">de_result_negbinom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span>, </span>
 <span>            ident.1 <span class="op">=</span> <span class="st">'fake_treat'</span>,</span>
 <span>            ident.2 <span class="op">=</span> <span class="st">'fake_control'</span>,</span>
@@ -387,107 +298,22 @@ If expression is below a certain level, it will be almost impossible to see diff
 <span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
 <span><span class="co"># Add average expression for plotting</span></span>
 <span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
-<span><span class="co">#&gt; HLA-B      2.047505e-16  0.5093075 0.993 0.975 1.181410e-12</span></span>
-<span><span class="co">#&gt; RPS4Y1     9.220319e-16  0.9409962 0.642 0.166 5.320124e-12</span></span>
-<span><span class="co">#&gt; FTH1       4.122127e-14  0.5599551 0.985 0.979 2.378467e-10</span></span>
-<span><span class="co">#&gt; MT-CO1     2.236368e-13  0.3058330 0.999 0.997 1.290384e-09</span></span>
-<span><span class="co">#&gt; SSU72      3.830592e-13  0.8808677 0.338 0.338 2.210252e-09</span></span>
-<span><span class="co">#&gt; IFITM1     7.982292e-10  0.3351739 0.334 0.172 4.605783e-06</span></span>
-<span><span class="co">#&gt; AC090498.1 9.099402e-10  0.3261936 0.662 0.518 5.250355e-06</span></span>
-<span><span class="co">#&gt; EIF1       1.021725e-09  0.3541414 0.990 0.990 5.895351e-06</span></span>
-<span><span class="co">#&gt; MRPL20     1.028331e-09  0.5496668 0.176 0.177 5.933469e-06</span></span>
-<span><span class="co">#&gt; AURKAIP1   3.830185e-09  0.6647683 0.219 0.207 2.210016e-05</span></span>
-<span><span class="co">#&gt; CTSW       7.099455e-09 -0.3014240 0.137 0.303 4.096385e-05</span></span>
-<span><span class="co">#&gt; RORA       8.597786e-09  0.2094804 0.317 0.200 4.960923e-05</span></span>
-<span><span class="co">#&gt; RPS3A      9.919567e-09  0.2483989 1.000 0.997 5.723590e-05</span></span>
-<span><span class="co">#&gt; IGKC       2.511182e-08  0.2685946 0.350 0.175 1.448952e-04</span></span>
-<span><span class="co">#&gt; ISG15      2.611588e-08  0.7340390 0.162 0.161 1.506887e-04</span></span>
-<span><span class="co">#&gt; YBX1       1.149199e-07  0.2717224 0.811 0.740 6.630876e-04</span></span>
-<span><span class="co">#&gt; RPS29      2.591186e-07  0.2047796 1.000 1.000 1.495115e-03</span></span>
-<span><span class="co">#&gt; TOMM7      5.506108e-07  0.3565451 0.967 0.932 3.177024e-03</span></span>
-<span><span class="co">#&gt; CRIP1      7.204767e-07  0.4070023 0.334 0.141 4.157151e-03</span></span>
-<span><span class="co">#&gt; MIF        7.580686e-07  0.2625155 0.447 0.281 4.374056e-03</span></span>
-<span><span class="co">#&gt; PIK3R1     1.674552e-06  0.2849652 0.380 0.244 9.662163e-03</span></span>
-<span><span class="co">#&gt;            was_altered   AveExpr</span></span>
-<span><span class="co">#&gt; HLA-B            FALSE 3.0576721</span></span>
-<span><span class="co">#&gt; RPS4Y1           FALSE 0.9202398</span></span>
-<span><span class="co">#&gt; FTH1             FALSE 3.0892897</span></span>
-<span><span class="co">#&gt; MT-CO1           FALSE 3.6496692</span></span>
-<span><span class="co">#&gt; SSU72             TRUE 0.7360999</span></span>
-<span><span class="co">#&gt; IFITM1           FALSE 0.4033074</span></span>
-<span><span class="co">#&gt; AC090498.1       FALSE 1.0845500</span></span>
-<span><span class="co">#&gt; EIF1             FALSE 3.1872508</span></span>
-<span><span class="co">#&gt; MRPL20            TRUE 0.3742890</span></span>
-<span><span class="co">#&gt; AURKAIP1          TRUE 0.4519109</span></span>
-<span><span class="co">#&gt; CTSW             FALSE 0.3843436</span></span>
-<span><span class="co">#&gt; RORA             FALSE 0.4213283</span></span>
-<span><span class="co">#&gt; RPS3A            FALSE 4.3093665</span></span>
-<span><span class="co">#&gt; IGKC             FALSE 0.4192262</span></span>
-<span><span class="co">#&gt; ISG15             TRUE 0.3517154</span></span>
-<span><span class="co">#&gt; YBX1             FALSE 1.5858368</span></span>
-<span><span class="co">#&gt; RPS29            FALSE 4.7015768</span></span>
-<span><span class="co">#&gt; TOMM7            FALSE 2.4603419</span></span>
-<span><span class="co">#&gt; CRIP1            FALSE 0.3850406</span></span>
-<span><span class="co">#&gt; MIF              FALSE 0.5931893</span></span>
-<span><span class="co">#&gt; PIK3R1           FALSE 0.5447793</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                      p_val avg_log2FC pct.1 pct.2</span></span>
-<span><span class="co">#&gt; SSU72         3.830592e-13 0.88086768 0.338 0.338</span></span>
-<span><span class="co">#&gt; MRPL20        1.028331e-09 0.54966680 0.176 0.177</span></span>
-<span><span class="co">#&gt; AURKAIP1      3.830185e-09 0.66476830 0.219 0.207</span></span>
-<span><span class="co">#&gt; ISG15         2.611588e-08 0.73403899 0.162 0.161</span></span>
-<span><span class="co">#&gt; FO538757.2    4.270919e-06 0.46934343 0.103 0.043</span></span>
-<span><span class="co">#&gt; MIB2          1.981006e-05 0.37997003 0.089 0.073</span></span>
-<span><span class="co">#&gt; SDF4          6.943732e-05 0.35856603 0.103 0.114</span></span>
-<span><span class="co">#&gt; NOC2L         1.089203e-04 0.35397478 0.092 0.070</span></span>
-<span><span class="co">#&gt; CCNL2         1.398323e-04 0.29017704 0.070 0.062</span></span>
-<span><span class="co">#&gt; CPSF3L        1.569471e-04 0.29655428 0.073 0.063</span></span>
-<span><span class="co">#&gt; CDK11B        3.110903e-04 0.31182109 0.080 0.080</span></span>
-<span><span class="co">#&gt; UBE2J2        3.732766e-03 0.29944875 0.085 0.101</span></span>
-<span><span class="co">#&gt; TNFRSF4       8.321390e-03 0.22340043 0.048 0.026</span></span>
-<span><span class="co">#&gt; ATAD3B        1.158760e-02 0.10913157 0.022 0.010</span></span>
-<span><span class="co">#&gt; RP11-345P4.9  1.208334e-02 0.13436316 0.031 0.023</span></span>
-<span><span class="co">#&gt; RP11-206L10.9 1.273706e-02 0.13734666 0.028 0.018</span></span>
-<span><span class="co">#&gt; PUSL1         3.745426e-02 0.07096771 0.018 0.020</span></span>
-<span><span class="co">#&gt; ATAD3A        6.269991e-02 0.08074940 0.019 0.019</span></span>
-<span><span class="co">#&gt; AP006222.2    2.039951e-01 0.02436154 0.007 0.013</span></span>
-<span><span class="co">#&gt; ACAP3         2.111349e-01 0.11018169 0.027 0.031</span></span>
-<span><span class="co">#&gt; CPTP          3.603234e-01 0.04136582 0.013 0.024</span></span>
-<span><span class="co">#&gt; TNFRSF18      5.724217e-01 0.07719596 0.019 0.016</span></span>
-<span><span class="co">#&gt;                  p_val_adj was_altered    AveExpr</span></span>
-<span><span class="co">#&gt; SSU72         2.210252e-09        TRUE 0.73609990</span></span>
-<span><span class="co">#&gt; MRPL20        5.933469e-06        TRUE 0.37428897</span></span>
-<span><span class="co">#&gt; AURKAIP1      2.210016e-05        TRUE 0.45191094</span></span>
-<span><span class="co">#&gt; ISG15         1.506887e-04        TRUE 0.35171536</span></span>
-<span><span class="co">#&gt; FO538757.2    2.464320e-02        TRUE 0.16860112</span></span>
-<span><span class="co">#&gt; MIB2          1.143041e-01        TRUE 0.17040047</span></span>
-<span><span class="co">#&gt; SDF4          4.006533e-01        TRUE 0.22599522</span></span>
-<span><span class="co">#&gt; NOC2L         6.284702e-01        TRUE 0.16932813</span></span>
-<span><span class="co">#&gt; CCNL2         8.068324e-01        TRUE 0.13617764</span></span>
-<span><span class="co">#&gt; CPSF3L        9.055851e-01        TRUE 0.14041781</span></span>
-<span><span class="co">#&gt; CDK11B        1.000000e+00        TRUE 0.16470706</span></span>
-<span><span class="co">#&gt; UBE2J2        1.000000e+00        TRUE 0.18979977</span></span>
-<span><span class="co">#&gt; TNFRSF4       1.000000e+00        TRUE 0.07923627</span></span>
-<span><span class="co">#&gt; ATAD3B        1.000000e+00        TRUE 0.03637473</span></span>
-<span><span class="co">#&gt; RP11-345P4.9  1.000000e+00        TRUE 0.05591016</span></span>
-<span><span class="co">#&gt; RP11-206L10.9 1.000000e+00        TRUE 0.04904527</span></span>
-<span><span class="co">#&gt; PUSL1         1.000000e+00        TRUE 0.04011121</span></span>
-<span><span class="co">#&gt; ATAD3A        1.000000e+00        TRUE 0.03975988</span></span>
-<span><span class="co">#&gt; AP006222.2    1.000000e+00        TRUE 0.01922010</span></span>
-<span><span class="co">#&gt; ACAP3         1.000000e+00        TRUE 0.05863448</span></span>
-<span><span class="co">#&gt; CPTP          1.000000e+00        TRUE 0.03572932</span></span>
-<span><span class="co">#&gt; TNFRSF18      1.000000e+00        TRUE 0.03778980</span></span></code></pre></div>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<p>Look at the significantly differentially expressed genes:</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-96338203b4d4cbfa578c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-96338203b4d4cbfa578c">{"x":{"filter":"none","vertical":false,"data":[["HLA-B","RPS4Y1","FTH1","MT-CO1","SSU72","IFITM1","AC090498.1","EIF1","MRPL20","AURKAIP1","CTSW","RORA","RPS3A","IGKC","ISG15","YBX1","RPS29","TOMM7","CRIP1","MIF","PIK3R1","CD8B","PPDPF","STAT3","RPS9","DDX6","FO538757.2","MPZL3","RNASET2","SOCS3","CDKN2D"],[2.04750493689275e-16,9.22031870074104e-16,4.12212672907565e-14,2.2363676793148e-13,3.83059210186881e-13,7.98229240149372e-10,9.0994022627282e-10,1.02172457624812e-09,1.02833089682338e-09,3.83018451960039e-09,7.09945477965296e-09,8.59778642747145e-09,9.91956720522607e-09,2.51118246771585e-08,2.61158849435189e-08,1.14919858512495e-07,2.59118632115393e-07,5.50610803070526e-07,7.20476716866656e-07,7.58068630215243e-07,1.67455170647446e-06,1.78681422181742e-06,2.49360146670056e-06,2.91248515509891e-06,3.062763808356e-06,3.15938852184356e-06,4.27091931006637e-06,4.7341367112222e-06,4.81134942698407e-06,5.79598853620104e-06,5.95972191795326e-06],[0.509307519874486,0.940996221493534,0.559955137160247,0.305832992369344,0.88086768037823,0.335173880809597,0.326193607189878,0.354141402962262,0.54966680021533,0.66476829565517,-0.301423981315451,0.209480420602247,0.248398915841652,0.268594641612714,0.734038986744665,0.271722422953895,0.204779645230391,0.356545116055121,0.407002333469917,0.262515515239564,0.284965227450062,-0.359568451905521,0.334696868192069,0.170994125771409,-0.204565492078604,0.143045339261938,0.469343431621565,0.125785777703207,0.274036473254836,0.252568788070077,0.145721241208925],[0.993,0.642,0.985,0.999,0.338,0.334,0.662,0.99,0.176,0.219,0.137,0.317,1,0.35,0.162,0.811,1,0.967,0.334,0.447,0.38,0.133,0.793,0.364,0.999,0.32,0.103,0.118,0.459,0.282,0.161],[0.975,0.166,0.979,0.997,0.338,0.172,0.518,0.99,0.177,0.207,0.303,0.2,0.997,0.175,0.161,0.74,1,0.932,0.141,0.281,0.244,0.273,0.675,0.255,0.999,0.227,0.043,0.044,0.294,0.143,0.077],[1.18141034858712e-12,5.32012389032758e-12,2.37846712267665e-10,1.29038415096464e-09,2.21025164277831e-09,4.60578271566188e-06,5.25035510559417e-06,5.89535080495163e-06,5.93346927467092e-06,2.21001646780943e-05,4.09638540785976e-05,4.96092276865102e-05,5.72359027741544e-05,0.000144895228387204,0.000150688656124104,0.000663087583617096,0.00149511450730582,0.00317702433371694,0.0041571506563206,0.00437405599634195,0.00966216334635761,0.0103099180598865,0.0143880804628622,0.0168050393449207,0.0176721471742141,0.0182296717710373,0.024643204419083,0.0273159688237521,0.0277614861936981,0.03344285385388,0.0343875954665903],[false,false,false,false,true,false,false,false,true,true,false,false,false,false,true,false,false,false,false,false,false,false,false,false,false,false,true,false,false,false,false],[3.05767211917926,0.920239837412564,3.08928966005543,3.64966916183542,0.736099896964758,0.403307356708525,1.08455001096358,3.18725075412962,0.374288968299508,0.451910936858197,0.384343645345626,0.421328271981957,4.30936645053111,0.419226203189961,0.351715361671646,1.58583684952854,4.7015768268751,2.46034185326326,0.385040593245245,0.59318925095129,0.54477934393953,0.401509209100616,1.4475434376951,0.496669344823902,3.57627437205978,0.444782453367723,0.168601118893333,0.124647303099063,0.620630570406162,0.348445777705556,0.177531552422338]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>p_val<\/th>\n      <th>avg_log2FC<\/th>\n      <th>pct.1<\/th>\n      <th>pct.2<\/th>\n      <th>p_val_adj<\/th>\n      <th>was_altered<\/th>\n      <th>AveExpr<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>And the stats for the altered genes:</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-fdc6da1537b97536e25f" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fdc6da1537b97536e25f">{"x":{"filter":"none","vertical":false,"data":[["SSU72","MRPL20","AURKAIP1","ISG15","FO538757.2","MIB2","SDF4","NOC2L","CCNL2","CPSF3L","CDK11B","UBE2J2","TNFRSF4","ATAD3B","RP11-345P4.9","RP11-206L10.9","PUSL1","ATAD3A","AP006222.2","ACAP3","CPTP","TNFRSF18"],[3.83059210186881e-13,1.02833089682338e-09,3.83018451960039e-09,2.61158849435189e-08,4.27091931006637e-06,1.98100619005395e-05,6.9437319734247e-05,0.000108920303753501,0.000139832308101614,0.000156947149671535,0.000311090267948707,0.00373276597626871,0.00832138978798791,0.0115876040929247,0.0120833368092726,0.0127370572633494,0.0374542604113871,0.0626999097710347,0.203995121366936,0.211134937855113,0.360323402034061,0.572421701709994],[0.88086768037823,0.54966680021533,0.66476829565517,0.734038986744665,0.469343431621565,0.379970025596093,0.358566030665003,0.35397478431421,0.290177041772783,0.296554275933831,0.311821092645369,0.29944875195735,0.2234004281158,0.109131569116974,0.134363156584411,0.13734666408575,0.0709677075975867,0.08074939707731,0.0243615362037566,0.110181685354898,0.0413658200344243,0.0771959592195554],[0.338,0.176,0.219,0.162,0.103,0.089,0.103,0.092,0.07,0.073,0.08,0.085,0.048,0.022,0.031,0.028,0.018,0.019,0.007,0.027,0.013,0.019],[0.338,0.177,0.207,0.161,0.043,0.073,0.114,0.07,0.062,0.063,0.08,0.101,0.026,0.01,0.023,0.018,0.02,0.019,0.013,0.031,0.024,0.016],[2.21025164277831e-09,5.93346927467092e-06,2.21001646780943e-05,0.000150688656124104,0.024643204419083,0.114304057166113,0.400653334866605,0.628470152657702,0.806832417746312,0.905585053604754,1,1,1,1,1,1,1,1,1,1,1,1],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],[0.736099896964758,0.374288968299508,0.451910936858197,0.351715361671646,0.168601118893333,0.170400468330629,0.225995218704633,0.169328127818687,0.136177638873421,0.140417806062689,0.16470705567725,0.189799770536085,0.0792362721207836,0.0363747254730834,0.0559101555020552,0.0490452684660153,0.0401112076831192,0.0397598756488997,0.0192200976710924,0.058634481211794,0.0357293154837701,0.0377898022419026]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>p_val<\/th>\n      <th>avg_log2FC<\/th>\n      <th>pct.1<\/th>\n      <th>pct.2<\/th>\n      <th>p_val_adj<\/th>\n      <th>was_altered<\/th>\n      <th>AveExpr<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,7]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-45-1.png" width="672"></div>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Negative Binomial Test"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-48-1.png" width="672"></div>
 </div>
 <div id="pseudobulk" class="section level2" number="13.6">
 <h2>
@@ -495,7 +321,7 @@ If expression is below a certain level, it will be almost impossible to see diff
 </h2>
 <p>Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.</p>
 <p>First, you need to build a pseudobulk matrix - the <code><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression()</a></code> function can do this, once you set the ‘Idents’ of your seurat object to your grouping factor (here, sample instead of cluster).</p>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: package 'limma' was built under R version 4.1.3</span></span>
@@ -532,7 +358,7 @@ If expression is below a certain level, it will be almost impossible to see diff
 <span><span class="co">#&gt; NOC2L                 6        23        15        13</span></span>
 <span><span class="co">#&gt; ISG15                18        55        50        36</span></span></code></pre></div>
 <p>Now it looks like a bulk RNAseq experiment, so treat it like one.</p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
 <span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span></span>
 <span></span>
@@ -544,88 +370,23 @@ If expression is below a certain level, it will be almost impossible to see diff
 <span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, n <span class="op">=</span> <span class="cn">Inf</span>, adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Removing intercept from test coefficients</span></span>
 <span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> , <span class="va">adj.P.Val</span><span class="op">)</span></span>
-<span><span class="va">de_result_pseudobulk</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
-<span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>,    <span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                logFC  AveExpr         t      P.Value</span></span>
-<span><span class="co">#&gt; SSU72       1.827399 8.223682  8.692304 2.860363e-07</span></span>
-<span><span class="co">#&gt; MIB2        2.218842 5.995477  8.521901 3.678808e-07</span></span>
-<span><span class="co">#&gt; FO538757.2  3.053688 5.683244  8.065974 7.337060e-07</span></span>
-<span><span class="co">#&gt; AURKAIP1    1.874062 7.448062  7.552436 1.646799e-06</span></span>
-<span><span class="co">#&gt; NOC2L       2.256402 5.873625  7.284448 2.545248e-06</span></span>
-<span><span class="co">#&gt; CCNL2       2.009855 5.594008  6.417440 1.112005e-05</span></span>
-<span><span class="co">#&gt; TNFRSF4     2.686188 4.857853  5.918920 2.719907e-05</span></span>
-<span><span class="co">#&gt; MRPL20      1.741288 7.140368  5.724222 3.892940e-05</span></span>
-<span><span class="co">#&gt; ISG15       2.072292 7.231757  5.487119 6.066165e-05</span></span>
-<span><span class="co">#&gt; CTSW       -1.519444 6.533752 -5.497693 5.946401e-05</span></span>
-<span><span class="co">#&gt; CPSF3L      2.083187 5.672812  5.308804 8.509637e-05</span></span>
-<span><span class="co">#&gt;              adj.P.Val        B was_altered</span></span>
-<span><span class="co">#&gt; SSU72      0.001061336 6.667334        TRUE</span></span>
-<span><span class="co">#&gt; MIB2       0.001061336 5.647051        TRUE</span></span>
-<span><span class="co">#&gt; FO538757.2 0.001411161 4.797357        TRUE</span></span>
-<span><span class="co">#&gt; AURKAIP1   0.002375507 5.052546        TRUE</span></span>
-<span><span class="co">#&gt; NOC2L      0.002937216 4.182797        TRUE</span></span>
-<span><span class="co">#&gt; CCNL2      0.010693783 2.999551        TRUE</span></span>
-<span><span class="co">#&gt; TNFRSF4    0.022419804 1.872900        TRUE</span></span>
-<span><span class="co">#&gt; MRPL20     0.028077829 2.321087        TRUE</span></span>
-<span><span class="co">#&gt; ISG15      0.035001771 1.936264        TRUE</span></span>
-<span><span class="co">#&gt; CTSW       0.035001771 1.887985       FALSE</span></span>
-<span><span class="co">#&gt; CPSF3L     0.044636914 1.425176        TRUE</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                  logFC  AveExpr        t      P.Value</span></span>
-<span><span class="co">#&gt; SSU72         1.827399 8.223682 8.692304 2.860363e-07</span></span>
-<span><span class="co">#&gt; MIB2          2.218842 5.995477 8.521901 3.678808e-07</span></span>
-<span><span class="co">#&gt; FO538757.2    3.053688 5.683244 8.065974 7.337060e-07</span></span>
-<span><span class="co">#&gt; AURKAIP1      1.874062 7.448062 7.552436 1.646799e-06</span></span>
-<span><span class="co">#&gt; NOC2L         2.256402 5.873625 7.284448 2.545248e-06</span></span>
-<span><span class="co">#&gt; CCNL2         2.009855 5.594008 6.417440 1.112005e-05</span></span>
-<span><span class="co">#&gt; TNFRSF4       2.686188 4.857853 5.918920 2.719907e-05</span></span>
-<span><span class="co">#&gt; MRPL20        1.741288 7.140368 5.724222 3.892940e-05</span></span>
-<span><span class="co">#&gt; ISG15         2.072292 7.231757 5.487119 6.066165e-05</span></span>
-<span><span class="co">#&gt; CPSF3L        2.083187 5.672812 5.308804 8.509637e-05</span></span>
-<span><span class="co">#&gt; CDK11B        1.695361 5.867293 4.694290 2.816049e-04</span></span>
-<span><span class="co">#&gt; SDF4          1.668179 6.351442 4.416104 4.908440e-04</span></span>
-<span><span class="co">#&gt; ATAD3B        2.481897 3.445121 3.786880 1.766296e-03</span></span>
-<span><span class="co">#&gt; UBE2J2        1.575101 6.034639 3.464531 3.428952e-03</span></span>
-<span><span class="co">#&gt; PUSL1         1.533289 3.903357 3.311507 4.699198e-03</span></span>
-<span><span class="co">#&gt; RP11-206L10.9 2.514828 3.884651 3.221094 5.659663e-03</span></span>
-<span><span class="co">#&gt; ACAP3         1.461375 4.360386 2.735278 1.524241e-02</span></span>
-<span><span class="co">#&gt; ATAD3A        1.767874 3.708504 2.648575 1.814391e-02</span></span>
-<span><span class="co">#&gt; AP006222.2    1.233790 2.798325 1.987226 6.531280e-02</span></span>
-<span><span class="co">#&gt; CPTP          1.043158 3.641585 1.831192 8.683604e-02</span></span>
-<span><span class="co">#&gt; TNFRSF18      1.439378 3.432145 1.578657 1.350916e-01</span></span>
-<span><span class="co">#&gt; RP11-345P4.9  1.400079 3.700624 1.425998 1.741766e-01</span></span>
-<span><span class="co">#&gt;                 adj.P.Val           B was_altered</span></span>
-<span><span class="co">#&gt; SSU72         0.001061336  6.66733411        TRUE</span></span>
-<span><span class="co">#&gt; MIB2          0.001061336  5.64705060        TRUE</span></span>
-<span><span class="co">#&gt; FO538757.2    0.001411161  4.79735742        TRUE</span></span>
-<span><span class="co">#&gt; AURKAIP1      0.002375507  5.05254647        TRUE</span></span>
-<span><span class="co">#&gt; NOC2L         0.002937216  4.18279685        TRUE</span></span>
-<span><span class="co">#&gt; CCNL2         0.010693783  2.99955073        TRUE</span></span>
-<span><span class="co">#&gt; TNFRSF4       0.022419804  1.87290007        TRUE</span></span>
-<span><span class="co">#&gt; MRPL20        0.028077829  2.32108741        TRUE</span></span>
-<span><span class="co">#&gt; ISG15         0.035001771  1.93626353        TRUE</span></span>
-<span><span class="co">#&gt; CPSF3L        0.044636914  1.42517599        TRUE</span></span>
-<span><span class="co">#&gt; CDK11B        0.132566905  0.49038317        TRUE</span></span>
-<span><span class="co">#&gt; SDF4          0.188811316  0.05370517        TRUE</span></span>
-<span><span class="co">#&gt; ATAD3B        0.536396233 -1.52858995        TRUE</span></span>
-<span><span class="co">#&gt; UBE2J2        0.732779678 -1.64433325        TRUE</span></span>
-<span><span class="co">#&gt; PUSL1         0.821647586 -2.04781451        TRUE</span></span>
-<span><span class="co">#&gt; RP11-206L10.9 0.933035863 -2.22812984        TRUE</span></span>
-<span><span class="co">#&gt; ACAP3         0.997887502 -2.87920934        TRUE</span></span>
-<span><span class="co">#&gt; ATAD3A        0.997887502 -3.04649462        TRUE</span></span>
-<span><span class="co">#&gt; AP006222.2    0.997887502 -3.92807988        TRUE</span></span>
-<span><span class="co">#&gt; CPTP          0.997887502 -4.13957382        TRUE</span></span>
-<span><span class="co">#&gt; TNFRSF18      0.997887502 -4.41616654        TRUE</span></span>
-<span><span class="co">#&gt; RP11-345P4.9  0.997887502 -4.61353678        TRUE</span></span></code></pre></div>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<span><span class="va">de_result_pseudobulk</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span></code></pre></div>
+<p>Look at the significantly differentially expressed genes:</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>,    <span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-8433f375aeb6255a899c" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8433f375aeb6255a899c">{"x":{"filter":"none","vertical":false,"data":[["SSU72","MIB2","FO538757.2","AURKAIP1","NOC2L","CCNL2","TNFRSF4","MRPL20","ISG15","CTSW","CPSF3L"],[1.82739857985341,2.21884180542971,3.05368793006276,1.87406229492983,2.25640207915933,2.00985486781816,2.68618784426133,1.74128751382085,2.07229191313832,-1.51944352793635,2.08318738510621],[8.22368206347954,5.995477411935,5.68324369086608,7.44806166173458,5.87362545270906,5.59400832966642,4.85785318344117,7.14036795661772,7.23175696091474,6.53375230251367,5.6728117668533],[8.69230448413311,8.52190131157026,8.06597361664774,7.5524361936642,7.28444847983461,6.41744035604559,5.91891963019649,5.72422192813309,5.48711892596761,-5.49769275663458,5.30880440933303],[2.86036261553234e-07,3.67880790112665e-07,7.33705998733036e-07,1.64679890113518e-06,2.54524812009268e-06,1.11200518863549e-05,2.71990693778898e-05,3.89293992961191e-05,6.06616475069649e-05,5.94640103426564e-05,8.50963697599627e-05],[0.00106133607947504,0.00106133607947504,0.00141116120422987,0.0023755074148875,0.00293721633058695,0.0106937832307113,0.0224198043300606,0.0280778292423259,0.0350017706115187,0.0350017706115187,0.0446369139559077],[6.66733411366858,5.6470506033109,4.79735742194687,5.05254647009648,4.18279685285552,2.99955073302207,1.87290006616061,2.32108740654014,1.93626352868609,1.88798542738999,1.42517599417348],[true,true,true,true,true,true,true,true,true,false,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>logFC<\/th>\n      <th>AveExpr<\/th>\n      <th>t<\/th>\n      <th>P.Value<\/th>\n      <th>adj.P.Val<\/th>\n      <th>B<\/th>\n      <th>was_altered<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><p>And the stats for the altered genes:</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">DT</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DT/man/datatable.html">datatable</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div id="htmlwidget-4cb8b60b70fd71f3bf5a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4cb8b60b70fd71f3bf5a">{"x":{"filter":"none","vertical":false,"data":[["SSU72","MIB2","FO538757.2","AURKAIP1","NOC2L","CCNL2","TNFRSF4","MRPL20","ISG15","CPSF3L","CDK11B","SDF4","ATAD3B","UBE2J2","PUSL1","RP11-206L10.9","ACAP3","ATAD3A","AP006222.2","CPTP","TNFRSF18","RP11-345P4.9"],[1.82739857985341,2.21884180542971,3.05368793006276,1.87406229492983,2.25640207915933,2.00985486781816,2.68618784426133,1.74128751382085,2.07229191313832,2.08318738510621,1.69536089232766,1.66817853768678,2.4818967715993,1.57510105051403,1.53328867197325,2.51482754527967,1.46137529820723,1.76787386777385,1.23379003267208,1.04315803212992,1.43937829121061,1.40007865084643],[8.22368206347954,5.995477411935,5.68324369086608,7.44806166173458,5.87362545270906,5.59400832966642,4.85785318344117,7.14036795661772,7.23175696091474,5.6728117668533,5.86729295579645,6.35144160427787,3.44512119081969,6.03463887287738,3.90335650283279,3.88465100842493,4.36038576330553,3.70850399209292,2.79832482751051,3.64158512547261,3.43214453999052,3.70062401205564],[8.69230448413311,8.52190131157026,8.06597361664774,7.5524361936642,7.28444847983461,6.41744035604559,5.91891963019649,5.72422192813309,5.48711892596761,5.30880440933303,4.69429044836077,4.41610430641784,3.786880061361,3.46453095995809,3.3115071714009,3.22109402082098,2.73527829316228,2.64857516878448,1.9872264791775,1.83119190738041,1.57865691002138,1.42599811157796],[2.86036261553234e-07,3.67880790112665e-07,7.33705998733036e-07,1.64679890113518e-06,2.54524812009268e-06,1.11200518863549e-05,2.71990693778898e-05,3.89293992961191e-05,6.06616475069649e-05,8.50963697599627e-05,0.000281604943590021,0.000490843976682095,0.00176629608832836,0.00342895170027388,0.004699197629499,0.00565966294965288,0.0152424103096016,0.0181439084383963,0.0653128034034893,0.086836036849633,0.135091552065387,0.174176618095009],[0.00106133607947504,0.00106133607947504,0.00141116120422987,0.0023755074148875,0.00293721633058695,0.0106937832307113,0.0224198043300606,0.0280778292423259,0.0350017706115187,0.0446369139559077,0.132566904644541,0.188811316363712,0.536396233139717,0.73277967816964,0.821647585521492,0.933035863414203,0.997887502406555,0.997887502406555,0.997887502406555,0.997887502406555,0.997887502406555,0.997887502406555],[6.66733411366858,5.6470506033109,4.79735742194687,5.05254647009648,4.18279685285552,2.99955073302207,1.87290006616061,2.32108740654014,1.93626352868609,1.42517599417348,0.490383172374314,0.0537051707433776,-1.52858994725577,-1.64433324517802,-2.04781450767965,-2.22812983546374,-2.87920934416095,-3.04649462051618,-3.9280798768479,-4.13957382059417,-4.41616654444229,-4.61353678072249],[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>logFC<\/th>\n      <th>AveExpr<\/th>\n      <th>t<\/th>\n      <th>P.Value<\/th>\n      <th>adj.P.Val<\/th>\n      <th>B<\/th>\n      <th>was_altered<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-48-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-53-1.png" width="672"></div>
 <div id="challenge-what-method" class="section level4 unnumbered rmdtip">
 <h4>Challenge: What method?<a class="anchor" aria-label="anchor" href="#challenge-what-method"><i class="fas fa-link"></i></a>
 </h4>

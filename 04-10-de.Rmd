@@ -13,6 +13,7 @@ The example below quickly looks at 3 different methods on a test dataset. It is 
 library(Seurat)
 library(tidyverse)
 library(patchwork)
+library(DT)
 
 condition_lookup <- 
   c('MantonBM1'="fake_treat",   'MantonBM2'="fake_treat",   'MantonBM3'="fake_treat",   'MantonBM4'="fake_treat",
@@ -148,16 +149,20 @@ de_result_wilcox$was_altered <- rownames(de_result_wilcox ) %in% altered_genes
 
 # Add average expression for plotting
 de_result_wilcox$AveExpr<- rowMeans(hcabm40k.mini.c0[["RNA"]][rownames(de_result_wilcox),])
-
-
-
-
-dplyr::filter(de_result_wilcox, p_val_adj < 0.01)
-dplyr::filter(de_result_wilcox, was_altered == TRUE)
 ```
 
+Look at the significantly differentially expressed genes.
 ```{r}
+DT::datatable(dplyr::filter(de_result_wilcox, p_val_adj < 0.05))
+```
 
+And the stats for the altered genes;
+```{r}
+DT::datatable(dplyr::filter(de_result_wilcox, was_altered == TRUE))
+```
+
+Here the blue crosses represent the altered genes, and the red are the differentially expressed.
+```{r}
 ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
   geom_point() +
   geom_point(data=filter(de_result_wilcox, was_altered), pch=3, col='blue', size=5 ) +
@@ -186,10 +191,14 @@ de_result_negbinom$was_altered <- rownames(de_result_negbinom  ) %in% altered_ge
 de_result_negbinom$AveExpr<- rowMeans(hcabm40k.mini.c0[["RNA"]][rownames(de_result_negbinom),])
 ```
 
+Look at the significantly differentially expressed genes:
 ```{r}
-dplyr::filter(de_result_negbinom, p_val_adj < 0.01)
-dplyr::filter(de_result_negbinom, was_altered == TRUE)
+DT::datatable(dplyr::filter(de_result_negbinom, p_val_adj < 0.05))
+```
 
+And the stats for the altered genes:
+```{r}
+DT::datatable(dplyr::filter(de_result_negbinom, was_altered == TRUE))
 ```
 
 
@@ -239,9 +248,17 @@ fit <- eBayes(fit)
 de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
 de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
 de_result_pseudobulk$was_altered <- rownames(de_result_pseudobulk ) %in% altered_genes
+```
 
-filter(de_result_pseudobulk,    adj.P.Val < 0.05)
-filter(de_result_pseudobulk, was_altered == TRUE)
+
+Look at the significantly differentially expressed genes:
+```{r}
+DT::datatable(filter(de_result_pseudobulk,    adj.P.Val < 0.05))
+```
+
+And the stats for the altered genes:
+```{r}
+DT::datatable(filter(de_result_pseudobulk, was_altered == TRUE))
 ```
 
 ```{r}
