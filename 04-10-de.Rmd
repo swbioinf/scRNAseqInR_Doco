@@ -1,17 +1,43 @@
-# DE {#de}
+# Differential Expression {#de}
 
 
-No need to run this - load up the preprepared Seurat object.
+There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic.
+
+There is the [Seurat differential expression Vignette](https://satijalab.org/seurat/archive/v3.1/de_vignette.html) which walks through the variety implemented in Seurat. 
+
+The example below quickly looks at 3 different methods on a test dataset. It is by no means a complete guide!
+
+
+
+```{r}
+library(Seurat)
+library(tidyverse)
+library(patchwork)
+
+condition_lookup <- 
+  c('MantonBM1'="fake_treat",   'MantonBM2'="fake_treat",   'MantonBM3'="fake_treat",   'MantonBM4'="fake_treat",
+    'MantonBM5'="fake_control", 'MantonBM6'="fake_control", 'MantonBM7'="fake_control", 'MantonBM8'="fake_control")
+```
+
+
+## Prepared data
+
+No need to run this - load up the pre prepared Seurat object.
+
+This code downloads and modifies the hcabm40k dataset to something small to test differential expression with.
+This dataset has data from 8 individuals (pbmc3k is all from one doner). 
+
+
+1) Downloads the hcabm40k dataset and subsamples it to just 4000 cells.
+2) Assigns the 8 individuals to 'fake_treat' or 'fake_control' groups. There should effectively be no differential expression between them.
+3) Take the first 50 genes and changes expression in the 'fake treat' group - multiply counts by 4 and add 1 to a subset. Now we can expect these genes to be 'differentially expressed'
 
 
 ```{r eval=FALSE}
 ################################################################################
 # Prepare a datasets
-library(Seurat)
 library(SeuratData)
-library(tidyverse)
-data("hcabm40k") #maybe?
-
+data("hcabm40k") 
 
 # grab 4000 random cells
 keep_cells <- sample(1:ncol(hcabm40k), size=4000)
@@ -23,9 +49,6 @@ rm(hcabm40k)
 
 # Add a group of contidion vs control to test. Not real
 # This is the first 4 of 8 bio replicates
-condition_lookup <- 
-  c('MantonBM1'="fake_treat",   'MantonBM2'="fake_treat",   'MantonBM3'="fake_treat",   'MantonBM4'="fake_treat",
-    'MantonBM5'="fake_control", 'MantonBM6'="fake_control", 'MantonBM7'="fake_control", 'MantonBM8'="fake_control")
 hcabm40k.mini$condition <- condition_lookup[hcabm40k.mini@meta.data$orig.ident]
 
 
@@ -67,134 +90,172 @@ saveRDS(hcabm40k.mini, file="data/hcabm40k_mini_withfakevariation.rds")
 
 ```
 
+## Load Data
 
-Load up the small (4000cell) subset of data.  The replicates have been divided in to control and test groups This is just a demo, they're all healthy controls.
+
+Load up the small, edited subset of data. 
 
 ```{r}
 hcabm40k.mini <- readRDS(file="data/hcabm40k_mini_withfakevariation.rds")
-
 table( hcabm40k.mini$orig.ident, hcabm40k.mini$condition)
 ```
 
-
+The first 50 genes that were altered to be higher in the 'fake_treat' group.
 ```{r}
-# The first 40 genes were altered.
 altered_genes <- rownames(hcabm40k.mini[['RNA']])[1:50]
 altered_genes
 ```
 
+## Prefiltering
 
+When doing differential expression, you generally ignore genes with low exprssion.
+If expression is below a certain level, it will be almost impossible to see differential expression. 
 
-```{R eval=FALSE}
-# When Diing DE, it makes sense to remove genes with too-low counts to find anything in.
-# There's alot of these in single cell. 
+In single cell datasets, there are many genes like this. Aggressively filtering here to make our dataset smaller so it runs quicker.
+
+```{R}
 total_per_gene <- rowSums(GetAssayData(hcabm40k.mini, 'counts'))
 hist(log10(total_per_gene))
-hcabm40k.mini <- hcabm40k.mini[total_per_gene >= 100, ]
-
-
-
-#-------------------------------------------------------------------------------
-#  The object;
+hcabm40k.mini <- hcabm40k.mini[total_per_gene >= 200, ] 
 
 p1 <- DimPlot(hcabm40k.mini, reduction = 'umap', group.by = 'seurat_clusters')
 p2 <- DimPlot(hcabm40k.mini, reduction = 'umap', group.by = 'orig.ident')
 p1+p2
 
+```
 
-################################################################################
-# What is different between 'fake treat' and 'fake control'?
-# Expect the 20 genes that we altered, but little else
 
-#-------------------------------------------------------------------------------
-# Find all markers
+##  Default Wilcox test
 
+
+```{r}
 hcabm40k.mini.c0 <- hcabm40k.mini[, hcabm40k.mini$seurat_clusters == 0]
 
-
 # Change Ident to condition
-Idents(hcabm40k.mini.c0)
 Idents(hcabm40k.mini.c0) <- hcabm40k.mini.c0$condition
-
-
 
 # default, wilcox test
 de_result_wilcox <- FindMarkers(hcabm40k.mini.c0, 
             ident.1 = 'fake_treat',
             ident.2 = 'fake_control',
             logfc.threshold = 0, # Give me ALL results
-            min.pct = 0
+            min.pct = 0,
+            max.cells.per.ident = 400  # Downsample cells - purely for speed!
             )
 
 # the  'DE' genes
-de_result_wilcox$was_altered <- rownames(de_result_wilcox ) %in% alter_genes
+de_result_wilcox$was_altered <- rownames(de_result_wilcox ) %in% altered_genes
 
-filter(de_result_wilcox, p_val_adj < 0.01)
-filter(de_result_wilcox, was_altered == TRUE)
-
-
-
-
-#-------------------------------------------------------------------------------
-# Pseudobuilk
-
-# Change idents to sample fro grouping.
-levels(Idents(hcabm40k.mini.c0))
-Idents(hcabm40k.mini.c0) <- hcabm40k.mini.c0$orig.ident
-levels(Idents(hcabm40k.mini.c0))
-
-pseudobulk_matrix <- AggregateExpression( hcabm40k.mini.c0,  slot = 'counts', assays='RNA' )[['RNA']]
-
-
-# treat like a bulk DE
-library(limma)
-library(edgeR)
-library(patchwork)
-
-dge <- DGEList(pseudobulk_matrix)
-dge <- calcNormFactors(dge)
-
-condition <- factor(condition_lookup[colnames(pseudobulk_matrix)])
-design <- model.matrix(~condition)
-vm  <- voom(dge, design = design, plot = TRUE)
-fit <- lmFit(vm, design = design)
-fit <- eBayes(fit)
-de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
-de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
-de_result_pseudobulk$was_altered <- rownames(de_result_pseudobulk ) %in% alter_genes
+# Add average expression for plotting
+de_result_wilcox$AveExpr<- rowMeans(hcabm40k.mini.c0[["RNA"]][rownames(de_result_wilcox),])
 
 
 
-filter(de_result_pseudobulk,    adj.P.Val < 0.05)
-filter(de_result_pseudobulk, was_altered == TRUE)
 
+dplyr::filter(de_result_wilcox, p_val_adj < 0.01)
+dplyr::filter(de_result_wilcox, was_altered == TRUE)
+```
 
-#-----------------------------------------------------------
+```{r}
 
-p1 <- ggplot(de_result_pseudobulk, aes(x=AveExpr, y=logFC, col=adj.P.Val < 0.05)) +
-  geom_point() +
-  geom_point(data=filter(de_result_pseudobulk, was_altered), pch=3, col='blue', size=5 ) +
-  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
-  theme_bw() +
-  ggtitle("Pseudobulk")
-
-# Seurat doesn't give aveg expression by default, just grab it from the psuedobulk
-de_result_wilcox$AveExpr <- de_result_pseudobulk[rownames(de_result_wilcox),c('AveExpr')]
-
-p2 <- ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
+ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
   geom_point() +
   geom_point(data=filter(de_result_wilcox, was_altered), pch=3, col='blue', size=5 ) +
   scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Wilcox Test")
+```
 
 
 
+## Seurat Negative binomial
 
-p1 + p2
+
+```{r results='hide', warning=FALSE, message=FALSE}
+de_result_negbinom <- FindMarkers(hcabm40k.mini.c0, 
+            ident.1 = 'fake_treat',
+            ident.2 = 'fake_control',
+            logfc.threshold = 0, # Give me ALL results
+            min.pct = 0,
+            test.use="negbinom", # Choose a different test.
+            max.cells.per.ident = 300  # Downsample cells - purely for speed!
+            )
+# the  'DE' genes
+de_result_negbinom$was_altered <- rownames(de_result_negbinom  ) %in% altered_genes
+# Add average expression for plotting
+de_result_negbinom$AveExpr<- rowMeans(hcabm40k.mini.c0[["RNA"]][rownames(de_result_negbinom),])
+```
+
+```{r}
+dplyr::filter(de_result_negbinom, p_val_adj < 0.01)
+dplyr::filter(de_result_negbinom, was_altered == TRUE)
 
 ```
 
+
+```{r}
+ggplot(de_result_negbinom, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
+  geom_point() +
+  geom_point(data=filter(de_result_negbinom, was_altered), pch=3, col='blue', size=5 ) +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
+  theme_bw() +
+  ggtitle("Negative Binomial Test")
+```
+
+
+## Pseudobulk
+
+Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.
+
+
+
+First, you need to build a pseudobulk matrix - the `AggregateExpression()` function can do this, once you set the 'Idents' of your seurat object to your grouping factor (here, sample instead of cluster).
+
+```{r}
+# Tools for bulk differential expression
+library(limma)
+library(edgeR)
+
+
+# Change idents to sample fro grouping.
+Idents(hcabm40k.mini.c0) <- hcabm40k.mini.c0$orig.ident
+
+
+pseudobulk_matrix <- AggregateExpression( hcabm40k.mini.c0,  slot = 'counts', assays='RNA' )[['RNA']]
+pseudobulk_matrix[1:5,]
+```
+
+Now it looks like a bulk RNAseq experiment, so treat it like one.
+
+```{R}
+dge <- DGEList(pseudobulk_matrix)
+dge <- calcNormFactors(dge)
+
+condition <- factor(condition_lookup[colnames(pseudobulk_matrix)])
+design <- model.matrix(~condition)
+vm  <- voom(dge, design = design, plot = FALSE)
+fit <- lmFit(vm, design = design)
+fit <- eBayes(fit)
+de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
+de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
+de_result_pseudobulk$was_altered <- rownames(de_result_pseudobulk ) %in% altered_genes
+
+filter(de_result_pseudobulk,    adj.P.Val < 0.05)
+filter(de_result_pseudobulk, was_altered == TRUE)
+```
+
+```{r}
+ggplot(de_result_pseudobulk, aes(x=AveExpr, y=logFC, col=adj.P.Val < 0.05)) +
+  geom_point() +
+  geom_point(data=filter(de_result_pseudobulk, was_altered), pch=3, col='blue', size=5 ) +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
+  theme_bw() +
+  ggtitle("Pseudobulk")
+```
+
+#### Challenge: What method? {- .rmdtip}
+
+These methods give different results. How could and decide which to use? How could you check an individual gene?
 
 
 

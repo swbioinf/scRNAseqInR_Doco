@@ -25,5 +25,11 @@ finding-differentially-expressed-features-cluster-biomarkers
 assigning-cell-type-identity-to-clusters
 singler
 de
+prepared-data
+load-data
+prefiltering
+default-wilcox-test
+seurat-negative-binomial
+pseudobulk
 finishing-up
 resources

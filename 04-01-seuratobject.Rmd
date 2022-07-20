@@ -1,4 +1,4 @@
-# What can we do with a Seurat object? {#seuratobject}
+# The Seurat object {#seuratobject}
 
 
 <!-- Load an existing object -->
@@ -38,7 +38,7 @@ library(Seurat)
 ```
 
 
-And heres the one we prepared earlier. Seurat objects are usually saved as '.rds' files, which is an R format for storing binary data (not-text or human-readable). The functions `readRDS()` can load it.
+And here's the one we prepared earlier. Seurat objects are usually saved as '.rds' files, which is an R format for storing binary data (not-text or human-readable). The functions `readRDS()` can load it.
 
 ```{r}
 pbmc_processed <- readRDS("data/pbmc_tutorial.rds")
@@ -49,7 +49,8 @@ pbmc_processed
 ## What's in there?
 
 Some of the most important information for working with Seurat objects is in the metadata.
-This is cell level information - each row is one cell, identified by its barcode.
+This is cell level information - each row is one cell, identified by its barcode. 
+Extra information gets added to this table as analysis progresses.
 
 ```{r}
 head(pbmc_processed@meta.data)
@@ -57,9 +58,10 @@ head(pbmc_processed@meta.data)
 
 
 
-That doesn't have any gene expression though, that's stored in an 'Assay'. The Assay structure has some nuances (see discussion below), but there are functions that get the assay data out for you. 
+That doesn't have any gene expression though, that's stored in an 'Assay'. 
+The Assay structure has some nuances (see discussion below), but there are functions that get the assay data out for you. 
 
-By default this object will return the normalised data - becuase usually that's what you want. Every '.' is a zero.
+By default this object will return the normalised data (from the only assay in this object, called RNA). Every '.' is a zero.
 
 ```{r}
 GetAssayData(pbmc_processed)[1:15,1:5]

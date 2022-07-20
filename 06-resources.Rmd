@@ -14,6 +14,9 @@ Seurat command cheat sheet. For when you're trying to figure out how to find som
 
 
 
+* https://satijalab.org/seurat/archive/v3.1/de_vignette.html Differential expresison in SEurat.
+
+
 tidyverse
 
 singleR

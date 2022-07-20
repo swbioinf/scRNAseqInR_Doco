@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 13 DE | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<title>Chapter 13 Differential Expression | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Chapter 13 DE | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 13 Differential Expression | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<meta property="og:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 13 DE | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="No need to run this - load up the preprepared Seurat object. ################################################################################ # Prepare a datasets library(Seurat)...">
+<meta name="twitter:title" content="Chapter 13 Differential Expression | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -47,7 +47,7 @@
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
 <li class="book-part">Content</li>
 <li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> What can we do with a Seurat object?</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> The Seurat object</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
@@ -57,7 +57,7 @@
 <li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
-<li><a class="active" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li><a class="active" href="de.html"><span class="header-section-number">13</span> Differential Expression</a></li>
 <li class="book-part">End</li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
 <li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
@@ -71,17 +71,53 @@
 </div>
   </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="de" class="section level1" number="13">
 <h1>
-<span class="header-section-number">13</span> DE<a class="anchor" aria-label="anchor" href="#de"><i class="fas fa-link"></i></a>
+<span class="header-section-number">13</span> Differential Expression<a class="anchor" aria-label="anchor" href="#de"><i class="fas fa-link"></i></a>
 </h1>
-<p>No need to run this - load up the preprepared Seurat object.</p>
+<p>There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic.</p>
+<p>There is the <a href="https://satijalab.org/seurat/archive/v3.1/de_vignette.html">Seurat differential expression Vignette</a> which walks through the variety implemented in Seurat.</p>
+<p>The example below quickly looks at 3 different methods on a test dataset. It is by no means a complete guide!</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; ── Attaching packages ─────────────────── tidyverse 1.3.1 ──</span></span>
+<span><span class="co">#&gt; ✔ tibble  3.1.6     ✔ purrr   0.3.4</span></span>
+<span><span class="co">#&gt; ✔ tidyr   1.1.4     ✔ stringr 1.4.0</span></span>
+<span><span class="co">#&gt; ✔ readr   2.1.1     ✔ forcats 0.5.1</span></span>
+<span><span class="co">#&gt; ── Conflicts ────────────────────── tidyverse_conflicts() ──</span></span>
+<span><span class="co">#&gt; ✖ IRanges::collapse()      masks dplyr::collapse()</span></span>
+<span><span class="co">#&gt; ✖ Biobase::combine()       masks BiocGenerics::combine(), dplyr::combine()</span></span>
+<span><span class="co">#&gt; ✖ matrixStats::count()     masks dplyr::count()</span></span>
+<span><span class="co">#&gt; ✖ IRanges::desc()          masks dplyr::desc()</span></span>
+<span><span class="co">#&gt; ✖ tidyr::expand()          masks S4Vectors::expand()</span></span>
+<span><span class="co">#&gt; ✖ dplyr::filter()          masks stats::filter()</span></span>
+<span><span class="co">#&gt; ✖ S4Vectors::first()       masks dplyr::first()</span></span>
+<span><span class="co">#&gt; ✖ dplyr::lag()             masks stats::lag()</span></span>
+<span><span class="co">#&gt; ✖ BiocGenerics::Position() masks ggplot2::Position(), base::Position()</span></span>
+<span><span class="co">#&gt; ✖ purrr::reduce()          masks GenomicRanges::reduce(), IRanges::reduce()</span></span>
+<span><span class="co">#&gt; ✖ S4Vectors::rename()      masks dplyr::rename()</span></span>
+<span><span class="co">#&gt; ✖ IRanges::slice()         masks dplyr::slice()</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">condition_lookup</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MantonBM1'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM2'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM3'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM4'</span><span class="op">=</span><span class="st">"fake_treat"</span>,</span>
+<span>    <span class="st">'MantonBM5'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM6'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM7'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM8'</span><span class="op">=</span><span class="st">"fake_control"</span><span class="op">)</span></span></code></pre></div>
+<div id="prepared-data" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> Prepared data<a class="anchor" aria-label="anchor" href="#prepared-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>No need to run this - load up the pre prepared Seurat object.</p>
+<p>This code downloads and modifies the hcabm40k dataset to something small to test differential expression with.
+This dataset has data from 8 individuals (pbmc3k is all from one doner).</p>
+<ol style="list-style-type: decimal">
+<li>Downloads the hcabm40k dataset and subsamples it to just 4000 cells.</li>
+<li>Assigns the 8 individuals to ‘fake_treat’ or ‘fake_control’ groups. There should effectively be no differential expression between them.</li>
+<li>Take the first 50 genes and changes expression in the ‘fake treat’ group - multiply counts by 4 and add 1 to a subset. Now we can expect these genes to be ‘differentially expressed’</li>
+</ol>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">################################################################################</span></span>
 <span><span class="co"># Prepare a datasets</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.satijalab.org/seurat">SeuratData</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"hcabm40k"</span><span class="op">)</span> <span class="co">#maybe?</span></span>
-<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"hcabm40k"</span><span class="op">)</span> </span>
 <span></span>
 <span><span class="co"># grab 4000 random cells</span></span>
 <span><span class="va">keep_cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">hcabm40k</span><span class="op">)</span>, size<span class="op">=</span><span class="fl">4000</span><span class="op">)</span></span>
@@ -93,9 +129,6 @@
 <span></span>
 <span><span class="co"># Add a group of contidion vs control to test. Not real</span></span>
 <span><span class="co"># This is the first 4 of 8 bio replicates</span></span>
-<span><span class="va">condition_lookup</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'MantonBM1'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM2'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM3'</span><span class="op">=</span><span class="st">"fake_treat"</span>,   <span class="st">'MantonBM4'</span><span class="op">=</span><span class="st">"fake_treat"</span>,</span>
-<span>    <span class="st">'MantonBM5'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM6'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM7'</span><span class="op">=</span><span class="st">"fake_control"</span>, <span class="st">'MantonBM8'</span><span class="op">=</span><span class="st">"fake_control"</span><span class="op">)</span></span>
 <span><span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="va">condition_lookup</span><span class="op">[</span><span class="va">hcabm40k.mini</span><span class="op">@</span><span class="va">meta.data</span><span class="op">$</span><span class="va">orig.ident</span><span class="op">]</span></span>
 <span></span>
 <span></span>
@@ -133,10 +166,14 @@
 <span><span class="co">#------------------------------------------------------------------------------</span></span>
 <span><span class="co"># save</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span></code></pre></div>
-<p>Load up the small (4000cell) subset of data. The replicates have been divided in to control and test groups This is just a demo, they’re all healthy controls.</p>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+</div>
+<div id="load-data" class="section level2" number="13.2">
+<h2>
+<span class="header-section-number">13.2</span> Load Data<a class="anchor" aria-label="anchor" href="#load-data"><i class="fas fa-link"></i></a>
+</h2>
+<p>Load up the small, edited subset of data.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span>file<span class="op">=</span><span class="st">"data/hcabm40k_mini_withfakevariation.rds"</span><span class="op">)</span></span>
-<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span> <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">orig.ident</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">condition</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            </span></span>
 <span><span class="co">#&gt;             fake_control fake_treat</span></span>
@@ -148,9 +185,9 @@
 <span><span class="co">#&gt;   MantonBM6          522          0</span></span>
 <span><span class="co">#&gt;   MantonBM7          476          0</span></span>
 <span><span class="co">#&gt;   MantonBM8          530          0</span></span></code></pre></div>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># The first 40 genes were altered.</span></span>
-<span><span class="va">altered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span>
+<p>The first 50 genes that were altered to be higher in the ‘fake_treat’ group.</p>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">altered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span>
 <span><span class="va">altered_genes</span></span>
 <span><span class="co">#&gt;  [1] "RP11-34P13.7"  "FO538757.2"    "AP006222.2"   </span></span>
 <span><span class="co">#&gt;  [4] "RP4-669L17.10" "RP5-857K21.4"  "RP11-206L10.9"</span></span>
@@ -169,114 +206,433 @@
 <span><span class="co">#&gt; [43] "SSU72"         "RP5-832C2.5"   "C1orf233"     </span></span>
 <span><span class="co">#&gt; [46] "RP11-345P4.9"  "MIB2"          "MMP23B"       </span></span>
 <span><span class="co">#&gt; [49] "CDK11B"        "RP11-345P4.10"</span></span></code></pre></div>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># When Diing DE, it makes sense to remove genes with too-low counts to find anything in.</span></span>
-<span><span class="co"># There's alot of these in single cell. </span></span>
-<span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, <span class="st">'counts'</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span><span class="va">total_per_gene</span> <span class="op">&gt;=</span> <span class="fl">100</span>, <span class="op">]</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span><span class="co">#  The object;</span></span>
+</div>
+<div id="prefiltering" class="section level2" number="13.3">
+<h2>
+<span class="header-section-number">13.3</span> Prefiltering<a class="anchor" aria-label="anchor" href="#prefiltering"><i class="fas fa-link"></i></a>
+</h2>
+<p>When doing differential expression, you generally ignore genes with low exprssion.
+If expression is below a certain level, it will be almost impossible to see differential expression.</p>
+<p>In single cell datasets, there are many genes like this. Aggressively filtering here to make our dataset smaller so it runs quicker.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, <span class="st">'counts'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-40-1.png" width="672"></div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hcabm40k.mini</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span><span class="va">total_per_gene</span> <span class="op">&gt;=</span> <span class="fl">200</span>, <span class="op">]</span> </span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">'seurat_clusters'</span><span class="op">)</span></span>
 <span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">hcabm40k.mini</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">'orig.ident'</span><span class="op">)</span></span>
-<span><span class="va">p1</span><span class="op">+</span><span class="va">p2</span></span>
-<span></span>
-<span></span>
-<span><span class="co">################################################################################</span></span>
-<span><span class="co"># What is different between 'fake treat' and 'fake control'?</span></span>
-<span><span class="co"># Expect the 20 genes that we altered, but little else</span></span>
-<span></span>
-<span><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span><span class="co"># Find all markers</span></span>
-<span></span>
-<span><span class="va">hcabm40k.mini.c0</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">seurat_clusters</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span></span>
-<span></span>
+<span><span class="va">p1</span><span class="op">+</span><span class="va">p2</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-40-2.png" width="672"></div>
+</div>
+<div id="default-wilcox-test" class="section level2" number="13.4">
+<h2>
+<span class="header-section-number">13.4</span> Default Wilcox test<a class="anchor" aria-label="anchor" href="#default-wilcox-test"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hcabm40k.mini.c0</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini</span><span class="op">[</span>, <span class="va">hcabm40k.mini</span><span class="op">$</span><span class="va">seurat_clusters</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Change Ident to condition</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini.c0</span><span class="op">$</span><span class="va">condition</span></span>
-<span></span>
-<span></span>
 <span></span>
 <span><span class="co"># default, wilcox test</span></span>
 <span><span class="va">de_result_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span>, </span>
 <span>            ident.1 <span class="op">=</span> <span class="st">'fake_treat'</span>,</span>
 <span>            ident.2 <span class="op">=</span> <span class="st">'fake_control'</span>,</span>
 <span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
-<span>            min.pct <span class="op">=</span> <span class="fl">0</span></span>
+<span>            min.pct <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>            max.cells.per.ident <span class="op">=</span> <span class="fl">400</span>  <span class="co"># Downsample cells - purely for speed!</span></span>
 <span>            <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># the  'DE' genes</span></span>
-<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">alter_genes</span></span>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
 <span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span><span class="co">#-------------------------------------------------------------------------------</span></span>
-<span><span class="co"># Pseudobuilk</span></span>
-<span></span>
-<span><span class="co"># Change idents to sample fro grouping.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini.c0</span><span class="op">$</span><span class="va">orig.ident</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pseudobulk_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">hcabm40k.mini.c0</span>,  slot <span class="op">=</span> <span class="st">'counts'</span>, assays<span class="op">=</span><span class="st">'RNA'</span> <span class="op">)</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
-<span></span>
-<span></span>
-<span><span class="co"># treat like a bulk DE</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
-<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">condition_lookup</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">condition</span><span class="op">)</span></span>
-<span><span class="va">vm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span><span class="op">(</span><span class="va">dge</span>, design <span class="op">=</span> <span class="va">design</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, design <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span>
-<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, n <span class="op">=</span> <span class="cn">Inf</span>, adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
-<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> , <span class="va">adj.P.Val</span><span class="op">)</span></span>
-<span><span class="va">de_result_pseudobulk</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">alter_genes</span></span>
+<span><span class="co"># Add average expression for plotting</span></span>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>,    <span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span></span>
-<span><span class="co">#-----------------------------------------------------------</span></span>
-<span></span>
-<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Seurat doesn't give aveg expression by default, just grab it from the psuedobulk</span></span>
-<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span> <span class="op">&lt;-</span> <span class="va">de_result_pseudobulk</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'AveExpr'</span><span class="op">)</span><span class="op">]</span></span>
-<span></span>
-<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                   p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
+<span><span class="co">#&gt; RPS4Y1     1.112758e-35  1.3936383 0.642 0.166 6.420612e-32</span></span>
+<span><span class="co">#&gt; RPS9       1.333654e-18 -0.3109573 0.999 0.999 7.695182e-15</span></span>
+<span><span class="co">#&gt; HLA-B      7.425818e-17  0.4673660 0.993 0.975 4.284697e-13</span></span>
+<span><span class="co">#&gt; RPS4X      9.152161e-16 -0.2994496 1.000 0.999 5.280797e-12</span></span>
+<span><span class="co">#&gt; MT-CO1     3.334190e-10  0.1862243 0.999 0.997 1.923828e-06</span></span>
+<span><span class="co">#&gt; IFITM1     4.708315e-10  0.6330814 0.334 0.172 2.716698e-06</span></span>
+<span><span class="co">#&gt; CRIP1      6.560853e-10  0.7973784 0.334 0.141 3.785612e-06</span></span>
+<span><span class="co">#&gt; CTSW       1.514255e-09 -0.6990118 0.137 0.303 8.737252e-06</span></span>
+<span><span class="co">#&gt; RPS6       1.618619e-09 -0.1503779 1.000 1.000 9.339429e-06</span></span>
+<span><span class="co">#&gt; FTH1       1.872109e-09  0.4682722 0.985 0.979 1.080207e-05</span></span>
+<span><span class="co">#&gt; RNASET2    4.415456e-09  0.4433942 0.459 0.294 2.547718e-05</span></span>
+<span><span class="co">#&gt; JUN        6.181461e-09 -0.4842924 0.626 0.764 3.566703e-05</span></span>
+<span><span class="co">#&gt; MIF        1.030154e-08  0.4483803 0.447 0.281 5.943988e-05</span></span>
+<span><span class="co">#&gt; IGKC       1.435371e-08  0.4545000 0.350 0.175 8.282089e-05</span></span>
+<span><span class="co">#&gt; AC090498.1 1.468599e-08  0.4279242 0.662 0.518 8.473815e-05</span></span>
+<span><span class="co">#&gt; RPS3A      1.722304e-08  0.1391731 1.000 0.997 9.937696e-05</span></span>
+<span><span class="co">#&gt; DUSP1      4.892369e-08 -0.6420404 0.461 0.589 2.822897e-04</span></span>
+<span><span class="co">#&gt; FOS        6.224934e-08 -0.2758968 0.447 0.550 3.591787e-04</span></span>
+<span><span class="co">#&gt; SRGN       9.470426e-08  0.4988539 0.644 0.490 5.464436e-04</span></span>
+<span><span class="co">#&gt; RPL35A     1.521345e-07 -0.1073852 1.000 1.000 8.778158e-04</span></span>
+<span><span class="co">#&gt; EIF1       2.473518e-07  0.2473318 0.990 0.990 1.427220e-03</span></span>
+<span><span class="co">#&gt; TOMM7      4.709370e-07  0.3352710 0.967 0.932 2.717306e-03</span></span>
+<span><span class="co">#&gt; CDKN2D     5.682847e-07  0.3507790 0.161 0.077 3.279003e-03</span></span>
+<span><span class="co">#&gt; RPL34      6.612236e-07 -0.1291198 1.000 1.000 3.815260e-03</span></span>
+<span><span class="co">#&gt; RPL7       1.038812e-06 -0.1378494 0.999 1.000 5.993943e-03</span></span>
+<span><span class="co">#&gt; RPL21      1.221218e-06 -0.1367031 1.000 1.000 7.046429e-03</span></span>
+<span><span class="co">#&gt; SOCS3      1.428318e-06  0.4725668 0.282 0.143 8.241394e-03</span></span>
+<span><span class="co">#&gt; HCST       1.520262e-06 -0.3271970 0.593 0.666 8.771910e-03</span></span>
+<span><span class="co">#&gt;            was_altered   AveExpr</span></span>
+<span><span class="co">#&gt; RPS4Y1           FALSE 0.9202398</span></span>
+<span><span class="co">#&gt; RPS9             FALSE 3.5762744</span></span>
+<span><span class="co">#&gt; HLA-B            FALSE 3.0576721</span></span>
+<span><span class="co">#&gt; RPS4X            FALSE 4.1464346</span></span>
+<span><span class="co">#&gt; MT-CO1           FALSE 3.6496692</span></span>
+<span><span class="co">#&gt; IFITM1           FALSE 0.4033074</span></span>
+<span><span class="co">#&gt; CRIP1            FALSE 0.3850406</span></span>
+<span><span class="co">#&gt; CTSW             FALSE 0.3843436</span></span>
+<span><span class="co">#&gt; RPS6             FALSE 4.6712710</span></span>
+<span><span class="co">#&gt; FTH1             FALSE 3.0892897</span></span>
+<span><span class="co">#&gt; RNASET2          FALSE 0.6206306</span></span>
+<span><span class="co">#&gt; JUN              FALSE 1.6804090</span></span>
+<span><span class="co">#&gt; MIF              FALSE 0.5931893</span></span>
+<span><span class="co">#&gt; IGKC             FALSE 0.4192262</span></span>
+<span><span class="co">#&gt; AC090498.1       FALSE 1.0845500</span></span>
+<span><span class="co">#&gt; RPS3A            FALSE 4.3093665</span></span>
+<span><span class="co">#&gt; DUSP1            FALSE 1.1359541</span></span>
+<span><span class="co">#&gt; FOS              FALSE 1.0806135</span></span>
+<span><span class="co">#&gt; SRGN             FALSE 1.1299643</span></span>
+<span><span class="co">#&gt; RPL35A           FALSE 4.1170374</span></span>
+<span><span class="co">#&gt; EIF1             FALSE 3.1872508</span></span>
+<span><span class="co">#&gt; TOMM7            FALSE 2.4603419</span></span>
+<span><span class="co">#&gt; CDKN2D           FALSE 0.1775316</span></span>
+<span><span class="co">#&gt; RPL34            FALSE 4.9369487</span></span>
+<span><span class="co">#&gt; RPL7             FALSE 4.0209595</span></span>
+<span><span class="co">#&gt; RPL21            FALSE 4.9282558</span></span>
+<span><span class="co">#&gt; SOCS3            FALSE 0.3484458</span></span>
+<span><span class="co">#&gt; HCST             FALSE 1.2159835</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                      p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
+<span><span class="co">#&gt; SSU72         9.655274e-05 1.36281990 0.338 0.338 0.5571093</span></span>
+<span><span class="co">#&gt; FO538757.2    1.200221e-03 1.20415411 0.103 0.043 1.0000000</span></span>
+<span><span class="co">#&gt; AURKAIP1      2.211160e-02 1.16643695 0.219 0.207 1.0000000</span></span>
+<span><span class="co">#&gt; TNFRSF4       6.601041e-02 0.55608168 0.048 0.026 1.0000000</span></span>
+<span><span class="co">#&gt; ISG15         8.216535e-02 1.19360511 0.162 0.161 1.0000000</span></span>
+<span><span class="co">#&gt; UBE2J2        9.283448e-02 0.69838502 0.085 0.101 1.0000000</span></span>
+<span><span class="co">#&gt; CPTP          1.120441e-01 0.13296356 0.013 0.024 1.0000000</span></span>
+<span><span class="co">#&gt; NOC2L         1.344635e-01 0.83107706 0.092 0.070 1.0000000</span></span>
+<span><span class="co">#&gt; RP11-345P4.9  1.411112e-01 0.35268040 0.031 0.023 1.0000000</span></span>
+<span><span class="co">#&gt; ATAD3B        1.551214e-01 0.35376001 0.022 0.010 1.0000000</span></span>
+<span><span class="co">#&gt; MIB2          2.651396e-01 0.83758935 0.089 0.073 1.0000000</span></span>
+<span><span class="co">#&gt; ATAD3A        2.952490e-01 0.30026847 0.019 0.019 1.0000000</span></span>
+<span><span class="co">#&gt; MRPL20        2.967604e-01 1.06804937 0.176 0.177 1.0000000</span></span>
+<span><span class="co">#&gt; CDK11B        3.424970e-01 0.69024916 0.080 0.080 1.0000000</span></span>
+<span><span class="co">#&gt; CCNL2         4.205482e-01 0.74371725 0.070 0.062 1.0000000</span></span>
+<span><span class="co">#&gt; RP11-206L10.9 4.370370e-01 0.37788534 0.028 0.018 1.0000000</span></span>
+<span><span class="co">#&gt; SDF4          6.523233e-01 0.80646725 0.103 0.114 1.0000000</span></span>
+<span><span class="co">#&gt; TNFRSF18      6.887641e-01 0.19960131 0.019 0.016 1.0000000</span></span>
+<span><span class="co">#&gt; AP006222.2    7.795600e-01 0.06620052 0.007 0.013 1.0000000</span></span>
+<span><span class="co">#&gt; PUSL1         8.232570e-01 0.23937883 0.018 0.020 1.0000000</span></span>
+<span><span class="co">#&gt; ACAP3         8.877751e-01 0.32560006 0.027 0.031 1.0000000</span></span>
+<span><span class="co">#&gt; CPSF3L        9.748766e-01 0.72870621 0.073 0.063 1.0000000</span></span>
+<span><span class="co">#&gt;               was_altered    AveExpr</span></span>
+<span><span class="co">#&gt; SSU72                TRUE 0.73609990</span></span>
+<span><span class="co">#&gt; FO538757.2           TRUE 0.16860112</span></span>
+<span><span class="co">#&gt; AURKAIP1             TRUE 0.45191094</span></span>
+<span><span class="co">#&gt; TNFRSF4              TRUE 0.07923627</span></span>
+<span><span class="co">#&gt; ISG15                TRUE 0.35171536</span></span>
+<span><span class="co">#&gt; UBE2J2               TRUE 0.18979977</span></span>
+<span><span class="co">#&gt; CPTP                 TRUE 0.03572932</span></span>
+<span><span class="co">#&gt; NOC2L                TRUE 0.16932813</span></span>
+<span><span class="co">#&gt; RP11-345P4.9         TRUE 0.05591016</span></span>
+<span><span class="co">#&gt; ATAD3B               TRUE 0.03637473</span></span>
+<span><span class="co">#&gt; MIB2                 TRUE 0.17040047</span></span>
+<span><span class="co">#&gt; ATAD3A               TRUE 0.03975988</span></span>
+<span><span class="co">#&gt; MRPL20               TRUE 0.37428897</span></span>
+<span><span class="co">#&gt; CDK11B               TRUE 0.16470706</span></span>
+<span><span class="co">#&gt; CCNL2                TRUE 0.13617764</span></span>
+<span><span class="co">#&gt; RP11-206L10.9        TRUE 0.04904527</span></span>
+<span><span class="co">#&gt; SDF4                 TRUE 0.22599522</span></span>
+<span><span class="co">#&gt; TNFRSF18             TRUE 0.03778980</span></span>
+<span><span class="co">#&gt; AP006222.2           TRUE 0.01922010</span></span>
+<span><span class="co">#&gt; PUSL1                TRUE 0.04011121</span></span>
+<span><span class="co">#&gt; ACAP3                TRUE 0.05863448</span></span>
+<span><span class="co">#&gt; CPSF3L               TRUE 0.14041781</span></span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-42-1.png" width="672"></div>
+</div>
+<div id="seurat-negative-binomial" class="section level2" number="13.5">
+<h2>
+<span class="header-section-number">13.5</span> Seurat Negative binomial<a class="anchor" aria-label="anchor" href="#seurat-negative-binomial"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">de_result_negbinom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span>, </span>
+<span>            ident.1 <span class="op">=</span> <span class="st">'fake_treat'</span>,</span>
+<span>            ident.2 <span class="op">=</span> <span class="st">'fake_control'</span>,</span>
+<span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
+<span>            min.pct <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>            test.use<span class="op">=</span><span class="st">"negbinom"</span>, <span class="co"># Choose a different test.</span></span>
+<span>            max.cells.per.ident <span class="op">=</span> <span class="fl">300</span>  <span class="co"># Downsample cells - purely for speed!</span></span>
+<span>            <span class="op">)</span></span>
+<span><span class="co"># the  'DE' genes</span></span>
+<span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>  <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
+<span><span class="co"># Add average expression for plotting</span></span>
+<span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                   p_val avg_log2FC pct.1 pct.2    p_val_adj</span></span>
+<span><span class="co">#&gt; HLA-B      2.047505e-16  0.5093075 0.993 0.975 1.181410e-12</span></span>
+<span><span class="co">#&gt; RPS4Y1     9.220319e-16  0.9409962 0.642 0.166 5.320124e-12</span></span>
+<span><span class="co">#&gt; FTH1       4.122127e-14  0.5599551 0.985 0.979 2.378467e-10</span></span>
+<span><span class="co">#&gt; MT-CO1     2.236368e-13  0.3058330 0.999 0.997 1.290384e-09</span></span>
+<span><span class="co">#&gt; SSU72      3.830592e-13  0.8808677 0.338 0.338 2.210252e-09</span></span>
+<span><span class="co">#&gt; IFITM1     7.982292e-10  0.3351739 0.334 0.172 4.605783e-06</span></span>
+<span><span class="co">#&gt; AC090498.1 9.099402e-10  0.3261936 0.662 0.518 5.250355e-06</span></span>
+<span><span class="co">#&gt; EIF1       1.021725e-09  0.3541414 0.990 0.990 5.895351e-06</span></span>
+<span><span class="co">#&gt; MRPL20     1.028331e-09  0.5496668 0.176 0.177 5.933469e-06</span></span>
+<span><span class="co">#&gt; AURKAIP1   3.830185e-09  0.6647683 0.219 0.207 2.210016e-05</span></span>
+<span><span class="co">#&gt; CTSW       7.099455e-09 -0.3014240 0.137 0.303 4.096385e-05</span></span>
+<span><span class="co">#&gt; RORA       8.597786e-09  0.2094804 0.317 0.200 4.960923e-05</span></span>
+<span><span class="co">#&gt; RPS3A      9.919567e-09  0.2483989 1.000 0.997 5.723590e-05</span></span>
+<span><span class="co">#&gt; IGKC       2.511182e-08  0.2685946 0.350 0.175 1.448952e-04</span></span>
+<span><span class="co">#&gt; ISG15      2.611588e-08  0.7340390 0.162 0.161 1.506887e-04</span></span>
+<span><span class="co">#&gt; YBX1       1.149199e-07  0.2717224 0.811 0.740 6.630876e-04</span></span>
+<span><span class="co">#&gt; RPS29      2.591186e-07  0.2047796 1.000 1.000 1.495115e-03</span></span>
+<span><span class="co">#&gt; TOMM7      5.506108e-07  0.3565451 0.967 0.932 3.177024e-03</span></span>
+<span><span class="co">#&gt; CRIP1      7.204767e-07  0.4070023 0.334 0.141 4.157151e-03</span></span>
+<span><span class="co">#&gt; MIF        7.580686e-07  0.2625155 0.447 0.281 4.374056e-03</span></span>
+<span><span class="co">#&gt; PIK3R1     1.674552e-06  0.2849652 0.380 0.244 9.662163e-03</span></span>
+<span><span class="co">#&gt;            was_altered   AveExpr</span></span>
+<span><span class="co">#&gt; HLA-B            FALSE 3.0576721</span></span>
+<span><span class="co">#&gt; RPS4Y1           FALSE 0.9202398</span></span>
+<span><span class="co">#&gt; FTH1             FALSE 3.0892897</span></span>
+<span><span class="co">#&gt; MT-CO1           FALSE 3.6496692</span></span>
+<span><span class="co">#&gt; SSU72             TRUE 0.7360999</span></span>
+<span><span class="co">#&gt; IFITM1           FALSE 0.4033074</span></span>
+<span><span class="co">#&gt; AC090498.1       FALSE 1.0845500</span></span>
+<span><span class="co">#&gt; EIF1             FALSE 3.1872508</span></span>
+<span><span class="co">#&gt; MRPL20            TRUE 0.3742890</span></span>
+<span><span class="co">#&gt; AURKAIP1          TRUE 0.4519109</span></span>
+<span><span class="co">#&gt; CTSW             FALSE 0.3843436</span></span>
+<span><span class="co">#&gt; RORA             FALSE 0.4213283</span></span>
+<span><span class="co">#&gt; RPS3A            FALSE 4.3093665</span></span>
+<span><span class="co">#&gt; IGKC             FALSE 0.4192262</span></span>
+<span><span class="co">#&gt; ISG15             TRUE 0.3517154</span></span>
+<span><span class="co">#&gt; YBX1             FALSE 1.5858368</span></span>
+<span><span class="co">#&gt; RPS29            FALSE 4.7015768</span></span>
+<span><span class="co">#&gt; TOMM7            FALSE 2.4603419</span></span>
+<span><span class="co">#&gt; CRIP1            FALSE 0.3850406</span></span>
+<span><span class="co">#&gt; MIF              FALSE 0.5931893</span></span>
+<span><span class="co">#&gt; PIK3R1           FALSE 0.5447793</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                      p_val avg_log2FC pct.1 pct.2</span></span>
+<span><span class="co">#&gt; SSU72         3.830592e-13 0.88086768 0.338 0.338</span></span>
+<span><span class="co">#&gt; MRPL20        1.028331e-09 0.54966680 0.176 0.177</span></span>
+<span><span class="co">#&gt; AURKAIP1      3.830185e-09 0.66476830 0.219 0.207</span></span>
+<span><span class="co">#&gt; ISG15         2.611588e-08 0.73403899 0.162 0.161</span></span>
+<span><span class="co">#&gt; FO538757.2    4.270919e-06 0.46934343 0.103 0.043</span></span>
+<span><span class="co">#&gt; MIB2          1.981006e-05 0.37997003 0.089 0.073</span></span>
+<span><span class="co">#&gt; SDF4          6.943732e-05 0.35856603 0.103 0.114</span></span>
+<span><span class="co">#&gt; NOC2L         1.089203e-04 0.35397478 0.092 0.070</span></span>
+<span><span class="co">#&gt; CCNL2         1.398323e-04 0.29017704 0.070 0.062</span></span>
+<span><span class="co">#&gt; CPSF3L        1.569471e-04 0.29655428 0.073 0.063</span></span>
+<span><span class="co">#&gt; CDK11B        3.110903e-04 0.31182109 0.080 0.080</span></span>
+<span><span class="co">#&gt; UBE2J2        3.732766e-03 0.29944875 0.085 0.101</span></span>
+<span><span class="co">#&gt; TNFRSF4       8.321390e-03 0.22340043 0.048 0.026</span></span>
+<span><span class="co">#&gt; ATAD3B        1.158760e-02 0.10913157 0.022 0.010</span></span>
+<span><span class="co">#&gt; RP11-345P4.9  1.208334e-02 0.13436316 0.031 0.023</span></span>
+<span><span class="co">#&gt; RP11-206L10.9 1.273706e-02 0.13734666 0.028 0.018</span></span>
+<span><span class="co">#&gt; PUSL1         3.745426e-02 0.07096771 0.018 0.020</span></span>
+<span><span class="co">#&gt; ATAD3A        6.269991e-02 0.08074940 0.019 0.019</span></span>
+<span><span class="co">#&gt; AP006222.2    2.039951e-01 0.02436154 0.007 0.013</span></span>
+<span><span class="co">#&gt; ACAP3         2.111349e-01 0.11018169 0.027 0.031</span></span>
+<span><span class="co">#&gt; CPTP          3.603234e-01 0.04136582 0.013 0.024</span></span>
+<span><span class="co">#&gt; TNFRSF18      5.724217e-01 0.07719596 0.019 0.016</span></span>
+<span><span class="co">#&gt;                  p_val_adj was_altered    AveExpr</span></span>
+<span><span class="co">#&gt; SSU72         2.210252e-09        TRUE 0.73609990</span></span>
+<span><span class="co">#&gt; MRPL20        5.933469e-06        TRUE 0.37428897</span></span>
+<span><span class="co">#&gt; AURKAIP1      2.210016e-05        TRUE 0.45191094</span></span>
+<span><span class="co">#&gt; ISG15         1.506887e-04        TRUE 0.35171536</span></span>
+<span><span class="co">#&gt; FO538757.2    2.464320e-02        TRUE 0.16860112</span></span>
+<span><span class="co">#&gt; MIB2          1.143041e-01        TRUE 0.17040047</span></span>
+<span><span class="co">#&gt; SDF4          4.006533e-01        TRUE 0.22599522</span></span>
+<span><span class="co">#&gt; NOC2L         6.284702e-01        TRUE 0.16932813</span></span>
+<span><span class="co">#&gt; CCNL2         8.068324e-01        TRUE 0.13617764</span></span>
+<span><span class="co">#&gt; CPSF3L        9.055851e-01        TRUE 0.14041781</span></span>
+<span><span class="co">#&gt; CDK11B        1.000000e+00        TRUE 0.16470706</span></span>
+<span><span class="co">#&gt; UBE2J2        1.000000e+00        TRUE 0.18979977</span></span>
+<span><span class="co">#&gt; TNFRSF4       1.000000e+00        TRUE 0.07923627</span></span>
+<span><span class="co">#&gt; ATAD3B        1.000000e+00        TRUE 0.03637473</span></span>
+<span><span class="co">#&gt; RP11-345P4.9  1.000000e+00        TRUE 0.05591016</span></span>
+<span><span class="co">#&gt; RP11-206L10.9 1.000000e+00        TRUE 0.04904527</span></span>
+<span><span class="co">#&gt; PUSL1         1.000000e+00        TRUE 0.04011121</span></span>
+<span><span class="co">#&gt; ATAD3A        1.000000e+00        TRUE 0.03975988</span></span>
+<span><span class="co">#&gt; AP006222.2    1.000000e+00        TRUE 0.01922010</span></span>
+<span><span class="co">#&gt; ACAP3         1.000000e+00        TRUE 0.05863448</span></span>
+<span><span class="co">#&gt; CPTP          1.000000e+00        TRUE 0.03572932</span></span>
+<span><span class="co">#&gt; TNFRSF18      1.000000e+00        TRUE 0.03778980</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-45-1.png" width="672"></div>
+</div>
+<div id="pseudobulk" class="section level2" number="13.6">
+<h2>
+<span class="header-section-number">13.6</span> Pseudobulk<a class="anchor" aria-label="anchor" href="#pseudobulk"><i class="fas fa-link"></i></a>
+</h2>
+<p>Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.</p>
+<p>First, you need to build a pseudobulk matrix - the <code><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression()</a></code> function can do this, once you set the ‘Idents’ of your seurat object to your grouping factor (here, sample instead of cluster).</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'limma' was built under R version 4.1.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'limma'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     plotMA</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'edgeR' was built under R version 4.1.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'edgeR'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:SingleCellExperiment':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     cpm</span></span>
 <span></span>
 <span></span>
+<span><span class="co"># Change idents to sample fro grouping.</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">hcabm40k.mini.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">hcabm40k.mini.c0</span><span class="op">$</span><span class="va">orig.ident</span></span>
 <span></span>
 <span></span>
-<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<span><span class="va">pseudobulk_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">hcabm40k.mini.c0</span>,  slot <span class="op">=</span> <span class="st">'counts'</span>, assays<span class="op">=</span><span class="st">'RNA'</span> <span class="op">)</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">pseudobulk_matrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span></span>
+<span><span class="co">#&gt;               MantonBM1 MantonBM2 MantonBM3 MantonBM4</span></span>
+<span><span class="co">#&gt; FO538757.2           52        88       116        44</span></span>
+<span><span class="co">#&gt; AP006222.2            4         4         4         8</span></span>
+<span><span class="co">#&gt; RP11-206L10.9        20         4        36        20</span></span>
+<span><span class="co">#&gt; NOC2L                64        72        52        60</span></span>
+<span><span class="co">#&gt; ISG15               280       204        72       112</span></span>
+<span><span class="co">#&gt;               MantonBM5 MantonBM6 MantonBM7 MantonBM8</span></span>
+<span><span class="co">#&gt; FO538757.2            5         9        10        12</span></span>
+<span><span class="co">#&gt; AP006222.2            0         5         3         2</span></span>
+<span><span class="co">#&gt; RP11-206L10.9         8         2         3         1</span></span>
+<span><span class="co">#&gt; NOC2L                 6        23        15        13</span></span>
+<span><span class="co">#&gt; ISG15                18        55        50        36</span></span></code></pre></div>
+<p>Now it looks like a bulk RNAseq experiment, so treat it like one.</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
+<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">condition_lookup</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">condition</span><span class="op">)</span></span>
+<span><span class="va">vm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span><span class="op">(</span><span class="va">dge</span>, design <span class="op">=</span> <span class="va">design</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, design <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, n <span class="op">=</span> <span class="cn">Inf</span>, adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Removing intercept from test coefficients</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> , <span class="va">adj.P.Val</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span><span class="op">$</span><span class="va">was_altered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> <span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">altered_genes</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>,    <span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                logFC  AveExpr         t      P.Value</span></span>
+<span><span class="co">#&gt; SSU72       1.827399 8.223682  8.692304 2.860363e-07</span></span>
+<span><span class="co">#&gt; MIB2        2.218842 5.995477  8.521901 3.678808e-07</span></span>
+<span><span class="co">#&gt; FO538757.2  3.053688 5.683244  8.065974 7.337060e-07</span></span>
+<span><span class="co">#&gt; AURKAIP1    1.874062 7.448062  7.552436 1.646799e-06</span></span>
+<span><span class="co">#&gt; NOC2L       2.256402 5.873625  7.284448 2.545248e-06</span></span>
+<span><span class="co">#&gt; CCNL2       2.009855 5.594008  6.417440 1.112005e-05</span></span>
+<span><span class="co">#&gt; TNFRSF4     2.686188 4.857853  5.918920 2.719907e-05</span></span>
+<span><span class="co">#&gt; MRPL20      1.741288 7.140368  5.724222 3.892940e-05</span></span>
+<span><span class="co">#&gt; ISG15       2.072292 7.231757  5.487119 6.066165e-05</span></span>
+<span><span class="co">#&gt; CTSW       -1.519444 6.533752 -5.497693 5.946401e-05</span></span>
+<span><span class="co">#&gt; CPSF3L      2.083187 5.672812  5.308804 8.509637e-05</span></span>
+<span><span class="co">#&gt;              adj.P.Val        B was_altered</span></span>
+<span><span class="co">#&gt; SSU72      0.001061336 6.667334        TRUE</span></span>
+<span><span class="co">#&gt; MIB2       0.001061336 5.647051        TRUE</span></span>
+<span><span class="co">#&gt; FO538757.2 0.001411161 4.797357        TRUE</span></span>
+<span><span class="co">#&gt; AURKAIP1   0.002375507 5.052546        TRUE</span></span>
+<span><span class="co">#&gt; NOC2L      0.002937216 4.182797        TRUE</span></span>
+<span><span class="co">#&gt; CCNL2      0.010693783 2.999551        TRUE</span></span>
+<span><span class="co">#&gt; TNFRSF4    0.022419804 1.872900        TRUE</span></span>
+<span><span class="co">#&gt; MRPL20     0.028077829 2.321087        TRUE</span></span>
+<span><span class="co">#&gt; ISG15      0.035001771 1.936264        TRUE</span></span>
+<span><span class="co">#&gt; CTSW       0.035001771 1.887985       FALSE</span></span>
+<span><span class="co">#&gt; CPSF3L     0.044636914 1.425176        TRUE</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  logFC  AveExpr        t      P.Value</span></span>
+<span><span class="co">#&gt; SSU72         1.827399 8.223682 8.692304 2.860363e-07</span></span>
+<span><span class="co">#&gt; MIB2          2.218842 5.995477 8.521901 3.678808e-07</span></span>
+<span><span class="co">#&gt; FO538757.2    3.053688 5.683244 8.065974 7.337060e-07</span></span>
+<span><span class="co">#&gt; AURKAIP1      1.874062 7.448062 7.552436 1.646799e-06</span></span>
+<span><span class="co">#&gt; NOC2L         2.256402 5.873625 7.284448 2.545248e-06</span></span>
+<span><span class="co">#&gt; CCNL2         2.009855 5.594008 6.417440 1.112005e-05</span></span>
+<span><span class="co">#&gt; TNFRSF4       2.686188 4.857853 5.918920 2.719907e-05</span></span>
+<span><span class="co">#&gt; MRPL20        1.741288 7.140368 5.724222 3.892940e-05</span></span>
+<span><span class="co">#&gt; ISG15         2.072292 7.231757 5.487119 6.066165e-05</span></span>
+<span><span class="co">#&gt; CPSF3L        2.083187 5.672812 5.308804 8.509637e-05</span></span>
+<span><span class="co">#&gt; CDK11B        1.695361 5.867293 4.694290 2.816049e-04</span></span>
+<span><span class="co">#&gt; SDF4          1.668179 6.351442 4.416104 4.908440e-04</span></span>
+<span><span class="co">#&gt; ATAD3B        2.481897 3.445121 3.786880 1.766296e-03</span></span>
+<span><span class="co">#&gt; UBE2J2        1.575101 6.034639 3.464531 3.428952e-03</span></span>
+<span><span class="co">#&gt; PUSL1         1.533289 3.903357 3.311507 4.699198e-03</span></span>
+<span><span class="co">#&gt; RP11-206L10.9 2.514828 3.884651 3.221094 5.659663e-03</span></span>
+<span><span class="co">#&gt; ACAP3         1.461375 4.360386 2.735278 1.524241e-02</span></span>
+<span><span class="co">#&gt; ATAD3A        1.767874 3.708504 2.648575 1.814391e-02</span></span>
+<span><span class="co">#&gt; AP006222.2    1.233790 2.798325 1.987226 6.531280e-02</span></span>
+<span><span class="co">#&gt; CPTP          1.043158 3.641585 1.831192 8.683604e-02</span></span>
+<span><span class="co">#&gt; TNFRSF18      1.439378 3.432145 1.578657 1.350916e-01</span></span>
+<span><span class="co">#&gt; RP11-345P4.9  1.400079 3.700624 1.425998 1.741766e-01</span></span>
+<span><span class="co">#&gt;                 adj.P.Val           B was_altered</span></span>
+<span><span class="co">#&gt; SSU72         0.001061336  6.66733411        TRUE</span></span>
+<span><span class="co">#&gt; MIB2          0.001061336  5.64705060        TRUE</span></span>
+<span><span class="co">#&gt; FO538757.2    0.001411161  4.79735742        TRUE</span></span>
+<span><span class="co">#&gt; AURKAIP1      0.002375507  5.05254647        TRUE</span></span>
+<span><span class="co">#&gt; NOC2L         0.002937216  4.18279685        TRUE</span></span>
+<span><span class="co">#&gt; CCNL2         0.010693783  2.99955073        TRUE</span></span>
+<span><span class="co">#&gt; TNFRSF4       0.022419804  1.87290007        TRUE</span></span>
+<span><span class="co">#&gt; MRPL20        0.028077829  2.32108741        TRUE</span></span>
+<span><span class="co">#&gt; ISG15         0.035001771  1.93626353        TRUE</span></span>
+<span><span class="co">#&gt; CPSF3L        0.044636914  1.42517599        TRUE</span></span>
+<span><span class="co">#&gt; CDK11B        0.132566905  0.49038317        TRUE</span></span>
+<span><span class="co">#&gt; SDF4          0.188811316  0.05370517        TRUE</span></span>
+<span><span class="co">#&gt; ATAD3B        0.536396233 -1.52858995        TRUE</span></span>
+<span><span class="co">#&gt; UBE2J2        0.732779678 -1.64433325        TRUE</span></span>
+<span><span class="co">#&gt; PUSL1         0.821647586 -2.04781451        TRUE</span></span>
+<span><span class="co">#&gt; RP11-206L10.9 0.933035863 -2.22812984        TRUE</span></span>
+<span><span class="co">#&gt; ACAP3         0.997887502 -2.87920934        TRUE</span></span>
+<span><span class="co">#&gt; ATAD3A        0.997887502 -3.04649462        TRUE</span></span>
+<span><span class="co">#&gt; AP006222.2    0.997887502 -3.92807988        TRUE</span></span>
+<span><span class="co">#&gt; CPTP          0.997887502 -4.13957382        TRUE</span></span>
+<span><span class="co">#&gt; TNFRSF18      0.997887502 -4.41616654        TRUE</span></span>
+<span><span class="co">#&gt; RP11-345P4.9  0.997887502 -4.61353678        TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="va">was_altered</span><span class="op">)</span>, pch<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="st">'blue'</span>, size<span class="op">=</span><span class="fl">5</span> <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_colour_manual</a></span><span class="op">(</span>values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'TRUE'</span><span class="op">=</span><span class="st">"red"</span>,<span class="st">'FALSE'</span><span class="op">=</span><span class="st">"black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-48-1.png" width="672"></div>
+<div id="challenge-what-method" class="section level4 unnumbered rmdtip">
+<h4>Challenge: What method?<a class="anchor" aria-label="anchor" href="#challenge-what-method"><i class="fas fa-link"></i></a>
+</h4>
+<p>These methods give different results. How could and decide which to use? How could you check an individual gene?</p>
 
+</div>
+</div>
 </div>
 
 
@@ -286,7 +642,15 @@
 <div class="next"><a href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#de"><span class="header-section-number">13</span> DE</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#de"><span class="header-section-number">13</span> Differential Expression</a></li>
+<li><a class="nav-link" href="#prepared-data"><span class="header-section-number">13.1</span> Prepared data</a></li>
+<li><a class="nav-link" href="#load-data"><span class="header-section-number">13.2</span> Load Data</a></li>
+<li><a class="nav-link" href="#prefiltering"><span class="header-section-number">13.3</span> Prefiltering</a></li>
+<li><a class="nav-link" href="#default-wilcox-test"><span class="header-section-number">13.4</span> Default Wilcox test</a></li>
+<li><a class="nav-link" href="#seurat-negative-binomial"><span class="header-section-number">13.5</span> Seurat Negative binomial</a></li>
+<li><a class="nav-link" href="#pseudobulk"><span class="header-section-number">13.6</span> Pseudobulk</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -303,7 +667,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-19.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

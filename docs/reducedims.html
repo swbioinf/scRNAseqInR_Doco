@@ -47,7 +47,7 @@
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
 <li class="book-part">Content</li>
 <li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> What can we do with a Seurat object?</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> The Seurat object</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
 <li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
 <li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
@@ -57,7 +57,7 @@
 <li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
-<li><a class="" href="de.html"><span class="header-section-number">13</span> DE</a></li>
+<li><a class="" href="de.html"><span class="header-section-number">13</span> Differential Expression</a></li>
 <li class="book-part">End</li>
 <li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
 <li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
@@ -250,20 +250,20 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">#&gt; This message will be shown once per session</span></span>
-<span><span class="co">#&gt; 21:39:34 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 21:39:34 Read 2638 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 21:39:34 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 21:39:34 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 13:28:13 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 13:28:13 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 13:28:13 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 13:28:13 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 21:39:34 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//Rtmpxmpzf3/file772357a3ac3f</span></span>
-<span><span class="co">#&gt; 21:39:34 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 21:39:35 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 21:39:35 Commencing smooth kNN distance calibration using 1 thread</span></span>
-<span><span class="co">#&gt; 21:39:35 Initializing from normalized Laplacian + noise</span></span>
-<span><span class="co">#&gt; 21:39:35 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
-<span><span class="co">#&gt; 21:39:40 Optimization finished</span></span></code></pre></div>
+<span><span class="co">#&gt; 13:28:13 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpZy8Ddq/fileacbb43a90b8a</span></span>
+<span><span class="co">#&gt; 13:28:13 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 13:28:13 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 13:28:14 Commencing smooth kNN distance calibration using 1 thread</span></span>
+<span><span class="co">#&gt; 13:28:14 Initializing from normalized Laplacian + noise</span></span>
+<span><span class="co">#&gt; 13:28:14 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
+<span><span class="co">#&gt; 13:28:18 Optimization finished</span></span></code></pre></div>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
@@ -303,7 +303,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-19.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-20.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
