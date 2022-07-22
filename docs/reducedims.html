@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="9.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
+<title>Chapter 8 PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="8.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Chapter 9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 8 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="9.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
+<meta property="og:description" content="8.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 9 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="9.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
+<meta name="twitter:title" content="Chapter 8 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="8.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -50,21 +50,20 @@
 <li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
 <li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
 <li class="book-part">Content</li>
-<li><a class="" href="overview.html"><span class="header-section-number">4</span> Overview</a></li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">5</span> The Seurat object</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">4</span> The Seurat object</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
-<li><a class="" href="load.html"><span class="header-section-number">6</span> Load data</a></li>
-<li><a class="" href="qc.html"><span class="header-section-number">7</span> QC Filtering</a></li>
-<li><a class="" href="norm.html"><span class="header-section-number">8</span> Normalisation</a></li>
-<li><a class="active" href="reducedims.html"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">10</span> Clustering</a></li>
-<li><a class="" href="cluster-markers.html"><span class="header-section-number">11</span> Cluster Markers</a></li>
+<li><a class="" href="load.html"><span class="header-section-number">5</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">6</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">7</span> Normalisation</a></li>
+<li><a class="active" href="reducedims.html"><span class="header-section-number">8</span> PCAs and UMAPs</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">12</span> SingleR</a></li>
-<li><a class="" href="de.html"><span class="header-section-number">13</span> Differential Expression</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
+<li><a class="" href="de.html"><span class="header-section-number">12</span> Differential Expression</a></li>
 <li class="book-part">End</li>
-<li><a class="" href="finishing-up.html"><span class="header-section-number">14</span> Finishing up</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="finishing-up.html"><span class="header-section-number">13</span> Finishing up</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">14</span> Resources</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -73,18 +72,18 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="reducedims" class="section level1" number="9">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="reducedims" class="section level1" number="8">
 <h1>
-<span class="header-section-number">9</span> PCAs and UMAPs<a class="anchor" aria-label="anchor" href="#reducedims"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8</span> PCAs and UMAPs<a class="anchor" aria-label="anchor" href="#reducedims"><i class="fas fa-link"></i></a>
 </h1>
 <!-- why pca -->
 <!-- how to pick genes for pca -->
 <!-- why not pca? the blob of not very usefulness. -->
 <!-- Elbow plots -->
 <!-- oooh umap. -->
-<div id="identification-of-highly-variable-features-feature-selection" class="section level2" number="9.1">
+<div id="identification-of-highly-variable-features-feature-selection" class="section level2" number="8.1">
 <h2>
-<span class="header-section-number">9.1</span> Identification of highly variable features (feature selection)<a class="anchor" aria-label="anchor" href="#identification-of-highly-variable-features-feature-selection"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.1</span> Identification of highly variable features (feature selection)<a class="anchor" aria-label="anchor" href="#identification-of-highly-variable-features-feature-selection"><i class="fas fa-link"></i></a>
 </h2>
 <p>We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). We and <a href="https://www.nature.com/articles/nmeth.2645">others</a> have found that focusing on these genes in downstream analysis helps to highlight biological signal in single-cell datasets.</p>
 <p>Our procedure in Seurat is described in detail <a href="https://doi.org/10.1016/j.cell.2019.05.031">here</a>, and improves on previous versions by directly modeling the mean-variance relationship inherent in single-cell data, and is implemented in the <code><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures()</a></code> function. By default, we return 2,000 features per dataset. These will be used in downstream analysis, like PCA.</p>
@@ -106,16 +105,13 @@
 <span><span class="co">#&gt; Warning: Removed 1 rows containing missing values</span></span>
 <span><span class="co">#&gt; (geom_point).</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/var_features-1.png" width="1056"></div>
-<div id="challenge-labelling-genes-of-interest" class="section level4 unnumbered rmdtip">
-<h4>Challenge: Labelling Genes of Interest<a class="anchor" aria-label="anchor" href="#challenge-labelling-genes-of-interest"><i class="fas fa-link"></i></a>
-</h4>
-<p>What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot.</p>
-<p>Make a plot with labels for the genes IL8, IDH2 and CXCL3.</p>
+<!-- #### Challenge: Labelling Genes of Interest {- .rmdtip} -->
+<!-- What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot. -->
+<!-- Make a plot with labels for the genes IL8, IDH2 and CXCL3. -->
 </div>
-</div>
-<div id="scaling-the-data" class="section level2" number="9.2">
+<div id="scaling-the-data" class="section level2" number="8.2">
 <h2>
-<span class="header-section-number">9.2</span> Scaling the data<a class="anchor" aria-label="anchor" href="#scaling-the-data"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.2</span> Scaling the data<a class="anchor" aria-label="anchor" href="#scaling-the-data"><i class="fas fa-link"></i></a>
 </h2>
 <p>Next, we apply a linear transformation (‘scaling’) that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code> function:</p>
 <ul>
@@ -147,9 +143,9 @@ However, particularly for advanced users who would like to use this functionalit
 </details><p> </p>
 <hr>
 </div>
-<div id="perform-linear-dimensional-reduction" class="section level2" number="9.3">
+<div id="perform-linear-dimensional-reduction" class="section level2" number="8.3">
 <h2>
-<span class="header-section-number">9.3</span> Perform linear dimensional reduction<a class="anchor" aria-label="anchor" href="#perform-linear-dimensional-reduction"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.3</span> Perform linear dimensional reduction<a class="anchor" aria-label="anchor" href="#perform-linear-dimensional-reduction"><i class="fas fa-link"></i></a>
 </h2>
 <p>Next we perform PCA on the scaled data. By default, only the previously determined variable features are used as input, but can be defined using <code>features</code> argument if you wish to choose a different subset.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
@@ -220,16 +216,20 @@ However, particularly for advanced users who would like to use this functionalit
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, cells <span class="op">=</span> <span class="fl">500</span>, balanced <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/multi-heatmap-1.png" width="864"></div>
+<div id="challenge-pc-genes" class="section level4 unnumbered rmdtip">
+<h4>Challenge: PC genes<a class="anchor" aria-label="anchor" href="#challenge-pc-genes"><i class="fas fa-link"></i></a>
+</h4>
+<p>Plot some of the highly weighted principal component genes on the pbmc object with the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function. How do they look?</p>
 </div>
-<div id="determine-the-dimensionality-of-the-dataset" class="section level2" number="9.4">
+</div>
+<div id="determine-the-dimensionality-of-the-dataset" class="section level2" number="8.4">
 <h2>
-<span class="header-section-number">9.4</span> Determine the ‘dimensionality’ of the dataset<a class="anchor" aria-label="anchor" href="#determine-the-dimensionality-of-the-dataset"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.4</span> Determine the ‘dimensionality’ of the dataset<a class="anchor" aria-label="anchor" href="#determine-the-dimensionality-of-the-dataset"><i class="fas fa-link"></i></a>
 </h2>
 <p>To overcome the extensive technical noise in any single feature for scRNA-seq data, Seurat clusters cells based on their PCA scores, with each PC essentially representing a ‘metafeature’ that combines information across a correlated feature set. The top principal components therefore represent a robust compression of the dataset. However, how many components should we choose to include? 10? 20? 100?</p>
-<div class="inline-table"><table class="table table-sm"><tbody><tr class="odd">
-<td>
-<em>Note</em>: The Seurat developers suggest using a JackStraw resampling test to determine this. See <a href="http://www.cell.com/abstract/S0092-8674(15)00549-8">Macosko <em>et al</em></a>, and the original <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1">pbmc3 vignette</a>. We’re going to use an Elbow Plot instead here, because its much quicker.</td>
-</tr></tbody></table></div>
+<hr>
+<p><em>Note</em>: The Seurat developers suggest using a JackStraw resampling test to determine this. See <a href="http://www.cell.com/abstract/S0092-8674(15)00549-8">Macosko <em>et al</em></a>, and the original <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1">pbmc3 vignette</a>. We’re going to use an Elbow Plot instead here, because its much quicker.</p>
+<hr>
 <p>An alternative heuristic method generates an ‘Elbow plot’: a ranking of principle components based on the percentage of variance explained by each one (<code><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot()</a></code> function). In this example, we can observe an ‘elbow’ around PC9-10, suggesting that the majority of true signal is captured in the first 10 PCs.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span></code></pre></div>
@@ -243,9 +243,9 @@ However, particularly for advanced users who would like to use this functionalit
 </ul>
 <hr>
 </div>
-<div id="run-non-linear-dimensional-reduction-umaptsne" class="section level2" number="9.5">
+<div id="run-non-linear-dimensional-reduction-umaptsne" class="section level2" number="8.5">
 <h2>
-<span class="header-section-number">9.5</span> Run non-linear dimensional reduction (UMAP/tSNE)<a class="anchor" aria-label="anchor" href="#run-non-linear-dimensional-reduction-umaptsne"><i class="fas fa-link"></i></a>
+<span class="header-section-number">8.5</span> Run non-linear dimensional reduction (UMAP/tSNE)<a class="anchor" aria-label="anchor" href="#run-non-linear-dimensional-reduction-umaptsne"><i class="fas fa-link"></i></a>
 </h2>
 <p>Seurat offers several non-linear dimensional reduction techniques, such as tSNE and UMAP, to visualize and explore these datasets. The goal of these algorithms is to learn the underlying manifold of the data in order to place similar cells together in low-dimensional space. Cells within the graph-based clusters determined above should co-localize on these dimension reduction plots. As input to the UMAP and tSNE, we suggest using the same PCs as input to the clustering analysis.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -254,20 +254,20 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">#&gt; This message will be shown once per session</span></span>
-<span><span class="co">#&gt; 14:42:21 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 14:42:21 Read 2638 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 14:42:21 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 14:42:21 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 15:50:28 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 15:50:28 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 15:50:28 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 15:50:28 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 14:42:22 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpoBf6Nl/fileb06421ca8c10</span></span>
-<span><span class="co">#&gt; 14:42:22 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 14:42:22 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 14:42:22 Commencing smooth kNN distance calibration using 1 thread</span></span>
-<span><span class="co">#&gt; 14:42:23 Initializing from normalized Laplacian + noise</span></span>
-<span><span class="co">#&gt; 14:42:23 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
-<span><span class="co">#&gt; 14:42:27 Optimization finished</span></span></code></pre></div>
+<span><span class="co">#&gt; 15:50:28 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpBkXmSl/file132fea0c09c2</span></span>
+<span><span class="co">#&gt; 15:50:28 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 15:50:28 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 15:50:28 Commencing smooth kNN distance calibration using 1 thread</span></span>
+<span><span class="co">#&gt; 15:50:29 Initializing from normalized Laplacian + noise</span></span>
+<span><span class="co">#&gt; 15:50:29 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
+<span><span class="co">#&gt; 15:50:33 Optimization finished</span></span></code></pre></div>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
@@ -279,17 +279,17 @@ However, particularly for advanced users who would like to use this functionalit
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="norm.html"><span class="header-section-number">8</span> Normalisation</a></div>
-<div class="next"><a href="clustering.html"><span class="header-section-number">10</span> Clustering</a></div>
+<div class="prev"><a href="norm.html"><span class="header-section-number">7</span> Normalisation</a></div>
+<div class="next"><a href="clustering.html"><span class="header-section-number">9</span> Clustering</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#reducedims"><span class="header-section-number">9</span> PCAs and UMAPs</a></li>
-<li><a class="nav-link" href="#identification-of-highly-variable-features-feature-selection"><span class="header-section-number">9.1</span> Identification of highly variable features (feature selection)</a></li>
-<li><a class="nav-link" href="#scaling-the-data"><span class="header-section-number">9.2</span> Scaling the data</a></li>
-<li><a class="nav-link" href="#perform-linear-dimensional-reduction"><span class="header-section-number">9.3</span> Perform linear dimensional reduction</a></li>
-<li><a class="nav-link" href="#determine-the-dimensionality-of-the-dataset"><span class="header-section-number">9.4</span> Determine the ‘dimensionality’ of the dataset</a></li>
-<li><a class="nav-link" href="#run-non-linear-dimensional-reduction-umaptsne"><span class="header-section-number">9.5</span> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
+<li><a class="nav-link" href="#reducedims"><span class="header-section-number">8</span> PCAs and UMAPs</a></li>
+<li><a class="nav-link" href="#identification-of-highly-variable-features-feature-selection"><span class="header-section-number">8.1</span> Identification of highly variable features (feature selection)</a></li>
+<li><a class="nav-link" href="#scaling-the-data"><span class="header-section-number">8.2</span> Scaling the data</a></li>
+<li><a class="nav-link" href="#perform-linear-dimensional-reduction"><span class="header-section-number">8.3</span> Perform linear dimensional reduction</a></li>
+<li><a class="nav-link" href="#determine-the-dimensionality-of-the-dataset"><span class="header-section-number">8.4</span> Determine the ‘dimensionality’ of the dataset</a></li>
+<li><a class="nav-link" href="#run-non-linear-dimensional-reduction-umaptsne"><span class="header-section-number">8.5</span> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
 </ul>
 
       <div class="book-extra">
@@ -307,7 +307,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-20.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

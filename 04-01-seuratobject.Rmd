@@ -1,3 +1,5 @@
+# (PART) Content {-} 
+
 # The Seurat object {#seuratobject}
 
 
@@ -106,11 +108,14 @@ And what about showing CD14 expression across which clusters (or any other categ
 VlnPlot(pbmc_processed, features = 'CD14')
 ```
 
+#### Challenge: Plotting { - .rmdtip}
+
+Plot your favourite gene. What cluster is it found in?
+
+Tip: You can check if the gene is in the dataset by looking for it in the rownames of the seurat object `"CCT3" %in% rownames(pbmc_processed)`
 
 
-
-
-
+-----
 
 <!-- Taken from MBP material,  -->
 

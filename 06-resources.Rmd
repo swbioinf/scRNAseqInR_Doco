@@ -1,33 +1,79 @@
 # Resources
 
-
 Useful resources for next steps.
 
-* Many Seurat Vignettes: https://satijalab.org/seurat/index.html
-* Ochestrating Single Cell Analysis with bioconductor: https://bioconductor.org/books/release/OSCA/
-* Bunch of useful links listed here: https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/
-* TidySeurat
+<!-- There's alot more we could add here!, Cell type, python AnnData information, Galaxy informatio, trajectory inference inof ...-->
 
-* Demo 10X data is here - variations on the technolgy; https://www.10xgenomics.com/resources/datasets
+### Seurat Vignettes {-}
 
-Seurat command cheat sheet. For when you're trying to figure out how to find something in the object: https://satijalab.org/seurat/articles/essential_commands.html
+https://satijalab.org/seurat/index.html
+ 
+There are a good many Seurat vigettes for different aspects of the Seurat package. E.g. 
+
+*[Guided Clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) : We've just worked through this
+*[Differential expression](https://satijalab.org/seurat/archive/v3.1/de_vignette.html 
+*[Data integration](https://satijalab.org/seurat/articles/integration_introduction.html)
+
+
+### Seurat Cheatsheet {-}
+
+https://satijalab.org/seurat/articles/essential_commands.html
+
+A useful resource for asking; How can I do 'X' with my seurat object?
+
+
+### OSCA {-}
+
+https://bioconductor.org/books/release/OSCA/
+
+An comprehensive resource for analysis approaches for single cell data. 
+This uses the SingleCellExperiment bioconductor ecosystem, but alot of the same principle still apply.
+
+
+### MBP training Reading list {-}
+
+https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/
+
+A workshop page run by Monash Bioinformatics Platform (source of today's workshop) - down the bottom there
+is an extensive list of useful single cell links and resources.
+
+
+### Biocommons Single Cell Omics {-}
+
+https://www.biocommons.org.au/single-cell-omics
+
+Join the single cell omics community resources being setup by biocommons. 
+
+
+### Demo 10X data {-}
+
+https://www.10xgenomics.com/resources/datasets
+
+10X genomics have quite a few example datasets availble for download (including PBMC3k). 
+This is a useful resource if you want to see what the 'raw' data looks like for a particular technology.
 
 
 
-* https://satijalab.org/seurat/archive/v3.1/de_vignette.html Differential expresison in SEurat.
+### TidySeurat {-}
+
+https://stemangiola.github.io/tidyseurat/
+
+For fans of tidyverse-everything, there's tidyseurat.
 
 
-tidyverse
 
-singleR
-celldex
-library(SingleCellExperiment)
-library(SingleR)
-library(celldex)
 
-For monocle: (not done.)
-remotes::install_github('satijalab/seurat-wrappers')
-onfigure: error: gdal-config not found or not executable.
-remotes::install_github('rspatial/terra')
-devtools::install_github('cole-trapnell-lab/monocle3')
+<!-- tidyverse -->
+
+<!-- singleR -->
+<!-- celldex -->
+<!-- library(SingleCellExperiment) -->
+<!-- library(SingleR) -->
+<!-- library(celldex) -->
+
+<!-- For monocle: (not done.) -->
+<!-- remotes::install_github('satijalab/seurat-wrappers') -->
+<!-- onfigure: error: gdal-config not found or not executable. -->
+<!-- remotes::install_github('rspatial/terra') -->
+<!-- devtools::install_github('cole-trapnell-lab/monocle3') -->
 

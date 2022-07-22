@@ -1,15 +1,27 @@
 # Schedule {#schedule}
 
 
-Timetable goes here.
+
+### Day 2 {-}
+
+| Time      | Content               |
+|-----------|-----------------------|
+| 2:00 AEST | Session: Seurat Intro |
+| 3:30 AEST | Break                 |
+| 3:45 AEST | Session: QC           |
+| 5:00 AEST | Finish                |
 
 
-## Day 1
+### Day 2 {-}
 
-Stuff
+| Time      | Content                        |
+|-----------|--------------------------------|
+| 2:00 AEST | Session: Clustering and UMAP   |
+| 3:30 AEST | Break                          |
+| 3:45 AEST | Session: Cell types and beyond |
+| 5:00 AEST | Finish                         |
 
 
-## Day 2
 
-More 
+
 

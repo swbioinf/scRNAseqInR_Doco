@@ -25,7 +25,7 @@ condition_lookup <-
 
 No need to run this - load up the pre prepared Seurat object.
 
-This code downloads and modifies the hcabm40k dataset to something small to test differential expression with.
+This code downloads and modifies the hcabm40k Human Cell Atlas Bone ICA marrow dataset to something small to test differential expression with.
 This dataset has data from 8 individuals (pbmc3k is all from one doner). 
 
 

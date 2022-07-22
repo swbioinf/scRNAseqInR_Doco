@@ -1,9 +1,6 @@
 about
 welcome
 schedule
-day-1
-day-2
-overview
 seuratobject
 load-an-existing-seurat-object
 whats-in-there
