@@ -30,3 +30,10 @@ seurat-negative-binomial
 pseudobulk
 finishing-up
 resources
+help-and-fruther-resources
+data
+tools
+cell-ranger
+starsolo
+scrublet
+cyclone

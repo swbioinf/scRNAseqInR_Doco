@@ -1,0 +1,118 @@
+---
+title: "Workshop Delivery Notes"
+output: html_notebook
+---
+
+
+# The Seurat object
+
+This section is to show people what we're aiming for! Else there's a whoooollle lot of processing steps before some payoff.
+
+
+* Mention 'copy-paste' button!
+* Everyone to load object, people can follow along doing same plots if they want to.
+
+* Emphasise the metadata table - and that its got analysis in!
+
+
+
+Plotting
+
+* Defaults everywhere!
+* Dim Plot = Categoricial, Feature plot = continueous
+* We can plot the things in the metadata, or genes. Case matters.
+
+
+* Walk through interpretation ov VlnPlot - Raw counts - many zeros!
+
+
+## Activity Plotting
+
+Demo trying to plot a mouse gene to show the error you get with wrong capitalisation. 
+
+This breakout is to check everyone can load the data and do a plot. 
+
+
+## Discussion 'The Seurat object in R'
+
+Not covering, it is a bit too indepth for this training.
+Explain that its there for referring back to, but leave it for interetsed parties!
+
+Enocourage keen folk to discuss in breakout room.
+
+
+
+# Load Data
+
+
+Presenter to open up a real 10X data structure 'this is what you get if your seq facility runs cell ranger' - show the inputs files.
+
+_Then_ load the Seurat demo data.
+
+* This metadata table is almost empty!
+* Explain breifly why counts are '.'
+
+
+* **GREEN TICK** Everyone loaded data ok?
+
+
+# QC Filtering
+
+This section will run quite long (hopefully if there's discussionion!). The intention is to relate each step to the biology - go into 'why' we are doing them.
+
+
+* Emphasise Looking at the data and choosing your own threshold!
+
+
+
+### The meta data slot
+
+* Suggest people add 'sample1' to a sample column, as though this was one of several samples. We won't use it though. Explain thats a common task!
+* Breakout room convo suggestion; ask people what each column is? Why do we care?
+
+
+### QC filtering continued...
+
+Spend a long time going through each individual plot. And why. Ask people to identify thresholds!
+
+* Small activity: get people to drop threhsolds in slack). I've seen people pick seurat's tutorial thresholds, which aren't going to be great for modern data!
+* For the scatter plots, discuss the relations between stats => You can filter on nFeature or nCounts since they're correlated!
+* Apply filtering. 
+* I'd personally not set a max gene threhsold at all 
+* You pick the right threholds for your data - this data is old and the tech got much better!
+
+
+
+### Apply Filtering
+
+* Breakout to apply filtering and see how many cells survive. ncol(pbmc)/pbmc summary e.t.c
+* Try some different thresholds in a new object and disuss how many cells they get.
+
+
+* **GREEN TICK** Everyone filtered data ok?
+
+
+
+### QC filtering continued...
+
+Then, Disscuss other information/filtering options. Not covered in Seurat tutorial, so add a slide?
+
+This is an 'annotation phase' of the analysis.
+
+* Ribisomal RNA
+* Doublets
+* low diversity
+* Story re Haemoblobin molecule in chicken! (Its non-standard, but an example of going your own way)
+* Cell cycle ( but not for filtering.)
+
+
+
+# Normalisation
+
+Demo - Show counts vs norm. Explain that again this is just one normalisation method. 
+
+* **GREEN TICK** Everyone run normalisation ok?
+
+
+
+

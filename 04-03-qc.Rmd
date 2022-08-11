@@ -71,30 +71,33 @@ plot3 <- FeatureScatter(pbmc, feature1 = "nFeature_RNA", feature2 = "percent.mt"
 plot3
 ```
 
-#### Challenge: Ribosomal gene expression as a QC metric {- .rmdtip}
-Ribosomal gene expression could be another factor to look into your cells within your experiment.
 
-Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes. 
 
-Use `FeatureScatter` to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out.
 
-<details>
-<summary>**Code for challenge**</summary>
-Create new meta.data columns to contain percentages of the large and small ribosomal genes.
 
-Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell. 
+<!-- #### Challenge: Ribosomal gene expression as a QC metric {- .rmdtip} -->
+<!-- Ribosomal gene expression could be another factor to look into your cells within your experiment. -->
 
-What about with mitochondria and gene, feature counts?
+<!-- Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.  -->
 
-These are the cells you may want to exclude.
-</details>
+<!-- Use `FeatureScatter` to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out. -->
 
-<details>
-<summary>**Advanced Challenge**</summary>
-Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with `FeatureScatter` make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage.
-</details>
+<!-- <details> -->
+<!-- <summary>**Code for challenge**</summary> -->
+<!-- Create new meta.data columns to contain percentages of the large and small ribosomal genes. -->
 
-### { - }
+<!-- Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell.  -->
+
+<!-- What about with mitochondria and gene, feature counts? -->
+
+<!-- These are the cells you may want to exclude. -->
+<!-- </details> -->
+
+<!-- <details> -->
+<!-- <summary>**Advanced Challenge**</summary> -->
+<!-- Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with `FeatureScatter` make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage. -->
+<!-- </details> -->
+<!-- ### { - } --> 
 
 Okay we are happy with our thresholds for mitochondrial percentage in cells, lets apply them and subset our data. This will remove the cells we think are of poor quality. 
 
@@ -109,3 +112,19 @@ plot5 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt")
 plot6 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA") 
 plot5 + plot6
 ```
+
+#### Challenge: Filter the cells {- .rmdtip}
+
+Apply the filtering thresolds defined above. 
+
+* How many cells survive filtering?
+* Try a different combination of filtering thresholds. How many cells pass that? Remember to assign your results to a different object! 
+
+```{r eval=FALSE}
+pbmc_qctest <- subset(pbmc, subset = ...)
+```
+
+
+
+
+

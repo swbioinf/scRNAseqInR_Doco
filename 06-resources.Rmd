@@ -4,6 +4,8 @@ Useful resources for next steps.
 
 <!-- There's alot more we could add here!, Cell type, python AnnData information, Galaxy informatio, trajectory inference inof ...-->
 
+## Help and fruther Resources
+
 ### Seurat Vignettes {-}
 
 https://satijalab.org/seurat/index.html
@@ -45,6 +47,8 @@ https://www.biocommons.org.au/single-cell-omics
 Join the single cell omics community resources being setup by biocommons. 
 
 
+## Data
+
 ### Demo 10X data {-}
 
 https://www.10xgenomics.com/resources/datasets
@@ -52,6 +56,21 @@ https://www.10xgenomics.com/resources/datasets
 10X genomics have quite a few example datasets availble for download (including PBMC3k). 
 This is a useful resource if you want to see what the 'raw' data looks like for a particular technology.
 
+
+## Tools
+
+
+### Cell Ranger
+
+https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger
+
+CellRanger is the 10X tool that takes raw fastq sequence files and produces the counts matricies that are the starting point for today's analysis.
+
+
+### STARSolo
+
+STAR is an aligner (used within cellRanger). STARSolo is a method for 
+https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md
 
 
 ### TidySeurat {-}
@@ -61,7 +80,19 @@ https://stemangiola.github.io/tidyseurat/
 For fans of tidyverse-everything, there's tidyseurat.
 
 
+### Scrublet
 
+https://github.com/swolock/scrublet
+
+A python based tool for doublet detection. One of many tools in this space.
+
+
+### cyclone 
+
+https://pubmed.ncbi.nlm.nih.gov/26142758/
+
+Part of the scran package, cyclone is a(nother) method for determining cell phase.
+[Doco](https://rdrr.io/bioc/scran/man/cyclone.html)
 
 <!-- tidyverse -->
 

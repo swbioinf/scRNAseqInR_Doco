@@ -146,25 +146,22 @@
 <code class="sourceCode R"><span><span class="va">plot3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FeatureScatter.html">FeatureScatter</a></span><span class="op">(</span><span class="va">pbmc</span>, feature1 <span class="op">=</span> <span class="st">"nFeature_RNA"</span>, feature2 <span class="op">=</span> <span class="st">"percent.mt"</span><span class="op">)</span> </span>
 <span><span class="va">plot3</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
-<div id="challenge-ribosomal-gene-expression-as-a-qc-metric" class="section level4 unnumbered rmdtip">
-<h4>Challenge: Ribosomal gene expression as a QC metric<a class="anchor" aria-label="anchor" href="#challenge-ribosomal-gene-expression-as-a-qc-metric"><i class="fas fa-link"></i></a>
-</h4>
-<p>Ribosomal gene expression could be another factor to look into your cells within your experiment.</p>
-<p>Create more columns of metadata using <code>PercentageFeatureSet</code> function, this time search for ribosomal genes. We can calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.</p>
-<p>Use <code>FeatureScatter</code> to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out.</p>
-<details><summary><strong>Code for challenge</strong>
-</summary><p>Create new meta.data columns to contain percentages of the large and small ribosomal genes.</p>
-<p>Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell.</p>
-<p>What about with mitochondria and gene, feature counts?</p>
-These are the cells you may want to exclude.
-</details><details><summary><strong>Advanced Challenge</strong>
-</summary>
-Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with <code>FeatureScatter</code> make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage.
-</details>
-</div>
-</div>
-<div id="section-1" class="section level3 unnumbered">
-<h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-1"><i class="fas fa-link"></i></a></h3>
+<!-- #### Challenge: Ribosomal gene expression as a QC metric {- .rmdtip} -->
+<!-- Ribosomal gene expression could be another factor to look into your cells within your experiment. -->
+<!-- Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.  -->
+<!-- Use `FeatureScatter` to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out. -->
+<!-- <details> -->
+<!-- <summary>**Code for challenge**</summary> -->
+<!-- Create new meta.data columns to contain percentages of the large and small ribosomal genes. -->
+<!-- Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell.  -->
+<!-- What about with mitochondria and gene, feature counts? -->
+<!-- These are the cells you may want to exclude. -->
+<!-- </details> -->
+<!-- <details> -->
+<!-- <summary>**Advanced Challenge**</summary> -->
+<!-- Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with `FeatureScatter` make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage. -->
+<!-- </details> -->
+<!-- ### { - } -->
 <p>Okay we are happy with our thresholds for mitochondrial percentage in cells, lets apply them and subset our data. This will remove the cells we think are of poor quality.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">pbmc</span>, subset <span class="op">=</span> <span class="va">nFeature_RNA</span> <span class="op">&gt;</span> <span class="fl">200</span> <span class="op">&amp;</span> <span class="va">nFeature_RNA</span> <span class="op">&lt;</span> <span class="fl">2500</span> <span class="op">&amp;</span> <span class="va">percent.mt</span> <span class="op">&lt;</span> <span class="fl">5</span><span class="op">)</span></span></code></pre></div>
@@ -174,7 +171,18 @@ Highlight cells with very low percentage of ribosomal genes, create a new column
 <span><span class="va">plot6</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FeatureScatter.html">FeatureScatter</a></span><span class="op">(</span><span class="va">pbmc</span>, feature1 <span class="op">=</span> <span class="st">"nCount_RNA"</span>, feature2 <span class="op">=</span> <span class="st">"nFeature_RNA"</span><span class="op">)</span> </span>
 <span><span class="va">plot5</span> <span class="op">+</span> <span class="va">plot6</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/qc2_sidebar-1.png" width="1248"></div>
+<div id="challenge-filter-the-cells" class="section level4 unnumbered rmdtip">
+<h4>Challenge: Filter the cells<a class="anchor" aria-label="anchor" href="#challenge-filter-the-cells"><i class="fas fa-link"></i></a>
+</h4>
+<p>Apply the filtering thresolds defined above.</p>
+<ul>
+<li>How many cells survive filtering?</li>
+<li>Try a different combination of filtering thresholds. How many cells pass that? Remember to assign your results to a different object!</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc_qctest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">pbmc</span>, subset <span class="op">=</span> <span class="va">...</span><span class="op">)</span></span></code></pre></div>
 
+</div>
 </div>
 </div>
 </div>
@@ -186,10 +194,7 @@ Highlight cells with very low percentage of ribosomal genes, create a new column
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#qc"><span class="header-section-number">6</span> QC Filtering</a></li>
 <li>
-<a class="nav-link" href="#qc-and-selecting-cells-for-further-analysis"><span class="header-section-number">6.1</span> QC and selecting cells for further analysis</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#section"></a></li>
-<li><a class="nav-link" href="#section-1"></a></li>
-</ul>
+<a class="nav-link" href="#qc-and-selecting-cells-for-further-analysis"><span class="header-section-number">6.1</span> QC and selecting cells for further analysis</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#section"></a></li></ul>
 </li>
 </ul>
 
@@ -208,7 +213,7 @@ Highlight cells with very low percentage of ribosomal genes, create a new column
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-07-22.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
