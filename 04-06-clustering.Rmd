@@ -20,7 +20,18 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 head(Idents(pbmc), 5)
 ```
 
+
+Check out the clusters.
+```{r}
+DimPlot(pbmc)
+# Equivalent to
+# DimPlot(pbmc,reduction="umap", group.by="seurat_clusters")
+# DimPlot(pbmc,reduction="umap", group.by="RNA_snn_res.0.5")
+```
+
 ***
+
+
 
 
 

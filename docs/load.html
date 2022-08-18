@@ -4,15 +4,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 5 Load data | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  5.1 Setup the Seurat Object For this...">
+<title>Chapter 4 Load data | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  4.1 Setup the Seurat Object For this...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Chapter 5 Load data | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 4 Load data | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  5.1 Setup the Seurat Object For this...">
+<meta property="og:description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  4.1 Setup the Seurat Object For this...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 5 Load data | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  5.1 Setup the Seurat Object For this...">
+<meta name="twitter:title" content="Chapter 4 Load data | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="This workshop follows the introductory Guided Clustering Tutorial tutorial from Seurat. The bulk of this workshop may be found in its original format there.  4.1 Setup the Seurat Object For this...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -47,23 +47,22 @@
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
-<li><a class="" href="welcome.html"><span class="header-section-number">2</span> Welcome</a></li>
-<li><a class="" href="schedule.html"><span class="header-section-number">3</span> Schedule</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
 <li class="book-part">Content</li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">4</span> The Seurat object</a></li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
-<li><a class="active" href="load.html"><span class="header-section-number">5</span> Load data</a></li>
-<li><a class="" href="qc.html"><span class="header-section-number">6</span> QC Filtering</a></li>
-<li><a class="" href="norm.html"><span class="header-section-number">7</span> Normalisation</a></li>
-<li><a class="" href="reducedims.html"><span class="header-section-number">8</span> PCAs and UMAPs</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
-<li><a class="" href="cluster-markers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
+<li><a class="active" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">8</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">9</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
-<li><a class="" href="de.html"><span class="header-section-number">12</span> Differential Expression</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
+<li><a class="" href="de.html"><span class="header-section-number">11</span> Differential Expression</a></li>
 <li class="book-part">End</li>
-<li><a class="" href="finishing-up.html"><span class="header-section-number">13</span> Finishing up</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">14</span> Resources</a></li>
+<li><a class="" href="finishing-up.html"><span class="header-section-number">12</span> Finishing up</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">13</span> Resources</a></li>
 <li><a class="" href="references.html">References</a></li>
 </ul>
 
@@ -72,25 +71,54 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="load" class="section level1" number="5">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="load" class="section level1" number="4">
 <h1>
-<span class="header-section-number">5</span> Load data<a class="anchor" aria-label="anchor" href="#load"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4</span> Load data<a class="anchor" aria-label="anchor" href="#load"><i class="fas fa-link"></i></a>
 </h1>
 <p>This workshop follows the introductory <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html">Guided Clustering Tutorial</a> tutorial from Seurat.</p>
 <p>The bulk of this workshop may be found in its original format there.</p>
-<div id="setup-the-seurat-object" class="section level2" number="5.1">
+<div id="setup-the-seurat-object" class="section level2" number="4.1">
 <h2>
-<span class="header-section-number">5.1</span> Setup the Seurat Object<a class="anchor" aria-label="anchor" href="#setup-the-seurat-object"><i class="fas fa-link"></i></a>
+<span class="header-section-number">4.1</span> Setup the Seurat Object<a class="anchor" aria-label="anchor" href="#setup-the-seurat-object"><i class="fas fa-link"></i></a>
 </h2>
 <p>For this tutorial, we will be analyzing the a dataset of Peripheral Blood Mononuclear Cells (PBMC) freely available from 10X Genomics. There are 2,700 single cells that were sequenced on the Illumina NextSeq 500. The raw data can be found <a href="https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz">here</a>.</p>
 <p>We start by reading in the data. The <code><a href="https://satijalab.org/seurat/reference/Read10X.html">Read10X()</a></code> function reads in the output of the <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger">cellranger</a> pipeline from 10X, returning a unique molecular identified (UMI) count matrix. The values in this matrix represent the number of molecules for each feature (i.e. gene; row) that are detected in each cell (column).</p>
+<div id="note-what-does-the-data-look-like" class="section level4 unnumbered rmdtip">
+<h4>Note: What does the data look like?<a class="anchor" aria-label="anchor" href="#note-what-does-the-data-look-like"><i class="fas fa-link"></i></a>
+</h4>
+<p>What do the input files look like? It varies, but this is the output of the CellRanger pipleine, described <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/gex-outputs">here</a></p>
+<pre><code>├── analysis
+│   ├── clustering
+│   ├── diffexp
+│   ├── pca
+│   ├── tsne
+│   └── umap
+├── cloupe.cloupe
+├── filtered_feature_bc_matrix
+│   ├── barcodes.tsv.gz
+│   ├── features.tsv.gz
+│   └── matrix.mtx.gz
+├── filtered_feature_bc_matrix.h5
+├── metrics_summary.csv
+├── molecule_info.h5
+├── possorted_genome_bam.bam
+├── possorted_genome_bam.bam.bai
+├── raw_feature_bc_matrix
+│   ├── barcodes.tsv.gz
+│   ├── features.tsv.gz
+│   └── matrix.mtx.gz
+├── raw_feature_bc_matrix.h5
+└── web_summary.html</code></pre>
+</div>
+<div id="section" class="section level3 unnumbered">
+<h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section"><i class="fas fa-link"></i></a></h3>
 <p>We next use the count matrix to create a <code>Seurat</code> object. The object serves as a container that contains both data (like the count matrix) and analysis (like PCA, or clustering results) for a single-cell dataset. For a technical discussion of the <code>Seurat</code> object structure, check out the <a href="https://github.com/satijalab/seurat/wiki">GitHub Wiki</a>. For example, the count matrix is stored in <code>pbmc@assays$RNA@counts</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the PBMC dataset</span></span>
 <span><span class="va">pbmc.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"data/pbmc3k/filtered_gene_bc_matrices/hg19/"</span><span class="op">)</span></span>
 <span><span class="co"># Initialize the Seurat object with the raw (non-normalized data).</span></span>
@@ -100,7 +128,7 @@
 <span><span class="co">#&gt; 13714 features across 2700 samples within 1 assay </span></span>
 <span><span class="co">#&gt; Active assay: RNA (13714 features, 0 variable features)</span></span></code></pre></div>
 <details><summary><strong>What does data in a count matrix look like?</strong>
-</summary><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+</summary><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Lets examine a few genes in the first thirty cells</span></span>
 <span><span class="va">pbmc.data</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CD3D"</span>,<span class="st">"TCL1A"</span>,<span class="st">"MS4A1"</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span></span>
 <span><span class="co">#&gt; 3 x 30 sparse Matrix of class "dgCMatrix"</span></span>
@@ -114,7 +142,7 @@
 <span><span class="co">#&gt; TCL1A . . . .</span></span>
 <span><span class="co">#&gt; MS4A1 . . . .</span></span></code></pre></div>
 <p>The <code>.</code> values in the matrix represent 0s (no molecules detected). Since most values in an scRNA-seq matrix are 0, Seurat uses a sparse-matrix representation whenever possible. This results in significant memory and speed savings for Drop-seq/inDrop/10x data.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dense.size</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">pbmc.data</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dense.size</span></span>
 <span><span class="co">#&gt; 709591472 bytes</span></span>
@@ -126,14 +154,17 @@
 </details>
 </div>
 </div>
+</div>
   <div class="chapter-nav">
-<div class="prev"><a href="seuratobject.html"><span class="header-section-number">4</span> The Seurat object</a></div>
-<div class="next"><a href="qc.html"><span class="header-section-number">6</span> QC Filtering</a></div>
+<div class="prev"><a href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></div>
+<div class="next"><a href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#load"><span class="header-section-number">5</span> Load data</a></li>
-<li><a class="nav-link" href="#setup-the-seurat-object"><span class="header-section-number">5.1</span> Setup the Seurat Object</a></li>
+<li><a class="nav-link" href="#load"><span class="header-section-number">4</span> Load data</a></li>
+<li>
+<a class="nav-link" href="#setup-the-seurat-object"><span class="header-section-number">4.1</span> Setup the Seurat Object</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#section"></a></li></ul>
+</li>
 </ul>
 
       <div class="book-extra">

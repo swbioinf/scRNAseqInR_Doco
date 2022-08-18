@@ -6,7 +6,7 @@
 
 | Time      | Content               |
 |-----------|-----------------------|
-| 2:00 AEST | Session: Seurat Intro |
+| 2:30 AEST | Session: Seurat Intro |
 | 3:30 AEST | Break                 |
 | 3:45 AEST | Session: QC           |
 | 5:00 AEST | Finish                |

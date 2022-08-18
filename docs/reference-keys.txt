@@ -1,5 +1,4 @@
 about
-welcome
 schedule
 seuratobject
 load-an-existing-seurat-object
@@ -32,5 +31,5 @@ finishing-up
 resources
 help-and-fruther-resources
 data
+analysis-tools
 preprocessing-tools
-tools

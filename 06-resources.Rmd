@@ -50,6 +50,9 @@ https://www.biocommons.org.au/single-cell-omics
 Join the single cell omics community resources being setup by biocommons. 
 
 
+----------------
+
+
 ## Data
 
 ### Demo 10X data {-}
@@ -60,10 +63,6 @@ https://www.10xgenomics.com/resources/datasets
 This is a useful resource if you want to see what the 'raw' data looks like for a particular technology.
 
 
-### Seurat data {-}
-
-https://github.com/satijalab/seurat-data
-
 
 ### GEO {-}
 
@@ -72,9 +71,78 @@ https://www.ncbi.nlm.nih.gov/geo/
 Many papers publish their raw single cell data in GEO. Formats vary, but often you can find the counts matrix.
 
 
+
+### Seurat data {-}
+
+https://github.com/satijalab/seurat-data
+
+Package for obtaining a few datasets as seurat objects.
+
+
+
 <!-- ### scRNAseq {-} -->
 <!-- https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html -->
 <!-- Preloaded sce data. -->
+
+
+
+----------------
+
+
+## Analysis Tools 
+
+A handful of the many tools that might be worth checking out for next steps.
+
+### Cyclone {-}
+
+https://pubmed.ncbi.nlm.nih.gov/26142758/
+
+Part of the scran package, cyclone is a(nother) method for determining cell phase.
+[Doco](https://rdrr.io/bioc/scran/man/cyclone.html)
+
+
+### Harmony {-}
+
+https://portals.broadinstitute.org/harmony/articles/quickstart.html
+
+Method for integration of multiple single cell datasets.
+
+
+### SingleR {-}
+
+http://bioconductor.org/books/release/SingleRBook/
+
+There is extensive documentation for the singleR package in the 'singleR' book.
+
+### Scrublet {-}
+
+https://github.com/swolock/scrublet
+
+A python based tool for doublet detection. One of many tools in this space.
+
+### ScVelo {-}
+
+https://scvelo.readthedocs.io/
+
+A package for single cell RNA velocity analysis, useful for developmental/pseudotime trajectories. Python/scanpy based.
+
+
+### Monocle {-}
+
+https://cole-trapnell-lab.github.io/monocle3/
+
+A package for single cell developmental//pseudotime trajectory analysis.
+
+
+
+### TidySeurat {-}
+
+https://stemangiola.github.io/tidyseurat/
+
+For fans of tidyverse-everything, there's tidyseurat. Example workflow [here](https://tidytranscriptomics-workshops.github.io/bioc2022_tidytranscriptomics/articles/tidytranscriptomics_case_study.html)
+
+
+----------------
 
 ## Preprocessing Tools
 
@@ -94,37 +162,6 @@ STAR is an aligner (which is actually used within cell ranger). STARSolo is a to
 https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md
 
 
-## Tools 
-
-
-### TidySeurat {-}
-
-https://stemangiola.github.io/tidyseurat/
-
-For fans of tidyverse-everything, there's tidyseurat. Example workflow [here](https://tidytranscriptomics-workshops.github.io/bioc2022_tidytranscriptomics/articles/tidytranscriptomics_case_study.html)
-
-
-
-### Scrublet {-}
-
-https://github.com/swolock/scrublet
-
-A python based tool for doublet detection. One of many tools in this space.
-
-
-### SingleR {-}
-
-http://bioconductor.org/books/release/SingleRBook/
-
-There is extensive documentation for the singleR package in the 'singleR' book.
-
-
-### cyclone {-}
-
-https://pubmed.ncbi.nlm.nih.gov/26142758/
-
-Part of the scran package, cyclone is a(nother) method for determining cell phase.
-[Doco](https://rdrr.io/bioc/scran/man/cyclone.html)
 
 <!-- tidyverse -->
 
