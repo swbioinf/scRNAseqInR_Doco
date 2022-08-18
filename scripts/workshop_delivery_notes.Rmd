@@ -4,6 +4,16 @@ output: html_notebook
 ---
 
 
+To replace a broken pbmc object (includes all analysis, so warn that defaults will differ);
+
+```
+pbmc <- readRDS("data/pbmc_tutorial.rds")
+```
+
+-----
+
+
+
 # The Seurat object
 
 This section is to show people what we're aiming for! Else there's a whoooollle lot of processing steps before some payoff.
@@ -102,7 +112,7 @@ This is an 'annotation phase' of the analysis.
 * Ribisomal RNA
 * Doublets
 * low diversity
-* Story re Haemoblobin molecule in chicken! (Its non-standard, but an example of going your own way)
+* E.g. Chicken RBCs have nuclei?
 * Cell cycle ( but not for filtering.)
 
 
@@ -112,6 +122,90 @@ This is an 'annotation phase' of the analysis.
 Demo - Show counts vs norm. Explain that again this is just one normalisation method. 
 
 * **GREEN TICK** Everyone run normalisation ok?
+
+
+
+# PCAs and UMAPs.
+
+Will need to talk through these steps a little. Possibly refer to some extra slides about why we need to.
+
+
+* Why do we need variable genes? - There are alot of genes, most of which arnt informative.
+* Why scale the data? - Don't let a handful of genes, e.g. Xist take over!
+* PCA! Is this a good viz?? 
+   - Actually it's not too bad. But this is PBMC data. Complex tissues will be a blob!
+   - Explain the PC weightings.
+   - PC plots are there for troubleshooting - do you have a sex effect on PC2, is PC1 batch effect e.t.c
+
+
+   
+* **GREEN TICK** Can everyone make a PCA plot? If not, get help in breakout.
+
+
+### Challenge PC genes
+
+* Mention suerat's treatment of defaults -> if not UMAP then PCA.
+* FeaturePlot(pbmc_processed, features =  "CD14")
+
+### PCAs and UMAPs continued ...
+
+
+Get everyone to copy-paste the UMAP run.
+   
+* **GREEN TICK** Can everyone make a UMAP plot?
+
+* That took a while - time to save object!
+
+
+
+# Clustering
+
+Again Refer to slides for some discussion of what 'findNeighbors' does.
+
+Then do clustering.
+
+* **GREEN TICK** Can everyone see clusters on UMAP plot?
+
+### Challenge Different cluster settings
+
+* Show and tell your cluster settings.
+* Encourage people to rerun the first 10 dimensions and resolution 0.5 so they get the same object.
+
+
+# Cluster Markers
+
+* Spend some time working through the output tables.
+* Explain the assumptions for marker finding. 
+* Sometimse you can filter on pct.2 for non-uqbituotous - show examples.
+
+
+
+Section Assigning cell identity to clusters: 
+ * That method only works for this dataset, and this exact set of parameters!!! 
+ * Demo a different way that you might do it for real, copy cluster IDs, rename them one by one in a new column.
+ * Introduce reassignment of Idents() here (set back afterwards).
+ 
+
+ 
+ 
+https://github.com/ellefeg/RNASeq
+
+http://bioconductor.org/books/devel/SingleRBook/
+Ming tang's list.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

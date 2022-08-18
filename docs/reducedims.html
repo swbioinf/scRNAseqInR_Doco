@@ -254,27 +254,27 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">#&gt; This message will be shown once per session</span></span>
-<span><span class="co">#&gt; 14:11:22 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 14:11:22 Read 2638 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 14:11:22 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 14:11:22 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 17:06:58 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 17:06:58 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 17:06:58 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 17:06:58 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 14:11:22 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpYWCmSk/file8d454edfa814</span></span>
-<span><span class="co">#&gt; 14:11:22 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 14:11:23 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 14:11:23 Commencing smooth kNN distance calibration using 1 thread</span></span>
-<span><span class="co">#&gt; 14:11:23 Initializing from normalized Laplacian + noise</span></span>
-<span><span class="co">#&gt; 14:11:23 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
-<span><span class="co">#&gt; 14:11:27 Optimization finished</span></span></code></pre></div>
+<span><span class="co">#&gt; 17:06:58 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//Rtmp7IqOl5/filecbb6787f4033</span></span>
+<span><span class="co">#&gt; 17:06:58 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 17:06:59 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 17:06:59 Commencing smooth kNN distance calibration using 1 thread</span></span>
+<span><span class="co">#&gt; 17:06:59 Initializing from normalized Laplacian + noise</span></span>
+<span><span class="co">#&gt; 17:06:59 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
+<span><span class="co">#&gt; 17:07:04 Optimization finished</span></span></code></pre></div>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/tsneplot-1.png" width="672"></div>
 <p>You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">pbmc</span>, file <span class="op">=</span> <span class="st">"pbmc_tutorial.rds"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">pbmc</span>, file <span class="op">=</span> <span class="st">"pbmc_tutorial_saved.rds"</span><span class="op">)</span> </span></code></pre></div>
 
 </div>
 </div>
@@ -307,7 +307,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-11.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

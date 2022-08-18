@@ -145,7 +145,7 @@ DimPlot(pbmc, reduction = 'umap')
 You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.
 
 ```{r saveobject, eval=FALSE}
-saveRDS(pbmc, file = "pbmc_tutorial.rds")
+saveRDS(pbmc, file = "pbmc_tutorial_saved.rds") 
 ```
 
 

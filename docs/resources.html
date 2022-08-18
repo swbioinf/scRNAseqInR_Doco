@@ -88,8 +88,8 @@
 <p><a href="https://satijalab.org/seurat/index.html" class="uri">https://satijalab.org/seurat/index.html</a></p>
 <p>There are a good many Seurat vigettes for different aspects of the Seurat package. E.g.</p>
 <p><em><a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html">Guided Clustering tutorial</a> : We’ve just worked through this
-</em><a href="de.html#de">Differential expression</a>(<a href="https://satijalab.org/seurat/archive/v3.1/de_vignette.html" class="uri">https://satijalab.org/seurat/archive/v3.1/de_vignette.html</a>
-*<a href="https://satijalab.org/seurat/articles/integration_introduction.html">Data integration</a></p>
+</em><a href="https://satijalab.org/seurat/archive/v3.1/de_vignette.html">Differential expression</a> : An Exploration of differential expression methods within Seurat
+*<a href="https://satijalab.org/seurat/articles/integration_introduction.html">Data integration</a> : Seurat’s data integration is a popular method to combine different datasets into one joint analysis.</p>
 </div>
 <div id="seurat-cheatsheet" class="section level3 unnumbered">
 <h3>Seurat Cheatsheet<a class="anchor" aria-label="anchor" href="#seurat-cheatsheet"><i class="fas fa-link"></i></a>
@@ -103,12 +103,13 @@
 <p><a href="https://bioconductor.org/books/release/OSCA/" class="uri">https://bioconductor.org/books/release/OSCA/</a></p>
 <p>An comprehensive resource for analysis approaches for single cell data.
 This uses the SingleCellExperiment bioconductor ecosystem, but alot of the same principle still apply.</p>
+<p>This includes a good discussion of useing <a href="http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples">pseudobulk approaches</a>, worth checking out for differential expression analyses.</p>
 </div>
 <div id="mbp-training-reading-list" class="section level3 unnumbered">
 <h3>MBP training Reading list<a class="anchor" aria-label="anchor" href="#mbp-training-reading-list"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/" class="uri">https://monashbioinformaticsplatform.github.io/Single-Cell-Workshop/</a></p>
-<p>A workshop page run by Monash Bioinformatics Platform (source of today’s workshop) - down the bottom there
+<p>A workshop page for a previous workshop (upon which this one is based) run by Monash Bioinformatics Platform - down the bottom there
 is an extensive list of useful single cell links and resources.</p>
 </div>
 <div id="biocommons-single-cell-omics" class="section level3 unnumbered">
@@ -129,41 +130,63 @@ is an extensive list of useful single cell links and resources.</p>
 <p>10X genomics have quite a few example datasets availble for download (including PBMC3k).
 This is a useful resource if you want to see what the ‘raw’ data looks like for a particular technology.</p>
 </div>
+<div id="seurat-data" class="section level3 unnumbered">
+<h3>Seurat data<a class="anchor" aria-label="anchor" href="#seurat-data"><i class="fas fa-link"></i></a>
+</h3>
+<p><a href="https://github.com/satijalab/seurat-data" class="uri">https://github.com/satijalab/seurat-data</a></p>
 </div>
-<div id="tools" class="section level2" number="14.3">
+<div id="geo" class="section level3 unnumbered">
+<h3>GEO<a class="anchor" aria-label="anchor" href="#geo"><i class="fas fa-link"></i></a>
+</h3>
+<p><a href="https://www.ncbi.nlm.nih.gov/geo/" class="uri">https://www.ncbi.nlm.nih.gov/geo/</a></p>
+<p>Many papers publish their raw single cell data in GEO. Formats vary, but often you can find the counts matrix.</p>
+<!-- ### scRNAseq {-} -->
+<!-- https://bioconductor.org/packages/release/data/experiment/html/scRNAseq.html -->
+<!-- Preloaded sce data. -->
+</div>
+</div>
+<div id="preprocessing-tools" class="section level2" number="14.3">
 <h2>
-<span class="header-section-number">14.3</span> Tools<a class="anchor" aria-label="anchor" href="#tools"><i class="fas fa-link"></i></a>
+<span class="header-section-number">14.3</span> Preprocessing Tools<a class="anchor" aria-label="anchor" href="#preprocessing-tools"><i class="fas fa-link"></i></a>
 </h2>
-<div id="cell-ranger" class="section level3" number="14.3.1">
-<h3>
-<span class="header-section-number">14.3.1</span> Cell Ranger<a class="anchor" aria-label="anchor" href="#cell-ranger"><i class="fas fa-link"></i></a>
+<p>Tooks that process raw sequencing data into counts matricies</p>
+<div id="cell-ranger" class="section level3 unnumbered">
+<h3>Cell Ranger<a class="anchor" aria-label="anchor" href="#cell-ranger"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger" class="uri">https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger</a></p>
-<p>CellRanger is the 10X tool that takes raw fastq sequence files and produces the counts matricies that are the starting point for today’s analysis.</p>
+<p>CellRanger is the 10X tool that takes raw fastq sequence files and produces the counts matricies that are the starting point for today’s analysis. It only works for 10X data.</p>
 </div>
-<div id="starsolo" class="section level3" number="14.3.2">
-<h3>
-<span class="header-section-number">14.3.2</span> STARSolo<a class="anchor" aria-label="anchor" href="#starsolo"><i class="fas fa-link"></i></a>
+<div id="starsolo" class="section level3 unnumbered">
+<h3>STARSolo<a class="anchor" aria-label="anchor" href="#starsolo"><i class="fas fa-link"></i></a>
 </h3>
-<p>STAR is an aligner (used within cellRanger). STARSolo is a method for
-<a href="https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md" class="uri">https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md</a></p>
+<p>STAR is an aligner (which is actually used within cell ranger). STARSolo is a tool for producing counts matricies, and is configurable enough for use with multiple technologies.</p>
+<p><a href="https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md" class="uri">https://github.com/alexdobin/STAR/blob/master/docs/STARsolo.md</a></p>
 </div>
+</div>
+<div id="tools" class="section level2" number="14.4">
+<h2>
+<span class="header-section-number">14.4</span> Tools<a class="anchor" aria-label="anchor" href="#tools"><i class="fas fa-link"></i></a>
+</h2>
 <div id="tidyseurat" class="section level3 unnumbered">
 <h3>TidySeurat<a class="anchor" aria-label="anchor" href="#tidyseurat"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="https://stemangiola.github.io/tidyseurat/" class="uri">https://stemangiola.github.io/tidyseurat/</a></p>
-<p>For fans of tidyverse-everything, there’s tidyseurat.</p>
+<p>For fans of tidyverse-everything, there’s tidyseurat. Example workflow <a href="https://tidytranscriptomics-workshops.github.io/bioc2022_tidytranscriptomics/articles/tidytranscriptomics_case_study.html">here</a></p>
 </div>
-<div id="scrublet" class="section level3" number="14.3.3">
-<h3>
-<span class="header-section-number">14.3.3</span> Scrublet<a class="anchor" aria-label="anchor" href="#scrublet"><i class="fas fa-link"></i></a>
+<div id="scrublet" class="section level3 unnumbered">
+<h3>Scrublet<a class="anchor" aria-label="anchor" href="#scrublet"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="https://github.com/swolock/scrublet" class="uri">https://github.com/swolock/scrublet</a></p>
 <p>A python based tool for doublet detection. One of many tools in this space.</p>
 </div>
-<div id="cyclone" class="section level3" number="14.3.4">
-<h3>
-<span class="header-section-number">14.3.4</span> cyclone<a class="anchor" aria-label="anchor" href="#cyclone"><i class="fas fa-link"></i></a>
+<div id="singler-1" class="section level3 unnumbered">
+<h3>SingleR<a class="anchor" aria-label="anchor" href="#singler-1"><i class="fas fa-link"></i></a>
+</h3>
+<p><a href="http://bioconductor.org/books/release/SingleRBook/" class="uri">http://bioconductor.org/books/release/SingleRBook/</a></p>
+<p>There is extensive documentation for the singleR package in the ‘singleR’ book.</p>
+</div>
+<div id="cyclone" class="section level3 unnumbered">
+<h3>cyclone<a class="anchor" aria-label="anchor" href="#cyclone"><i class="fas fa-link"></i></a>
 </h3>
 <p><a href="https://pubmed.ncbi.nlm.nih.gov/26142758/" class="uri">https://pubmed.ncbi.nlm.nih.gov/26142758/</a></p>
 <p>Part of the scran package, cyclone is a(nother) method for determining cell phase.
@@ -200,15 +223,24 @@ This is a useful resource if you want to see what the ‘raw’ data looks like 
 </ul>
 </li>
 <li>
-<a class="nav-link" href="#data"><span class="header-section-number">14.2</span> Data</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#demo-10x-data">Demo 10X data</a></li></ul>
+<a class="nav-link" href="#data"><span class="header-section-number">14.2</span> Data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#demo-10x-data">Demo 10X data</a></li>
+<li><a class="nav-link" href="#seurat-data">Seurat data</a></li>
+<li><a class="nav-link" href="#geo">GEO</a></li>
+</ul>
 </li>
 <li>
-<a class="nav-link" href="#tools"><span class="header-section-number">14.3</span> Tools</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#cell-ranger"><span class="header-section-number">14.3.1</span> Cell Ranger</a></li>
-<li><a class="nav-link" href="#starsolo"><span class="header-section-number">14.3.2</span> STARSolo</a></li>
+<a class="nav-link" href="#preprocessing-tools"><span class="header-section-number">14.3</span> Preprocessing Tools</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#cell-ranger">Cell Ranger</a></li>
+<li><a class="nav-link" href="#starsolo">STARSolo</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#tools"><span class="header-section-number">14.4</span> Tools</a><ul class="nav navbar-nav">
 <li><a class="nav-link" href="#tidyseurat">TidySeurat</a></li>
-<li><a class="nav-link" href="#scrublet"><span class="header-section-number">14.3.3</span> Scrublet</a></li>
-<li><a class="nav-link" href="#cyclone"><span class="header-section-number">14.3.4</span> cyclone</a></li>
+<li><a class="nav-link" href="#scrublet">Scrublet</a></li>
+<li><a class="nav-link" href="#singler-1">SingleR</a></li>
+<li><a class="nav-link" href="#cyclone">cyclone</a></li>
 </ul>
 </li>
 </ul>
@@ -228,7 +260,7 @@ This is a useful resource if you want to see what the ‘raw’ data looks like 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-11.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-18.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

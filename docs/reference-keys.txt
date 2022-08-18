@@ -32,8 +32,5 @@ finishing-up
 resources
 help-and-fruther-resources
 data
+preprocessing-tools
 tools
-cell-ranger
-starsolo
-scrublet
-cyclone
