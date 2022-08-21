@@ -1,0 +1,236 @@
+# Differential Expression {#de2}
+
+
+There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic.
+
+There is the [Seurat differential expression Vignette](https://satijalab.org/seurat/archive/v3.1/de_vignette.html) which walks through the variety implemented in Seurat. 
+
+There is also a good 
+This includes a good discussion of useing [pseudobulk approaches](http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples), worth checking out for  differential expression analyses.
+
+
+The example below quickly looks at 3 different methods on the pbmc dataset. Because we are arbirailiy carving the pbmc dataset from one individual into 6 differenct samples, there are no differentially expressed genes.
+
+
+
+
+## Setup
+
+First, arbitraily divide the pbmc cells into 6 different replicates; 3 knockouts and 3 wild types. In reality, these
+are all from one individual, so there shouldn't really be any difference.
+
+
+```{r}
+# if needed, reload from processsed object
+#pbmc <- readRDS("data/pbmc_tutorial.rds")
+
+replicates_lookup <- c("wt1"="WT","wt2"="WT","wt3"="WT","ko4"="KO","ko5"="KO","ko6"="KO")
+altered_genes <- c()
+
+# %% is modulo operator, just a conventient way to make 1-6 repeatedly, to put cells into 'samples'
+pbmc$Sample    <- factor(names(replicates_lookup)[1:ncol(pbmc) %% length(replicates_lookup) + 1], 
+                         levels=names(replicates_lookup))
+pbmc$Condition <- factor(replicates_lookup[pbmc$Sample], levels=c("KO","WT"))
+
+
+DimPlot(pbmc, group.by = "Sample", split.by="Condition") + ggtitle("Dividing pbmc into fake 'Samples'")
+```
+
+
+
+
+
+How many of each do we have?
+```{r}
+table( pbmc$Sample, pbmc$Condition)
+```
+
+
+## Prefiltering
+
+When doing differential expression, you generally ignore genes with low experssion.
+If expression is below a certain level, it will be almost impossible to see differential expression. 
+
+In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less agressive correction for multiple hypotheses.
+
+
+```{R}
+total_per_gene <- rowSums(GetAssayData(pbmc, 'counts'))
+hist(log10(total_per_gene))
+pbmc <- pbmc[total_per_gene >= 50, ] 
+```
+
+
+How many genes now?
+```{r}
+pbmc
+```
+
+
+
+And the clusters, for reference; For differential expression, focussing here on just cluster 0. An easy way is to subset the object.
+
+```{r}
+# Set idents to pbmc$RNA_snn_res.0.5
+Idents(pbmc) <- pbmc$RNA_snn_res.0.5
+pbmc.c0 <- pbmc[, pbmc$RNA_snn_res.0.5 %in% c(0) ]
+
+DimPlot(pbmc) + DimPlot(pbmc.c0)
+
+```
+
+
+
+
+##  Default Wilcox test
+
+
+```{r}
+
+
+# Change Ident to Condition
+Idents(pbmc.c0) <- pbmc.c0$Condition
+
+# default, wilcox test
+de_result_wilcox <- FindMarkers(pbmc.c0, 
+            ident.1 = 'KO',
+            ident.2 = 'WT',
+            logfc.threshold = 0, # Give me ALL results
+            min.pct = 0,
+            max.cells.per.ident = 400  # Downsample cells - purely for speed!
+            )
+
+# Add average expression for plotting
+de_result_wilcox$AveExpr<- rowMeans(pbmc.c0[["RNA"]][rownames(de_result_wilcox),])
+```
+
+Look at the top differentially expressed genes.
+```{r}
+head(de_result_wilcox)
+```
+
+```{r}
+p1 <- ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Wilcox Test")
+
+
+p2 <- ggplot(de_result_wilcox, aes(x=avg_log2FC, y=-log10(p_val), col=p_val_adj < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Wilcox Test (Volcano)")
+
+p1 + p2
+```
+
+
+## Seurat Negative binomial
+
+
+```{r results='hide', warning=FALSE, message=FALSE}
+
+# Change Ident to Condition
+Idents(pbmc.c0) <- pbmc.c0$Condition
+
+# default, wilcox test
+de_result_negbinom <- FindMarkers(pbmc.c0, 
+            test.use="negbinom", # Choose a different test.
+            ident.1 = 'KO',
+            ident.2 = 'WT',
+            logfc.threshold = 0, # Give me ALL results
+            min.pct = 0,
+            max.cells.per.ident = 400  # Downsample cells - purely for speed!
+)
+
+# Add average expression for plotting
+de_result_negbinom$AveExpr<- rowMeans(pbmc.c0[["RNA"]][rownames(de_result_negbinom),])
+```
+
+
+
+Look at the top differentially expressed genes.
+```{r}
+head(de_result_negbinom)
+```
+
+```{r}
+p1 <- ggplot(de_result_negbinom, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Negative Bionomial Test")
+
+
+p2 <- ggplot(de_result_negbinom, aes(x=avg_log2FC, y=-log10(p_val), col=p_val_adj < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Negative Bionomial Test (Volcano)")
+
+p1 + p2
+```
+
+
+## Pseudobulk
+
+Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.
+
+
+First, you need to build a pseudobulk matrix - the `AggregateExpression()` function can do this, once you set the 'Idents' of your seurat object to your grouping factor (here, sample instead of cluster).
+
+```{r}
+# Tools for bulk differential expression
+library(limma)
+library(edgeR)
+
+
+# Change idents to *sample* for grouping.
+Idents(pbmc.c0) <- pbmc.c0$Sample
+
+
+pseudobulk_matrix <- AggregateExpression( pbmc.c0,  slot = 'counts', assays='RNA' )[['RNA']]
+pseudobulk_matrix[1:5,]
+```
+
+Now it looks like a bulk RNAseq experiment, so treat it like one.
+
+```{R}
+dge <- DGEList(pseudobulk_matrix)
+dge <- calcNormFactors(dge)
+
+condition <- factor(replicates_lookup[colnames(pseudobulk_matrix)])
+design <- model.matrix(~condition)
+vm  <- voom(dge, design = design, plot = FALSE)
+fit <- lmFit(vm, design = design)
+fit <- eBayes(fit)
+de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
+de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
+```
+
+
+Look at the significantly differentially expressed genes:
+```{r}
+head(de_result_pseudobulk)
+```
+
+
+```{r}
+p1 <- ggplot(de_result_pseudobulk, aes(x=AveExpr, y=logFC, col=adj.P.Val < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Pseudobulk")
+
+
+p2 <- ggplot(de_result_pseudobulk, aes(x=logFC, y=-log10(P.Value), col=adj.P.Val < 0.05)) +
+  geom_point(col='black') +
+  theme_bw() +
+  ggtitle("Pseudobulk Test (Volcano)")
+
+p1 + p2
+
+```
+
+#### Challenge: What method? {- .rmdtip}
+
+These methods give different results. How could and decide which to use? How could you check an individual gene?
+
+

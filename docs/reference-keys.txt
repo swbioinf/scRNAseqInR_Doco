@@ -20,14 +20,12 @@ cluster-markers
 finding-differentially-expressed-features-cluster-biomarkers
 assigning-cell-type-identity-to-clusters
 singler
-de
-prepared-data
-load-data
+de2
+setup
 prefiltering
 default-wilcox-test
 seurat-negative-binomial
 pseudobulk
-finishing-up
 resources
 help-and-fruther-resources
 data

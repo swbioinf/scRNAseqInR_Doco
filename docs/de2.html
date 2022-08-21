@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat">
+<meta property="og:type" content="book">
+<meta property="og:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">scRNAseq Analysis in R with Seurat</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
+<li class="book-part">Content</li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
+<li class="book-part">Seurat PBMC3k Tutorial</li>
+<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">8</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">9</span> Cluster Markers</a></li>
+<li class="book-part">Futher Analysis</li>
+<li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
+<li><a class="active" href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">12</span> Resources</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="de2" class="section level1" number="11">
+<h1>
+<span class="header-section-number">11</span> Differential Expression<a class="anchor" aria-label="anchor" href="#de2"><i class="fas fa-link"></i></a>
+</h1>
+<p>There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic.</p>
+<p>There is the <a href="https://satijalab.org/seurat/archive/v3.1/de_vignette.html">Seurat differential expression Vignette</a> which walks through the variety implemented in Seurat.</p>
+<p>There is also a good
+This includes a good discussion of useing <a href="http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples">pseudobulk approaches</a>, worth checking out for differential expression analyses.</p>
+<p>The example below quickly looks at 3 different methods on the pbmc dataset. Because we are arbirailiy carving the pbmc dataset from one individual into 6 differenct samples, there are no differentially expressed genes.</p>
+<div id="setup" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> Setup<a class="anchor" aria-label="anchor" href="#setup"><i class="fas fa-link"></i></a>
+</h2>
+<p>First, arbitraily divide the pbmc cells into 6 different replicates; 3 knockouts and 3 wild types. In reality, these
+are all from one individual, so there shouldn’t really be any difference.</p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># if needed, reload from processsed object</span></span>
+<span><span class="co">#pbmc &lt;- readRDS("data/pbmc_tutorial.rds")</span></span>
+<span></span>
+<span><span class="va">replicates_lookup</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"wt1"</span><span class="op">=</span><span class="st">"WT"</span>,<span class="st">"wt2"</span><span class="op">=</span><span class="st">"WT"</span>,<span class="st">"wt3"</span><span class="op">=</span><span class="st">"WT"</span>,<span class="st">"ko4"</span><span class="op">=</span><span class="st">"KO"</span>,<span class="st">"ko5"</span><span class="op">=</span><span class="st">"KO"</span>,<span class="st">"ko6"</span><span class="op">=</span><span class="st">"KO"</span><span class="op">)</span></span>
+<span><span class="va">altered_genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># %% is modulo operator, just a conventient way to make 1-6 repeatedly, to put cells into 'samples'</span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">Sample</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">replicates_lookup</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html">%%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">replicates_lookup</span><span class="op">)</span> <span class="op">+</span> <span class="fl">1</span><span class="op">]</span>, </span>
+<span>                         levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">replicates_lookup</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">Condition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">replicates_lookup</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">Sample</span><span class="op">]</span>, levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"KO"</span>,<span class="st">"WT"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, group.by <span class="op">=</span> <span class="st">"Sample"</span>, split.by<span class="op">=</span><span class="st">"Condition"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Dividing pbmc into fake 'Samples'"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-36-1.png" width="672"></div>
+<p>How many of each do we have?</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">Sample</span>, <span class="va">pbmc</span><span class="op">$</span><span class="va">Condition</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      </span></span>
+<span><span class="co">#&gt;        KO  WT</span></span>
+<span><span class="co">#&gt;   wt1   0 439</span></span>
+<span><span class="co">#&gt;   wt2   0 440</span></span>
+<span><span class="co">#&gt;   wt3   0 440</span></span>
+<span><span class="co">#&gt;   ko4 440   0</span></span>
+<span><span class="co">#&gt;   ko5 440   0</span></span>
+<span><span class="co">#&gt;   ko6 439   0</span></span></code></pre></div>
+</div>
+<div id="prefiltering" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> Prefiltering<a class="anchor" aria-label="anchor" href="#prefiltering"><i class="fas fa-link"></i></a>
+</h2>
+<p>When doing differential expression, you generally ignore genes with low experssion.
+If expression is below a certain level, it will be almost impossible to see differential expression.</p>
+<p>In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less agressive correction for multiple hypotheses.</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc</span>, <span class="st">'counts'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-38-1.png" width="672"></div>
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">[</span><span class="va">total_per_gene</span> <span class="op">&gt;=</span> <span class="fl">50</span>, <span class="op">]</span> </span></code></pre></div>
+<p>How many genes now?</p>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc</span></span>
+<span><span class="co">#&gt; An object of class Seurat </span></span>
+<span><span class="co">#&gt; 7261 features across 2638 samples within 1 assay </span></span>
+<span><span class="co">#&gt; Active assay: RNA (7261 features, 1622 variable features)</span></span>
+<span><span class="co">#&gt;  2 dimensional reductions calculated: pca, umap</span></span></code></pre></div>
+<p>And the clusters, for reference; For differential expression, focussing here on just cluster 0. An easy way is to subset the object.</p>
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Set idents to pbmc$RNA_snn_res.0.5</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span></span>
+<span><span class="va">pbmc.c0</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">[</span>, <span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span> <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-40-1.png" width="672"></div>
+</div>
+<div id="default-wilcox-test" class="section level2" number="11.3">
+<h2>
+<span class="header-section-number">11.3</span> Default Wilcox test<a class="anchor" aria-label="anchor" href="#default-wilcox-test"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span><span class="co"># Change Ident to Condition</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc.c0</span><span class="op">$</span><span class="va">Condition</span></span>
+<span></span>
+<span><span class="co"># default, wilcox test</span></span>
+<span><span class="va">de_result_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">pbmc.c0</span>, </span>
+<span>            ident.1 <span class="op">=</span> <span class="st">'KO'</span>,</span>
+<span>            ident.2 <span class="op">=</span> <span class="st">'WT'</span>,</span>
+<span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
+<span>            min.pct <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>            max.cells.per.ident <span class="op">=</span> <span class="fl">400</span>  <span class="co"># Downsample cells - purely for speed!</span></span>
+<span>            <span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add average expression for plotting</span></span>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p>Look at the top differentially expressed genes.</p>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
+<span><span class="co">#&gt; NPC2   0.0002284639 -0.3268974 0.187 0.301         1</span></span>
+<span><span class="co">#&gt; MIS18A 0.0007953916 -0.7171463 0.005 0.044         1</span></span>
+<span><span class="co">#&gt; MYCBP2 0.0008318464  0.5817314 0.108 0.041         1</span></span>
+<span><span class="co">#&gt; PSMB7  0.0010863851 -0.3233361 0.187 0.301         1</span></span>
+<span><span class="co">#&gt; HP1BP3 0.0011765203  0.4299005 0.154 0.076         1</span></span>
+<span><span class="co">#&gt; ARID1A 0.0012890580  0.3525470 0.081 0.026         1</span></span>
+<span><span class="co">#&gt;           AveExpr</span></span>
+<span><span class="co">#&gt; NPC2   0.42495501</span></span>
+<span><span class="co">#&gt; MIS18A 0.04701465</span></span>
+<span><span class="co">#&gt; MYCBP2 0.14248032</span></span>
+<span><span class="co">#&gt; PSMB7  0.42796496</span></span>
+<span><span class="co">#&gt; HP1BP3 0.21746645</span></span>
+<span><span class="co">#&gt; ARID1A 0.09764543</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">avg_log2FC</span>, y<span class="op">=</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p_val</span><span class="op">)</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test (Volcano)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-43-1.png" width="672"></div>
+</div>
+<div id="seurat-negative-binomial" class="section level2" number="11.4">
+<h2>
+<span class="header-section-number">11.4</span> Seurat Negative binomial<a class="anchor" aria-label="anchor" href="#seurat-negative-binomial"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Change Ident to Condition</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc.c0</span><span class="op">$</span><span class="va">Condition</span></span>
+<span></span>
+<span><span class="co"># default, wilcox test</span></span>
+<span><span class="va">de_result_negbinom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">pbmc.c0</span>, </span>
+<span>            test.use<span class="op">=</span><span class="st">"negbinom"</span>, <span class="co"># Choose a different test.</span></span>
+<span>            ident.1 <span class="op">=</span> <span class="st">'KO'</span>,</span>
+<span>            ident.2 <span class="op">=</span> <span class="st">'WT'</span>,</span>
+<span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
+<span>            min.pct <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>            max.cells.per.ident <span class="op">=</span> <span class="fl">400</span>  <span class="co"># Downsample cells - purely for speed!</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add average expression for plotting</span></span>
+<span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">[[</span><span class="st">"RNA"</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p>Look at the top differentially expressed genes.</p>
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span></span>
+<span><span class="co">#&gt;               p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
+<span><span class="co">#&gt; NDUFA2 0.0000190638 -0.3059620 0.176 0.205 0.1384222</span></span>
+<span><span class="co">#&gt; MIS18A 0.0001194018 -0.2182053 0.005 0.044 0.8669761</span></span>
+<span><span class="co">#&gt; OXLD1  0.0001414241  0.2655570 0.100 0.061 1.0000000</span></span>
+<span><span class="co">#&gt; MYCBP2 0.0002130811  0.1674071 0.108 0.041 1.0000000</span></span>
+<span><span class="co">#&gt; TPT1   0.0002264960 -0.2260388 0.992 1.000 1.0000000</span></span>
+<span><span class="co">#&gt; GSTO1  0.0002557791 -0.2014634 0.130 0.213 1.0000000</span></span>
+<span><span class="co">#&gt;           AveExpr</span></span>
+<span><span class="co">#&gt; NDUFA2 0.34169986</span></span>
+<span><span class="co">#&gt; MIS18A 0.04701465</span></span>
+<span><span class="co">#&gt; OXLD1  0.15888166</span></span>
+<span><span class="co">#&gt; MYCBP2 0.14248032</span></span>
+<span><span class="co">#&gt; TPT1   3.92632526</span></span>
+<span><span class="co">#&gt; GSTO1  0.31011655</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Negative Bionomial Test"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">avg_log2FC</span>, y<span class="op">=</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p_val</span><span class="op">)</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Negative Bionomial Test (Volcano)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-46-1.png" width="672"></div>
+</div>
+<div id="pseudobulk" class="section level2" number="11.5">
+<h2>
+<span class="header-section-number">11.5</span> Pseudobulk<a class="anchor" aria-label="anchor" href="#pseudobulk"><i class="fas fa-link"></i></a>
+</h2>
+<p>Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.</p>
+<p>First, you need to build a pseudobulk matrix - the <code><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression()</a></code> function can do this, once you set the ‘Idents’ of your seurat object to your grouping factor (here, sample instead of cluster).</p>
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'limma' was built under R version 4.1.3</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'limma'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     plotMA</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: package 'edgeR' was built under R version 4.1.1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'edgeR'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:SingleCellExperiment':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     cpm</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Change idents to *sample* for grouping.</span></span>
+<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc.c0</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc.c0</span><span class="op">$</span><span class="va">Sample</span></span>
+<span></span>
+<span></span>
+<span><span class="va">pseudobulk_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">pbmc.c0</span>,  slot <span class="op">=</span> <span class="st">'counts'</span>, assays<span class="op">=</span><span class="st">'RNA'</span> <span class="op">)</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">pseudobulk_matrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span></span>
+<span><span class="co">#&gt;          wt1 wt2 wt3 ko4 ko5 ko6</span></span>
+<span><span class="co">#&gt; NOC2L      9  11  20  10  14  10</span></span>
+<span><span class="co">#&gt; HES4       1   0   2   0   0   0</span></span>
+<span><span class="co">#&gt; ISG15     42  53  46  46  39  46</span></span>
+<span><span class="co">#&gt; TNFRSF18   3   1   3   3   2   1</span></span>
+<span><span class="co">#&gt; TNFRSF4   11   5   4   9   5   8</span></span></code></pre></div>
+<p>Now it looks like a bulk RNAseq experiment, so treat it like one.</p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
+<span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/calcNormFactors.html">calcNormFactors</a></span><span class="op">(</span><span class="va">dge</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">condition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">replicates_lookup</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">design</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span><span class="va">condition</span><span class="op">)</span></span>
+<span><span class="va">vm</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/voom.html">voom</a></span><span class="op">(</span><span class="va">dge</span>, design <span class="op">=</span> <span class="va">design</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/lmFit.html">lmFit</a></span><span class="op">(</span><span class="va">vm</span>, design <span class="op">=</span> <span class="va">design</span><span class="op">)</span></span>
+<span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/ebayes.html">eBayes</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/limma/man/toptable.html">topTable</a></span><span class="op">(</span><span class="va">fit</span>, n <span class="op">=</span> <span class="cn">Inf</span>, adjust.method <span class="op">=</span> <span class="st">"BH"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Removing intercept from test coefficients</span></span>
+<span><span class="va">de_result_pseudobulk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span> , <span class="va">adj.P.Val</span><span class="op">)</span></span></code></pre></div>
+<p>Look at the significantly differentially expressed genes:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              logFC  AveExpr         t     P.Value adj.P.Val</span></span>
+<span><span class="co">#&gt; TPT1    0.20648390 12.53662  3.644878 0.004136289 0.9373156</span></span>
+<span><span class="co">#&gt; TMSB4X  0.08299091 14.00549  3.536492 0.004978817 0.9373156</span></span>
+<span><span class="co">#&gt; RPS16  -0.12982680 12.34490 -3.194506 0.008996126 0.9373156</span></span>
+<span><span class="co">#&gt; LTB    -0.35225848 10.95428 -3.415544 0.006131010 0.9373156</span></span>
+<span><span class="co">#&gt; B2M    -0.06086554 14.09869 -2.940815 0.014018110 0.9373156</span></span>
+<span><span class="co">#&gt; FTH1    0.16752649 11.33842  2.749742 0.019602056 0.9373156</span></span>
+<span><span class="co">#&gt;                B</span></span>
+<span><span class="co">#&gt; TPT1   -1.825526</span></span>
+<span><span class="co">#&gt; TMSB4X -2.059731</span></span>
+<span><span class="co">#&gt; RPS16  -2.454284</span></span>
+<span><span class="co">#&gt; LTB    -2.838411</span></span>
+<span><span class="co">#&gt; B2M    -3.110682</span></span>
+<span><span class="co">#&gt; FTH1   -3.244701</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">logFC</span>, y<span class="op">=</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">P.Value</span><span class="op">)</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk Test (Volcano)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-50-1.png" width="672"></div>
+<div id="challenge-what-method" class="section level4 unnumbered rmdtip">
+<h4>Challenge: What method?<a class="anchor" aria-label="anchor" href="#challenge-what-method"><i class="fas fa-link"></i></a>
+</h4>
+<p>These methods give different results. How could and decide which to use? How could you check an individual gene?</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="singler.html"><span class="header-section-number">10</span> SingleR</a></div>
+<div class="next"><a href="resources.html"><span class="header-section-number">12</span> Resources</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#de2"><span class="header-section-number">11</span> Differential Expression</a></li>
+<li><a class="nav-link" href="#setup"><span class="header-section-number">11.1</span> Setup</a></li>
+<li><a class="nav-link" href="#prefiltering"><span class="header-section-number">11.2</span> Prefiltering</a></li>
+<li><a class="nav-link" href="#default-wilcox-test"><span class="header-section-number">11.3</span> Default Wilcox test</a></li>
+<li><a class="nav-link" href="#seurat-negative-binomial"><span class="header-section-number">11.4</span> Seurat Negative binomial</a></li>
+<li><a class="nav-link" href="#pseudobulk"><span class="header-section-number">11.5</span> Pseudobulk</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-10-de2.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-10-de2.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-21.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
