@@ -41,9 +41,12 @@ Where are QC metrics stored in Seurat?
 * The number of unique genes and total molecules are automatically calculated during `CreateSeuratObject()`
     + You can find them stored in the object meta data
 
-What do you notice has changed within the `meta.data` table now that we have calculated mitochondrial gene proportion?
+1. What do you notice has changed within the `meta.data` table now that we have calculated mitochondrial gene proportion?
 
-Could we add more data into the `meta.data` table? 
+2. Imagine that this is the first of 
+several samples in our experiment. Add a `samplename` column to to the `meta.data` table.
+
+
 
 
 ### { - }
@@ -121,7 +124,8 @@ Apply the filtering thresolds defined above.
 * Try a different combination of filtering thresholds. How many cells pass that? Remember to assign your results to a different object! 
 
 ```{r eval=FALSE}
-pbmc_qctest <- subset(pbmc, subset = ...)
+pbmc_unfiltered <- pbmc
+pbmc_qctest <- subset(pbmc_unfiltered, subset = ...)
 ```
 
 

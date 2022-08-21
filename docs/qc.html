@@ -118,8 +118,11 @@
 </ul>
 </li>
 </ul>
-<p>What do you notice has changed within the <code>meta.data</code> table now that we have calculated mitochondrial gene proportion?</p>
-<p>Could we add more data into the <code>meta.data</code> table?</p>
+<ol style="list-style-type: decimal">
+<li><p>What do you notice has changed within the <code>meta.data</code> table now that we have calculated mitochondrial gene proportion?</p></li>
+<li><p>Imagine that this is the first of
+several samples in our experiment. Add a <code>samplename</code> column to to the <code>meta.data</code> table.</p></li>
+</ol>
 </div>
 <div id="section-1" class="section level3 unnumbered">
 <h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-1"><i class="fas fa-link"></i></a></h3>
@@ -179,7 +182,8 @@
 <li>Try a different combination of filtering thresholds. How many cells pass that? Remember to assign your results to a different object!</li>
 </ul>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc_qctest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">pbmc</span>, subset <span class="op">=</span> <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pbmc_unfiltered</span> <span class="op">&lt;-</span> <span class="va">pbmc</span></span>
+<span><span class="va">pbmc_qctest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">pbmc_unfiltered</span>, subset <span class="op">=</span> <span class="va">...</span><span class="op">)</span></span></code></pre></div>
 
 </div>
 </div>
@@ -212,7 +216,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-18.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-21.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
