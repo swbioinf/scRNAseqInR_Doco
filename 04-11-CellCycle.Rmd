@@ -1,0 +1,39 @@
+# Cell cycle Assignment {#CellCycle}
+
+In some datasets, the phase of cell cycle that a cell is in (G1/G2M/S) can account for 
+alot of the observed transcriptomic variation. There may be clustering by phase, or 
+separation in the UMAP by phase. 
+
+Seurat provides a simple method for assigning cell cycle state to each cell. Other methods are available. 
+
+More information about assigning cell cycle states to cells is in the [cell cycle vignette](https://satijalab.org/seurat/articles/cell_cycle_vignette.html)
+
+```{r cc}
+# A list of cell cycle markers, from Tirosh et al, 2015, is loaded with Seurat.  We can
+# segregate this list into markers of G2/M phase and markers of S phase
+s.genes   <- cc.genes$s.genes
+g2m.genes <- cc.genes$g2m.genes
+
+# Use those lists with the cell cycle scoring function in Seurat.
+pbmc <- CellCycleScoring(pbmc, s.features = s.genes, g2m.features = g2m.genes)
+```
+
+
+Which adds S.Score, G2M.Score and Phase calls to the metadata.
+```{r}
+head(pbmc@meta.data)
+```
+
+
+We can then check the cell phase on the UMAP. In this dataset, phase isn't driving the clustering, and would not require any further handling. 
+
+```{r}
+DimPlot(pbmc, reduction = 'umap', group.by = "Phase")
+```
+
+Where a bias _is_ present, your course of action depends on the task at hand. It might involve 'regressing out' the cell cycle variation with ScaleData(), omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations. 
+
+If you are working with non-human data, you will need to convert these gene lists, or find new cell cycle associated genes in your species.
+
+
+

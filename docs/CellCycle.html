@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 12 Cell cycle Assignment | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="In some datasets, the phase of cell cycle that a cell is in (G1/G2M/S) can account for alot of the observed transcriptomic variation. There may be clustering by phase, or separation in the UMAP by...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 12 Cell cycle Assignment | scRNAseq Analysis in R with Seurat">
+<meta property="og:type" content="book">
+<meta property="og:description" content="In some datasets, the phase of cell cycle that a cell is in (G1/G2M/S) can account for alot of the observed transcriptomic variation. There may be clustering by phase, or separation in the UMAP by...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 12 Cell cycle Assignment | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="In some datasets, the phase of cell cycle that a cell is in (G1/G2M/S) can account for alot of the observed transcriptomic variation. There may be clustering by phase, or separation in the UMAP by...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">scRNAseq Analysis in R with Seurat</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
+<li class="book-part">Content</li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
+<li class="book-part">Seurat PBMC3k Tutorial</li>
+<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">8</span> Clustering</a></li>
+<li><a class="" href="cluster-markers.html"><span class="header-section-number">9</span> Cluster Markers</a></li>
+<li class="book-part">Futher Analysis</li>
+<li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
+<li><a class="" href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></li>
+<li><a class="active" href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">13</span> Resources</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="CellCycle" class="section level1" number="12">
+<h1>
+<span class="header-section-number">12</span> Cell cycle Assignment<a class="anchor" aria-label="anchor" href="#CellCycle"><i class="fas fa-link"></i></a>
+</h1>
+<p>In some datasets, the phase of cell cycle that a cell is in (G1/G2M/S) can account for
+alot of the observed transcriptomic variation. There may be clustering by phase, or
+separation in the UMAP by phase.</p>
+<p>Seurat provides a simple method for assigning cell cycle state to each cell. Other methods are available.</p>
+<p>More information about assigning cell cycle states to cells is in the <a href="https://satijalab.org/seurat/articles/cell_cycle_vignette.html">cell cycle vignette</a></p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># A list of cell cycle markers, from Tirosh et al, 2015, is loaded with Seurat.  We can</span></span>
+<span><span class="co"># segregate this list into markers of G2/M phase and markers of S phase</span></span>
+<span><span class="va">s.genes</span>   <span class="op">&lt;-</span> <span class="va">cc.genes</span><span class="op">$</span><span class="va">s.genes</span></span>
+<span><span class="va">g2m.genes</span> <span class="op">&lt;-</span> <span class="va">cc.genes</span><span class="op">$</span><span class="va">g2m.genes</span></span>
+<span></span>
+<span><span class="co"># Use those lists with the cell cycle scoring function in Seurat.</span></span>
+<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/CellCycleScoring.html">CellCycleScoring</a></span><span class="op">(</span><span class="va">pbmc</span>, s.features <span class="op">=</span> <span class="va">s.genes</span>, g2m.features <span class="op">=</span> <span class="va">g2m.genes</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The following features are not present in the</span></span>
+<span><span class="co">#&gt; object: TYMS, MCM2, MCM4, GINS2, MCM6, CDCA7, DTL, UHRF1,</span></span>
+<span><span class="co">#&gt; MLF1IP, HELLS, RAD51AP1, GMNN, WDR76, CCNE2, UBR7, ATAD2,</span></span>
+<span><span class="co">#&gt; RAD51, RRM2, CDC45, CDC6, EXO1, TIPIN, DSCC1, BLM,</span></span>
+<span><span class="co">#&gt; CASP8AP2, CLSPN, POLA1, CHAF1B, BRIP1, E2F8, not searching</span></span>
+<span><span class="co">#&gt; for symbol synonyms</span></span>
+<span><span class="co">#&gt; Warning: The following features are not present in the</span></span>
+<span><span class="co">#&gt; object: CDK1, NUSAP1, UBE2C, BIRC5, TPX2, TOP2A, NDC80,</span></span>
+<span><span class="co">#&gt; NUF2, MKI67, CENPF, FAM64A, CCNB2, CKAP2L, AURKB, BUB1,</span></span>
+<span><span class="co">#&gt; KIF11, GTSE1, HJURP, CDCA3, CDC20, TTK, CDC25C, KIF2C,</span></span>
+<span><span class="co">#&gt; NCAPD2, DLGAP5, CDCA2, CDCA8, ECT2, KIF23, HMMR, AURKA,</span></span>
+<span><span class="co">#&gt; PSRC1, ANLN, CKAP5, CENPE, NEK2, G2E3, GAS2L3, CENPA, not</span></span>
+<span><span class="co">#&gt; searching for symbol synonyms</span></span></code></pre></div>
+<p>Which adds S.Score, G2M.Score and Phase calls to the metadata.</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                  orig.ident nCount_RNA nFeature_RNA</span></span>
+<span><span class="co">#&gt; AAACATACAACCAC-1     pbmc3k       2379          741</span></span>
+<span><span class="co">#&gt; AAACATTGAGCTAC-1     pbmc3k       4798         1267</span></span>
+<span><span class="co">#&gt; AAACATTGATCAGC-1     pbmc3k       3101         1085</span></span>
+<span><span class="co">#&gt; AAACCGTGCTTCCG-1     pbmc3k       2587          911</span></span>
+<span><span class="co">#&gt; AAACCGTGTATGCG-1     pbmc3k        957          498</span></span>
+<span><span class="co">#&gt; AAACGCACTGGTAC-1     pbmc3k       2120          746</span></span>
+<span><span class="co">#&gt;                  percent.mt RNA_snn_res.0.5 seurat_clusters</span></span>
+<span><span class="co">#&gt; AAACATACAACCAC-1  3.0177759               2               2</span></span>
+<span><span class="co">#&gt; AAACATTGAGCTAC-1  3.7935958               3               3</span></span>
+<span><span class="co">#&gt; AAACATTGATCAGC-1  0.8897363               2               2</span></span>
+<span><span class="co">#&gt; AAACCGTGCTTCCG-1  1.7430845               1               1</span></span>
+<span><span class="co">#&gt; AAACCGTGTATGCG-1  1.2244898               6               6</span></span>
+<span><span class="co">#&gt; AAACGCACTGGTAC-1  1.6643551               2               2</span></span>
+<span><span class="co">#&gt;                  SingleR.labels Sample Condition</span></span>
+<span><span class="co">#&gt; AAACATACAACCAC-1        T_cells    wt2        WT</span></span>
+<span><span class="co">#&gt; AAACATTGAGCTAC-1         B_cell    wt3        WT</span></span>
+<span><span class="co">#&gt; AAACATTGATCAGC-1        T_cells    ko4        KO</span></span>
+<span><span class="co">#&gt; AAACCGTGCTTCCG-1       Monocyte    ko5        KO</span></span>
+<span><span class="co">#&gt; AAACCGTGTATGCG-1        NK_cell    ko6        KO</span></span>
+<span><span class="co">#&gt; AAACGCACTGGTAC-1        T_cells    wt1        WT</span></span>
+<span><span class="co">#&gt;                      S.Score   G2M.Score Phase</span></span>
+<span><span class="co">#&gt; AAACATACAACCAC-1  0.29017500 -0.04615066     S</span></span>
+<span><span class="co">#&gt; AAACATTGAGCTAC-1 -0.05150371 -0.04825105    G1</span></span>
+<span><span class="co">#&gt; AAACATTGATCAGC-1 -0.01115616  0.28693316   G2M</span></span>
+<span><span class="co">#&gt; AAACCGTGCTTCCG-1  0.14388435  0.04562573     S</span></span>
+<span><span class="co">#&gt; AAACCGTGTATGCG-1 -0.07430754  0.20346097   G2M</span></span>
+<span><span class="co">#&gt; AAACGCACTGGTAC-1 -0.06192496 -0.16308058    G1</span></span></code></pre></div>
+<p>We can then check the cell phase on the UMAP. In this dataset, phase isn’t driving the clustering, and would not require any further handling.</p>
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">"Phase"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-53-1.png" width="672"></div>
+<p>Where a bias <em>is</em> present, your course of action depends on the task at hand. It might involve ‘regressing out’ the cell cycle variation with ScaleData(), omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.</p>
+<p>If you are working with non-human data, you will need to convert these gene lists, or find new cell cycle associated genes in your species.</p>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></div>
+<div class="next"><a href="resources.html"><span class="header-section-number">13</span> Resources</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#CellCycle"><span class="header-section-number">12</span> Cell cycle Assignment</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-11-CellCycle.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-11-CellCycle.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-08-25.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

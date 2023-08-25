@@ -1,0 +1,77 @@
+---
+title: "Processing steps for Kang (2018) data used in harmony section"
+---
+
+<!--
+File copied from https://github.com/MonashBioinformaticsPlatform/PBMC-Single-Cell-Workshop-2022
+Describes prep of Kang2018 dataset
+https://github.com/MonashBioinformaticsPlatform/PBMC-Single-Cell-Workshop-2022/blob/main/vignettes/kang2018_preprocessing.Rmd
+-->
+
+```{r}
+library(Seurat)
+library(tidyverse)
+
+# Download data from Gene Expression Omnibus (GEO) ====
+dir.create("kang2018", showWarnings=FALSE)
+
+# Download from GEO can be slow.
+options(timeout=3600)
+
+if (!file.exists("kang2018/GSE96583_RAW.tar") || 
+    file.info("kang2018/GSE96583_RAW.tar")$size != 76195840) {
+    download.file(
+        "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE96583&format=file",
+        "kang2018/GSE96583_RAW.tar")
+}
+
+if (!file.exists("kang2018/GSE96583_batch2.total.tsne.df.tsv.gz") ||
+    file.info("kang2018/GSE96583_batch2.total.tsne.df.tsv.gz")$size != 756342) {
+    download.file(
+        "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96583/suppl/GSE96583_batch2.total.tsne.df.tsv.gz",
+        "kang2018/GSE96583_batch2.total.tsne.df.tsv.gz")
+}
+
+if (!file.exists("kang2018/GSE96583_batch2.genes.tsv.gz") ||
+    file.info("kang2018/GSE96583_batch2.genes.tsv.gz")$size != 277054) {
+    download.file(
+        "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE96nnn/GSE96583/suppl/GSE96583_batch2.genes.tsv.gz",
+        "kang2018/GSE96583_batch2.genes.tsv.gz")
+}
+
+untar("kang2018/GSE96583_RAW.tar", exdir="kang2018")
+
+
+# Load the data ====
+
+cells <- read.table("kang2018/GSE96583_batch2.total.tsne.df.tsv.gz", sep="\t") |>
+    select(ind, stim, cell, multiplets)
+
+counts <- cbind(
+    ReadMtx("kang2018/GSM2560248_2.1.mtx.gz", "kang2018/GSM2560248_barcodes.tsv.gz", "kang2018/GSE96583_batch2.genes.tsv.gz"),
+    ReadMtx("kang2018/GSM2560249_2.2.mtx.gz", "kang2018/GSM2560249_barcodes.tsv.gz", "kang2018/GSE96583_batch2.genes.tsv.gz"))
+
+colnames(counts) <- rownames(cells)
+
+
+# Seurat processing ====
+
+# These cells are already filtered, so we race through the usual Seurat processing steps
+obj <- CreateSeuratObject(counts, meta.data=cells)
+obj
+
+# We will work with a subsample of the data for speed
+set.seed(1)
+subsample <- sample.int(ncol(obj), 5000)
+obj <- obj[,subsample]
+
+obj <- NormalizeData(obj)
+obj <- FindVariableFeatures(obj, selection.method = "vst", nfeatures = 2000)
+obj <- ScaleData(obj)
+obj <- RunPCA(obj, "RNA")
+obj <- RunUMAP(obj, dims=1:10)
+
+obj
+
+saveRDS(obj, "kang2018.rds")
+```
