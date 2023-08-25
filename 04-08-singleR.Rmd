@@ -45,11 +45,14 @@ pred.cnts <- SingleR::SingleR(test = sce, ref = ref.set, labels = ref.set$label.
 
 Keep any types that have more than 10 cells to the label, and put those labels back on our Seurat object and plot our on our umap.
 
+<!-- previously this used first.lables, which no longer seems to exist in pred.cnts -->
+<!-- labels and pruned labels are identical in this data --> 
+
 ```{r}
-lbls.keep <- table(pred.cnts$first.labels)>10
-pbmc$SingleR.labels <- ifelse(lbls.keep[pred.cnts$first.labels], pred.cnts$first.labels, 'Other')
+lbls.keep <- table(pred.cnts$labels)>10
+pbmc$SingleR.labels <- ifelse(lbls.keep[pred.cnts$labels], pred.cnts$labels, 'Other')
 DimPlot(pbmc, reduction='umap', group.by='SingleR.labels')
 ```
 
-It is nice to see that SingleR does not use the clusters we computed earlier, but the labels do seem to match those clusters reasonably well.
+It is nice to see that even though SingleR does not use the clusters we computed earlier, the labels do seem to match those clusters reasonably well.
 

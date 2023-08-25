@@ -1,3 +1,4 @@
+.Rprofile
 .Rproj.user
 .Rhistory
 .Rdata
@@ -7,3 +8,5 @@ data/
 data.zip
 _bookdown
 _bookdown_files
+renv/
+renv.lock

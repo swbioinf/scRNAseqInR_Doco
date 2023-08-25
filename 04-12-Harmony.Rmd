@@ -1,0 +1,75 @@
+# Data set integration with Harmony {#Harmony}
+
+
+### Why do we need to do this? {.rational}
+
+You can have data coming from different samples, batches or experiments and you will need to combine them.  
+
+###
+
+
+When data is collected from multiple samples, multiple runs of the single cell sequencing library preparation, or multiple conditions, cells of the same type may become separated in the UMAP and be put into several different clusters.
+
+For the purpose of clustering and cell identification, we would like to remove such effects.
+
+We will now look at [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583), another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
+
+The data has already been processed as we have done with the first PBMC dataset, and can be loaded from `kang2018.rds`.
+
+```{r }
+kang <- readRDS("data/kang2018.rds")
+
+head(kang@meta.data)
+```
+
+* `ind` identifies a cell as coming from one of 8 individuals.
+* `stim` identifies a cell as control or stimulated with IFN-beta.
+* `cell` contains the cell types identified by the creators of this data set.
+* `multiplets` classifies cells as singlet or doublet.
+
+```{r }
+DimPlot(kang, reduction="umap", group.by="ind")
+DimPlot(kang, reduction="umap", group.by="stim")
+DimPlot(kang, reduction="pca", group.by="stim")
+
+kang <- FindNeighbors(kang, reduction="pca", dims=1:10)
+kang <- FindClusters(kang, resolution=0.25)
+kang$pca_clusters <- kang$seurat_clusters
+
+DimPlot(kang, reduction="umap", group.by="pca_clusters")
+```
+
+There is a big difference between unstimulated and stimulated cells. This has split cells of the same type into pairs of clusters. If the difference was simply uniform, we could regress it out (e.g. using `ScaleData(..., vars.to.regress="stim")`). However, as can be seen in the PCA plot, the difference is not uniform and we need to do something cleverer.
+
+We will use [Harmony](https://github.com/immunogenomics/harmony), which can remove non-uniform effects. We will try to remove both the small differences between individuals and the large difference between the unstimulated and stimulated cells.
+
+Harmony operates only on the PCA scores. The original gene expression levels remain unaltered.
+
+```{r }
+library(harmony)
+
+kang <- RunHarmony(kang, c("stim", "ind"), reduction="pca")
+```
+
+This has added a new set of reduced dimensions to the Seurat object, `kang$harmony` which is a modified version of the existing `kang$pca` reduced dimensions.
+
+```{r }
+DimPlot(kang, reduction="harmony", group.by="stim")
+```
+
+We can use `harmony` the same way we used the `pca` reduction to compute a UMAP layout or to find clusters.
+
+```{r }
+kang <- RunUMAP(kang, reduction="harmony", dims=1:10, reduction.name="umap_harmony")
+
+DimPlot(kang, reduction="umap_harmony", group.by="stim")
+
+kang <- FindNeighbors(kang, reduction="harmony", dims=1:10)
+kang <- FindClusters(kang, resolution=0.25)
+kang$harmony_clusters <- kang$seurat_clusters
+
+DimPlot(kang, reduction="umap_harmony", group.by="harmony_clusters")
+DimPlot(kang, reduction="umap", group.by="harmony_clusters")
+```
+
+Having found a good set of clusters, we would usually perform differential expression analysis on the original data and include batches/runs/individuals as predictors in the linear model. In this example we could now compare un-stimulated and stimulated cells within each cluster. A particularly nice statistical approach that is possible here would be to convert the counts to pseudo-bulk data for the eight individuals, and then apply a bulk RNA-Seq differential expression analysis method. However there is still the problem that unstimulated and stimulated cells were processed in separate batches.

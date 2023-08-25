@@ -120,15 +120,16 @@ plot5 + plot6
 
 Apply the filtering thresolds defined above. 
 
-* How many cells survive filtering?
-* Try a different combination of filtering thresholds. How many cells pass that? Remember to assign your results to a different object! 
+* How many cells survived filtering?
+
+The PBMC3k dataset we're working with in this tutorial is quite old. There are a number of other example datasets available from the 10X website, including [this one](https://www.10xgenomics.com/resources/datasets/10k-human-pbmcs-3-v3-1-chromium-x-with-intronic-reads-3-1-high) - published in 2022, sequencing 10k PBMCs with a newer chemistry and counting method.
+ 
+* What thresholds would you chose to apply to this modern dataset?
 
 ```{r eval=FALSE}
-pbmc_unfiltered <- pbmc
-pbmc_qctest <- subset(pbmc_unfiltered, subset = ...)
+pbmc10k_unfiltered <- readRDS("data/10k_PBMC_v3.1ChromiumX_Intronic.rds")
+VlnPlot(pbmc10k_unfiltered, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 ```
-
-
 
 
 

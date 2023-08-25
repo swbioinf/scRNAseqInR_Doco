@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat</title>
 <meta name="description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
 <meta property="og:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -56,7 +56,9 @@
 <li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
 <li><a class="active" href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">12</span> Resources</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">13</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">14</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -159,20 +161,20 @@ If expression is below a certain level, it will be almost impossible to see diff
 <p>Look at the top differentially expressed genes.</p>
 <div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span></span>
-<span><span class="co">#&gt;               p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
-<span><span class="co">#&gt; NPC2   0.0002284639 -0.3268974 0.187 0.301         1</span></span>
-<span><span class="co">#&gt; MIS18A 0.0007953916 -0.7171463 0.005 0.044         1</span></span>
-<span><span class="co">#&gt; MYCBP2 0.0008318464  0.5817314 0.108 0.041         1</span></span>
-<span><span class="co">#&gt; PSMB7  0.0010863851 -0.3233361 0.187 0.301         1</span></span>
-<span><span class="co">#&gt; HP1BP3 0.0011765203  0.4299005 0.154 0.076         1</span></span>
-<span><span class="co">#&gt; ARID1A 0.0012890580  0.3525470 0.081 0.026         1</span></span>
-<span><span class="co">#&gt;           AveExpr</span></span>
-<span><span class="co">#&gt; NPC2   0.42495501</span></span>
-<span><span class="co">#&gt; MIS18A 0.04701465</span></span>
-<span><span class="co">#&gt; MYCBP2 0.14248032</span></span>
-<span><span class="co">#&gt; PSMB7  0.42796496</span></span>
-<span><span class="co">#&gt; HP1BP3 0.21746645</span></span>
-<span><span class="co">#&gt; ARID1A 0.09764543</span></span></code></pre></div>
+<span><span class="co">#&gt;                p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
+<span><span class="co">#&gt; NPC2    0.0003352051 -0.3330748 0.188 0.300         1</span></span>
+<span><span class="co">#&gt; LSMD1   0.0006559046 -0.3040926 0.051 0.126         1</span></span>
+<span><span class="co">#&gt; MYCBP2  0.0006629917  0.6065781 0.108 0.039         1</span></span>
+<span><span class="co">#&gt; MIS18A  0.0009457975 -0.7312501 0.006 0.045         1</span></span>
+<span><span class="co">#&gt; CSNK2A1 0.0012361706 -0.3006991 0.017 0.066         1</span></span>
+<span><span class="co">#&gt; INTS10  0.0013547105  0.3518774 0.140 0.066         1</span></span>
+<span><span class="co">#&gt;            AveExpr</span></span>
+<span><span class="co">#&gt; NPC2    0.42461880</span></span>
+<span><span class="co">#&gt; LSMD1   0.15031102</span></span>
+<span><span class="co">#&gt; MYCBP2  0.13861618</span></span>
+<span><span class="co">#&gt; MIS18A  0.04887049</span></span>
+<span><span class="co">#&gt; CSNK2A1 0.07192782</span></span>
+<span><span class="co">#&gt; INTS10  0.17827240</span></span></code></pre></div>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_wilcox</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
@@ -213,19 +215,19 @@ If expression is below a certain level, it will be almost impossible to see diff
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span></span>
 <span><span class="co">#&gt;               p_val avg_log2FC pct.1 pct.2 p_val_adj</span></span>
-<span><span class="co">#&gt; NDUFA2 0.0000190638 -0.3059620 0.176 0.205 0.1384222</span></span>
-<span><span class="co">#&gt; MIS18A 0.0001194018 -0.2182053 0.005 0.044 0.8669761</span></span>
-<span><span class="co">#&gt; OXLD1  0.0001414241  0.2655570 0.100 0.061 1.0000000</span></span>
-<span><span class="co">#&gt; MYCBP2 0.0002130811  0.1674071 0.108 0.041 1.0000000</span></span>
-<span><span class="co">#&gt; TPT1   0.0002264960 -0.2260388 0.992 1.000 1.0000000</span></span>
-<span><span class="co">#&gt; GSTO1  0.0002557791 -0.2014634 0.130 0.213 1.0000000</span></span>
+<span><span class="co">#&gt; NDUFA2 3.208849e-05 -0.3076569 0.179 0.204 0.2329946</span></span>
+<span><span class="co">#&gt; OXLD1  7.908187e-05  0.2825857 0.108 0.063 0.5742134</span></span>
+<span><span class="co">#&gt; MIS18A 1.366750e-04 -0.2234493 0.006 0.045 0.9923971</span></span>
+<span><span class="co">#&gt; MYCBP2 1.924883e-04  0.1739354 0.108 0.039 1.0000000</span></span>
+<span><span class="co">#&gt; DSCR3  3.603531e-04 -0.1944885 0.031 0.063 1.0000000</span></span>
+<span><span class="co">#&gt; GSTO1  4.875278e-04 -0.1982268 0.134 0.213 1.0000000</span></span>
 <span><span class="co">#&gt;           AveExpr</span></span>
-<span><span class="co">#&gt; NDUFA2 0.34169986</span></span>
-<span><span class="co">#&gt; MIS18A 0.04701465</span></span>
-<span><span class="co">#&gt; OXLD1  0.15888166</span></span>
-<span><span class="co">#&gt; MYCBP2 0.14248032</span></span>
-<span><span class="co">#&gt; TPT1   3.92632526</span></span>
-<span><span class="co">#&gt; GSTO1  0.31011655</span></span></code></pre></div>
+<span><span class="co">#&gt; NDUFA2 0.34264888</span></span>
+<span><span class="co">#&gt; OXLD1  0.16745171</span></span>
+<span><span class="co">#&gt; MIS18A 0.04887049</span></span>
+<span><span class="co">#&gt; MYCBP2 0.13861618</span></span>
+<span><span class="co">#&gt; DSCR3  0.08538471</span></span>
+<span><span class="co">#&gt; GSTO1  0.31549775</span></span></code></pre></div>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_negbinom</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">avg_log2FC</span>, col<span class="op">=</span><span class="va">p_val_adj</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
@@ -249,15 +251,13 @@ If expression is below a certain level, it will be almost impossible to see diff
 <p>First, you need to build a pseudobulk matrix - the <code><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression()</a></code> function can do this, once you set the ‘Idents’ of your seurat object to your grouping factor (here, sample instead of cluster).</p>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma">limma</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'limma' was built under R version 4.1.3</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/limma/">limma</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'limma'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;     plotMA</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/edgeR">edgeR</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'edgeR' was built under R version 4.1.1</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/edgeR/">edgeR</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Attaching package: 'edgeR'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:SingleCellExperiment':</span></span>
@@ -272,11 +272,11 @@ If expression is below a certain level, it will be almost impossible to see diff
 <span><span class="va">pseudobulk_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">pbmc.c0</span>,  slot <span class="op">=</span> <span class="st">'counts'</span>, assays<span class="op">=</span><span class="st">'RNA'</span> <span class="op">)</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">pseudobulk_matrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="op">]</span></span>
 <span><span class="co">#&gt;          wt1 wt2 wt3 ko4 ko5 ko6</span></span>
-<span><span class="co">#&gt; NOC2L      9  11  20  10  14  10</span></span>
+<span><span class="co">#&gt; NOC2L      9  11  20   8  14  10</span></span>
 <span><span class="co">#&gt; HES4       1   0   2   0   0   0</span></span>
-<span><span class="co">#&gt; ISG15     42  53  46  46  39  46</span></span>
+<span><span class="co">#&gt; ISG15     37  48  45  46  38  42</span></span>
 <span><span class="co">#&gt; TNFRSF18   3   1   3   3   2   1</span></span>
-<span><span class="co">#&gt; TNFRSF4   11   5   4   9   5   8</span></span></code></pre></div>
+<span><span class="co">#&gt; TNFRSF4   11   5   4   5   5   8</span></span></code></pre></div>
 <p>Now it looks like a bulk RNAseq experiment, so treat it like one.</p>
 <div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dge</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/edgeR/man/DGEList.html">DGEList</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span></span>
@@ -294,19 +294,19 @@ If expression is below a certain level, it will be almost impossible to see diff
 <div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              logFC  AveExpr         t     P.Value adj.P.Val</span></span>
-<span><span class="co">#&gt; TPT1    0.20648390 12.53662  3.644878 0.004136289 0.9373156</span></span>
-<span><span class="co">#&gt; TMSB4X  0.08299091 14.00549  3.536492 0.004978817 0.9373156</span></span>
-<span><span class="co">#&gt; RPS16  -0.12982680 12.34490 -3.194506 0.008996126 0.9373156</span></span>
-<span><span class="co">#&gt; LTB    -0.35225848 10.95428 -3.415544 0.006131010 0.9373156</span></span>
-<span><span class="co">#&gt; B2M    -0.06086554 14.09869 -2.940815 0.014018110 0.9373156</span></span>
-<span><span class="co">#&gt; FTH1    0.16752649 11.33842  2.749742 0.019602056 0.9373156</span></span>
+<span><span class="co">#&gt; TPT1    0.18682163 12.53988  3.259402 0.008793208 0.9284307</span></span>
+<span><span class="co">#&gt; RPS16  -0.13518524 12.34529 -3.175658 0.010120624 0.9284307</span></span>
+<span><span class="co">#&gt; FTH1    0.19202601 11.32869  3.301143 0.008199821 0.9284307</span></span>
+<span><span class="co">#&gt; LTB    -0.34576360 10.96978 -3.252949 0.008888812 0.9284307</span></span>
+<span><span class="co">#&gt; TMSB4X  0.07235226 14.00250  2.959261 0.014586552 0.9284307</span></span>
+<span><span class="co">#&gt; RPL7A  -0.12467290 11.97087 -2.347802 0.041246217 0.9284307</span></span>
 <span><span class="co">#&gt;                B</span></span>
-<span><span class="co">#&gt; TPT1   -1.825526</span></span>
-<span><span class="co">#&gt; TMSB4X -2.059731</span></span>
-<span><span class="co">#&gt; RPS16  -2.454284</span></span>
-<span><span class="co">#&gt; LTB    -2.838411</span></span>
-<span><span class="co">#&gt; B2M    -3.110682</span></span>
-<span><span class="co">#&gt; FTH1   -3.244701</span></span></code></pre></div>
+<span><span class="co">#&gt; TPT1   -2.392834</span></span>
+<span><span class="co">#&gt; RPS16  -2.541006</span></span>
+<span><span class="co">#&gt; FTH1   -2.801966</span></span>
+<span><span class="co">#&gt; LTB    -3.012821</span></span>
+<span><span class="co">#&gt; TMSB4X -3.029650</span></span>
+<span><span class="co">#&gt; RPL7A  -3.576287</span></span></code></pre></div>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">de_result_pseudobulk</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">AveExpr</span>, y<span class="op">=</span><span class="va">logFC</span>, col<span class="op">=</span><span class="va">adj.P.Val</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
@@ -331,7 +331,7 @@ If expression is below a certain level, it will be almost impossible to see diff
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="singler.html"><span class="header-section-number">10</span> SingleR</a></div>
-<div class="next"><a href="resources.html"><span class="header-section-number">12</span> Resources</a></div>
+<div class="next"><a href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -358,7 +358,7 @@ If expression is below a certain level, it will be almost impossible to see diff
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-21.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

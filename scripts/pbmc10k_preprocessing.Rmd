@@ -1,0 +1,34 @@
+---
+title: "PBMC10k"
+output: html_notebook
+---
+
+
+Preparing a subset of a newer (2022) pbmc dataset from 10x. Specicially *10k Human PBMCs, 3' v3.1, Chromium X (with intronic reads), Single Cell Gene Expression Dataset by Cell Ranger 6.1.2*
+
+Download page is here:
+https://www.10xgenomics.com/resources/datasets/10k-human-pbmcs-3-v3-1-chromium-x-with-intronic-reads-3-1-high
+
+Downloaded h5 file of filtered counts, here: https://cf.10xgenomics.com/samples/cell-exp/6.1.2/10k_PBMC_3p_nextgem_Chromium_X_intron/10k_PBMC_3p_nextgem_Chromium_X_intron_filtered_feature_bc_matrix.h5
+
+
+
+
+```{R}
+library(Seurat)
+library(tidyverse)
+
+# local path after download
+#https://cf.10xgenomics.com/samples/cell-exp/6.1.2/10k_PBMC_3p_nextgem_Chromium_X_intron/10k_PBMC_3p_nextgem_Chromium_X_intron_filtered_feature_bc_matrix.h5
+filtered_matrix_h5_PBMC10k <- "~/data_local/10X/10k_PBMC_3p_nextgem_Chromium_X_intron/10k_PBMC_3p_nextgem_Chromium_X_intron_filtered_feature_bc_matrix.h5"
+
+
+pbmc10k <- CreateSeuratObject(counts = Read10X_h5(filtered_matrix_h5_PBMC10k), min.cells = 0, min.features = 0)
+
+saveRDS(pbmc10k,"data/10k_PBMC_v3.1ChromiumX_Intronic.rds")
+
+VlnPlot(pbmc10k, "nCount_RNA")
+
+```
+
+

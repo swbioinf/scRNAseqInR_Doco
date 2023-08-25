@@ -6,7 +6,8 @@
 install.packages("tidyverse")
 install.packages("Seurat")
 install.packages("patchwork")
-
+install.packages("hdf5r") #not really needed, only used to prepare 10Xpbmc.
+install.packages("clustree")
 
 # github
 install.packages("remotes")
@@ -21,6 +22,7 @@ devtools::install_github("powellgenomicslab/scPred")
 if (!require("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
 
+
 BiocManager::install("SingleCellExperiment")
 BiocManager::install("HDF5Array")
 BiocManager::install("SingleR")
@@ -28,6 +30,7 @@ BiocManager::install("celldex")   #download????
 BiocManager::install("limma")
 BiocManager::install("edgeR")
 BiocManager::install("CHETAH") 
+
 
 
 
@@ -39,7 +42,7 @@ library(celldex)
 celldex::HumanPrimaryCellAtlasData()
 
 # only for setup
-library(SeuratData)
+#library(SeuratData)
 #data("hcabm40k")  # COuld be replaced with a preset object
 
 

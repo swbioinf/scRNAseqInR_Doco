@@ -26,6 +26,10 @@ prefiltering
 default-wilcox-test
 seurat-negative-binomial
 pseudobulk
+CellCycle
+Harmony
+why-do-we-need-to-do-this
+section-2
 resources
 help-and-fruther-resources
 data

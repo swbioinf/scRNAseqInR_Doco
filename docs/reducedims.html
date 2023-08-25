@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
 <meta name="description" content="7.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 7 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
 <meta property="og:description" content="7.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="7.1 Identification of highly variable features (feature selection) We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.1/transition.js"></script><script src="libs/bs3compat-0.3.1/tabs.js"></script><script src="libs/bs3compat-0.3.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -56,7 +56,9 @@
 <li class="book-part">Futher Analysis</li>
 <li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
 <li><a class="" href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">12</span> Resources</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">13</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">14</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -88,14 +90,10 @@
 <span><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/LabelPoints.html">LabelPoints</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot1</span>, points <span class="op">=</span> <span class="va">top10</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; When using repel, set xnudge and ynudge to 0 for optimal results</span></span>
 <span><span class="va">plot1</span> <span class="op">+</span> <span class="va">plot2</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in</span></span>
-<span><span class="co">#&gt; continuous x-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values</span></span>
-<span><span class="co">#&gt; (geom_point).</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in</span></span>
-<span><span class="co">#&gt; continuous x-axis</span></span>
-<span><span class="co">#&gt; Warning: Removed 1 rows containing missing values</span></span>
-<span><span class="co">#&gt; (geom_point).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous</span></span>
+<span><span class="co">#&gt; x-axis</span></span>
+<span><span class="co">#&gt; Transformation introduced infinite values in continuous</span></span>
+<span><span class="co">#&gt; x-axis</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/var_features-1.png" width="1056"></div>
 <!-- #### Challenge: Labelling Genes of Interest {- .rmdtip} -->
 <!-- What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot. -->
@@ -159,23 +157,23 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; PC_ 3 </span></span>
 <span><span class="co">#&gt; Positive:  HLA-DQA1, CD79A, CD79B, HLA-DQB1, HLA-DPB1, HLA-DPA1, CD74, MS4A1, HLA-DRB1, HLA-DRA </span></span>
 <span><span class="co">#&gt;     HLA-DRB5, HLA-DQA2, TCL1A, LINC00926, HLA-DMB, HLA-DMA, CD37, HVCN1, FCRLA, IRF8 </span></span>
-<span><span class="co">#&gt;     PLAC8, BLNK, MALAT1, SMIM14, PLD4, LAT2, IGLL5, P2RX5, SWAP70, FCGR2B </span></span>
+<span><span class="co">#&gt;     PLAC8, BLNK, MALAT1, SMIM14, PLD4, P2RX5, IGLL5, LAT2, SWAP70, FCGR2B </span></span>
 <span><span class="co">#&gt; Negative:  PPBP, PF4, SDPR, SPARC, GNG11, NRGN, GP9, RGS18, TUBB1, CLU </span></span>
 <span><span class="co">#&gt;     HIST1H2AC, AP001189.4, ITGA2B, CD9, TMEM40, PTCRA, CA2, ACRBP, MMD, TREML1 </span></span>
 <span><span class="co">#&gt;     NGFRAP1, F13A1, SEPT5, RUFY1, TSC22D1, MPP1, CMTM5, RP11-367G6.3, MYL9, GP1BA </span></span>
 <span><span class="co">#&gt; PC_ 4 </span></span>
-<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1, CD74, HLA-DPB1, HIST1H2AC, PF4, TCL1A </span></span>
-<span><span class="co">#&gt;     SDPR, HLA-DPA1, HLA-DRB1, HLA-DQA2, HLA-DRA, PPBP, LINC00926, GNG11, HLA-DRB5, SPARC </span></span>
-<span><span class="co">#&gt;     GP9, AP001189.4, CA2, PTCRA, CD9, NRGN, RGS18, GZMB, CLU, TUBB1 </span></span>
+<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1, CD74, HIST1H2AC, HLA-DPB1, PF4, SDPR </span></span>
+<span><span class="co">#&gt;     TCL1A, HLA-DRB1, HLA-DPA1, HLA-DQA2, PPBP, HLA-DRA, LINC00926, GNG11, SPARC, HLA-DRB5 </span></span>
+<span><span class="co">#&gt;     GP9, AP001189.4, CA2, PTCRA, CD9, NRGN, RGS18, CLU, TUBB1, GZMB </span></span>
 <span><span class="co">#&gt; Negative:  VIM, IL7R, S100A6, IL32, S100A8, S100A4, GIMAP7, S100A10, S100A9, MAL </span></span>
 <span><span class="co">#&gt;     AQP3, CD2, CD14, FYB, LGALS2, GIMAP4, ANXA1, CD27, FCN1, RBP7 </span></span>
 <span><span class="co">#&gt;     LYZ, S100A11, GIMAP5, MS4A6A, S100A12, FOLR3, TRABD2A, AIF1, IL8, IFI6 </span></span>
 <span><span class="co">#&gt; PC_ 5 </span></span>
 <span><span class="co">#&gt; Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY, CCL4, CST7, PRF1, GZMA, SPON2 </span></span>
-<span><span class="co">#&gt;     GZMH, S100A9, LGALS2, CCL3, CTSW, XCL2, CD14, CLIC3, S100A12, CCL5 </span></span>
-<span><span class="co">#&gt;     RBP7, MS4A6A, GSTP1, FOLR3, IGFBP7, TYROBP, TTC38, AKR1C3, XCL1, HOPX </span></span>
+<span><span class="co">#&gt;     GZMH, S100A9, LGALS2, CCL3, CTSW, XCL2, CD14, CLIC3, S100A12, RBP7 </span></span>
+<span><span class="co">#&gt;     CCL5, MS4A6A, GSTP1, FOLR3, IGFBP7, TYROBP, TTC38, AKR1C3, XCL1, HOPX </span></span>
 <span><span class="co">#&gt; Negative:  LTB, IL7R, CKB, VIM, MS4A7, AQP3, CYTIP, RP11-290F20.3, SIGLEC10, HMOX1 </span></span>
-<span><span class="co">#&gt;     PTGES3, LILRB2, MAL, CD27, HN1, CD2, GDI2, ANXA5, CORO1B, TUBA1B </span></span>
+<span><span class="co">#&gt;     LILRB2, PTGES3, MAL, CD27, HN1, CD2, GDI2, CORO1B, ANXA5, TUBA1B </span></span>
 <span><span class="co">#&gt;     FAM110A, ATP1A1, TRADD, PPA1, CCDC109B, ABRACL, CTD-2006K23.1, WARS, VMO1, FYB</span></span></code></pre></div>
 <p>Seurat provides several useful ways of visualizing both cells and features that define the PCA, including <code>VizDimReduction()</code>, <code><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot()</a></code>, and <code><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap()</a></code></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
@@ -246,20 +244,20 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">#&gt; This message will be shown once per session</span></span>
-<span><span class="co">#&gt; 19:24:21 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 19:24:21 Read 2638 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 19:24:21 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 19:24:21 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 15:49:40 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 15:49:40 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 15:49:40 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 15:49:40 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 19:24:21 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpYiCNZc/file4fb332c4baf</span></span>
-<span><span class="co">#&gt; 19:24:21 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 19:24:22 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 19:24:22 Commencing smooth kNN distance calibration using 1 thread</span></span>
-<span><span class="co">#&gt; 19:24:22 Initializing from normalized Laplacian + noise</span></span>
-<span><span class="co">#&gt; 19:24:22 Commencing optimization for 500 epochs, with 105124 positive edges</span></span>
-<span><span class="co">#&gt; 19:24:26 Optimization finished</span></span></code></pre></div>
+<span><span class="co">#&gt; 15:49:41 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpvvfSBA/file8ede7e5f1278</span></span>
+<span><span class="co">#&gt; 15:49:41 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 15:49:41 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 15:49:41 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 15:49:41 Initializing from normalized Laplacian + noise (using irlba)</span></span>
+<span><span class="co">#&gt; 15:49:41 Commencing optimization for 500 epochs, with 105140 positive edges</span></span>
+<span><span class="co">#&gt; 15:49:44 Optimization finished</span></span></code></pre></div>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
@@ -299,7 +297,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2022-08-21.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-08-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

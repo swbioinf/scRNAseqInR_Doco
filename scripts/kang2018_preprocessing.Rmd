@@ -72,6 +72,15 @@ obj <- RunPCA(obj, "RNA")
 obj <- RunUMAP(obj, dims=1:10)
 
 obj
-
 saveRDS(obj, "kang2018.rds")
+```
+
+Later on, convert ind to a factor (prevent matrix multiplication errors when trying)
+to handle ind in Harmony.
+
+```{r}
+obj <- readRDS("kang2018.rds")
+obj$ind <- factor(obj$ind)
+saveRDS(obj, "kang2018.rds")
+
 ```
