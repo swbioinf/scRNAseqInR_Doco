@@ -1,5 +1,12 @@
 # Clustering {#clustering}
 
+#### Why do we need to do this?  {- .rmdimportant}
+
+Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.
+
+
+## Cluster cells
+
 <!-- Do clustering -->
 <!-- Choose a resolution -->
 <!-- What are the clusters? -->
@@ -32,9 +39,6 @@ DimPlot(pbmc)
 ***
 
 
-
-
-
 #### Challenge: Try different cluster settings {- .rmdtip}
 
 Run `FindNeighbours` and `FindClusters` again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using `DimPlot`.
@@ -43,4 +47,38 @@ To maintain the flow of this tutorial, please put the output of this exploration
 
 
 
+## Choosing a cluster resolution
 
+
+Its a good idea to try different resolutions when clustering to identify the varibility of your data. 
+
+```{r}
+resolution = 2
+pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1),
+    dims = 1:10)
+
+# the different clustering created
+names(pbmc@meta.data)
+
+# Look at cluster IDs of the first 5 cells
+head(Idents(pbmc), 5)
+```
+
+Plot a clustree to decide how many clusters you have and what resolution capture them.
+
+```{r fig.height=12}
+library(clustree)
+clustree(pbmc, prefix = "RNA_snn_res.") + theme(legend.key.size = unit(0.05, "cm"))
+```
+
+Name cells with the corresponding cluster name at the resolution you pick. This case we are happy with 0.5.
+```{r}
+# The name of the cluster is prefixed with 'RNA_snn_res' and the number of the resolution
+Idents(pbmc) <- pbmc$RNA_snn_res.0.5
+```
+
+Plot the UMAP with colored clusters with Dimplot
+
+```{r}
+DimPlot(pbmc, label = TRUE, repel = TRUE, label.box = TRUE) + NoLegend()
+```

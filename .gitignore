@@ -8,5 +8,8 @@ data/
 data.zip
 _bookdown
 _bookdown_files
+_bookdown_files/
 renv/
 renv.lock
+pbmc3k_umap.jpg
+

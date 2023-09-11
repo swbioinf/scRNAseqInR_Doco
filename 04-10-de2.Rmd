@@ -9,41 +9,33 @@ There is also a good
 This includes a good discussion of useing [pseudobulk approaches](http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples), worth checking out for  differential expression analyses.
 
 
-The example below quickly looks at 3 different methods on the pbmc dataset. Because we are arbirailiy carving the pbmc dataset from one individual into 6 differenct samples, there are no differentially expressed genes.
+The example below quickly looks at 3 different methods on the Kang 2018 PBMC dataset ....
 
 
+We will now look at [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583), another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
 
+The data has already been processed as we have done with the first PBMC dataset, and can be loaded from `kang2018.rds`.
 
-## Setup
-
-First, arbitraily divide the pbmc cells into 6 different replicates; 3 knockouts and 3 wild types. In reality, these
-are all from one individual, so there shouldn't really be any difference.
-
-
-```{r}
-# if needed, reload from processsed object
-#pbmc <- readRDS("data/pbmc_tutorial.rds")
-
-replicates_lookup <- c("wt1"="WT","wt2"="WT","wt3"="WT","ko4"="KO","ko5"="KO","ko6"="KO")
-altered_genes <- c()
-
-# %% is modulo operator, just a conventient way to make 1-6 repeatedly, to put cells into 'samples'
-pbmc$Sample    <- factor(names(replicates_lookup)[1:ncol(pbmc) %% length(replicates_lookup) + 1], 
-                         levels=names(replicates_lookup))
-pbmc$Condition <- factor(replicates_lookup[pbmc$Sample], levels=c("KO","WT"))
-
-
-DimPlot(pbmc, group.by = "Sample", split.by="Condition") + ggtitle("Dividing pbmc into fake 'Samples'")
+```{r }
+kang <- readRDS("data/kang2018.rds")
+head(kang@meta.data)
 ```
 
-
-
-
-
-How many of each do we have?
+How cells from each condition do we have?
 ```{r}
-table( pbmc$Sample, pbmc$Condition)
+table(kang$stim)
 ```
+
+How many cells per individuals per group?
+```{r}
+table(kang$ind, kang$stim)
+```
+And for each individual, how many of each cell type has been classified?
+
+```{r}
+table(paste(kang$ind,kang$stim), kang$cell)
+```
+
 
 
 ## Prefiltering
@@ -54,29 +46,34 @@ If expression is below a certain level, it will be almost impossible to see diff
 In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less agressive correction for multiple hypotheses.
 
 
+How many genes originally?
+```{r}
+kang
+```
+
 ```{R}
-total_per_gene <- rowSums(GetAssayData(pbmc, 'counts'))
+total_per_gene <- rowSums(GetAssayData(kang, 'counts'))
 hist(log10(total_per_gene))
-pbmc <- pbmc[total_per_gene >= 50, ] 
+kang <- kang[total_per_gene >= 50, ] 
 ```
 
 
 How many genes now?
 ```{r}
-pbmc
+kang
 ```
 
 
 
-And the clusters, for reference; For differential expression, focussing here on just cluster 0. An easy way is to subset the object.
+We might like to see the effect of IFN-beta stimulation on each cell type individually. For the purpopses of this workshop, just going to test one cell type; CD14+ Monocytes 
+
+An easy way is to subset the object. 
 
 ```{r}
-# Set idents to pbmc$RNA_snn_res.0.5
-Idents(pbmc) <- pbmc$RNA_snn_res.0.5
-pbmc.c0 <- pbmc[, pbmc$RNA_snn_res.0.5 %in% c(0) ]
-
-DimPlot(pbmc) + DimPlot(pbmc.c0)
-
+# Set idents to 'cell' column.
+Idents(kang) <- kang$cell
+kang.celltype <- kang[, kang$cell == "CD14+ Monocytes" ]
+DimPlot(kang) + DimPlot(kang.celltype)
 ```
 
 
@@ -84,24 +81,22 @@ DimPlot(pbmc) + DimPlot(pbmc.c0)
 
 ##  Default Wilcox test
 
+To run this test, we change the Idents to the factor(column) we want to test. In this case, thats 'stim'.
 
 ```{r}
-
-
 # Change Ident to Condition
-Idents(pbmc.c0) <- pbmc.c0$Condition
+Idents(kang.celltype) <- kang.celltype$stim
 
 # default, wilcox test
-de_result_wilcox <- FindMarkers(pbmc.c0, 
-            ident.1 = 'KO',
-            ident.2 = 'WT',
+de_result_wilcox <- FindMarkers(kang.celltype, 
+            ident.1 = 'stim',
+            ident.2 = 'ctrl',
             logfc.threshold = 0, # Give me ALL results
-            min.pct = 0,
-            max.cells.per.ident = 400  # Downsample cells - purely for speed!
+            min.pct = 0
             )
 
 # Add average expression for plotting
-de_result_wilcox$AveExpr<- rowMeans(pbmc.c0[["RNA"]][rownames(de_result_wilcox),])
+de_result_wilcox$AveExpr<- rowMeans(kang.celltype[["RNA"]][rownames(de_result_wilcox),])
 ```
 
 Look at the top differentially expressed genes.
@@ -111,13 +106,15 @@ head(de_result_wilcox)
 
 ```{r}
 p1 <- ggplot(de_result_wilcox, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Wilcox Test")
 
 
 p2 <- ggplot(de_result_wilcox, aes(x=avg_log2FC, y=-log10(p_val), col=p_val_adj < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Wilcox Test (Volcano)")
 
@@ -127,24 +124,24 @@ p1 + p2
 
 ## Seurat Negative binomial
 
+Negative binonial test is run almost the same way - just need to specify it under 'test.use'
 
 ```{r results='hide', warning=FALSE, message=FALSE}
 
 # Change Ident to Condition
-Idents(pbmc.c0) <- pbmc.c0$Condition
+Idents(kang.celltype) <- kang.celltype$stim
 
 # default, wilcox test
-de_result_negbinom <- FindMarkers(pbmc.c0, 
+de_result_negbinom <- FindMarkers(kang.celltype, 
             test.use="negbinom", # Choose a different test.
-            ident.1 = 'KO',
-            ident.2 = 'WT',
+            ident.1 = 'stim',
+            ident.2 = 'ctrl',
             logfc.threshold = 0, # Give me ALL results
-            min.pct = 0,
-            max.cells.per.ident = 400  # Downsample cells - purely for speed!
+            min.pct = 0
 )
 
 # Add average expression for plotting
-de_result_negbinom$AveExpr<- rowMeans(pbmc.c0[["RNA"]][rownames(de_result_negbinom),])
+de_result_negbinom$AveExpr<- rowMeans(kang.celltype[["RNA"]][rownames(de_result_negbinom),])
 ```
 
 
@@ -156,13 +153,15 @@ head(de_result_negbinom)
 
 ```{r}
 p1 <- ggplot(de_result_negbinom, aes(x=AveExpr, y=avg_log2FC, col=p_val_adj < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Negative Bionomial Test")
 
 
 p2 <- ggplot(de_result_negbinom, aes(x=avg_log2FC, y=-log10(p_val), col=p_val_adj < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Negative Bionomial Test (Volcano)")
 
@@ -175,7 +174,7 @@ p1 + p2
 Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.
 
 
-First, you need to build a pseudobulk matrix - the `AggregateExpression()` function can do this, once you set the 'Idents' of your seurat object to your grouping factor (here, sample instead of cluster).
+First, you need to build a pseudobulk matrix - the `AggregateExpression()` function can do this, once you set the 'Idents' of your seurat object to your grouping factor (here, thats a combination of individual+treatment called 'sample', instead of the 'stim' treatment column).
 
 ```{r}
 # Tools for bulk differential expression
@@ -183,11 +182,13 @@ library(limma)
 library(edgeR)
 
 
-# Change idents to *sample* for grouping.
-Idents(pbmc.c0) <- pbmc.c0$Sample
+# Change idents to ind for grouping.
+kang.celltype$sample <- factor(paste(kang.celltype$stim, kang.celltype$ind, sep="_"))
+Idents(kang.celltype) <- kang.celltype$sample
 
-
-pseudobulk_matrix <- AggregateExpression( pbmc.c0,  slot = 'counts', assays='RNA' )[['RNA']]
+# THen pool together counts in those groups
+pseudobulk_matrix <- AggregateExpression( kang.celltype,  slot = 'counts', assays='RNA' )[['RNA']]
+colnames(pseudobulk_matrix) <- as.character(colnames(pseudobulk_matrix)) # Changes colnames to simple text
 pseudobulk_matrix[1:5,]
 ```
 
@@ -197,11 +198,17 @@ Now it looks like a bulk RNAseq experiment, so treat it like one.
 dge <- DGEList(pseudobulk_matrix)
 dge <- calcNormFactors(dge)
 
-condition <- factor(replicates_lookup[colnames(pseudobulk_matrix)])
-design <- model.matrix(~condition)
+stim <- gsub("_.*","",colnames(pseudobulk_matrix))
+ind  <- as.character(gsub(".*_","",colnames(pseudobulk_matrix))) # ind should be treated as text, not a number!
+
+design <- model.matrix( ~0 + stim + ind)
 vm  <- voom(dge, design = design, plot = FALSE)
 fit <- lmFit(vm, design = design)
+
+contrasts <- makeContrasts(stimstim - stimctrl, levels=coef(fit))
+fit <- contrasts.fit(fit, contrasts)
 fit <- eBayes(fit)
+
 de_result_pseudobulk <- topTable(fit, n = Inf, adjust.method = "BH")
 de_result_pseudobulk <- arrange(de_result_pseudobulk , adj.P.Val)
 ```
@@ -215,13 +222,15 @@ head(de_result_pseudobulk)
 
 ```{r}
 p1 <- ggplot(de_result_pseudobulk, aes(x=AveExpr, y=logFC, col=adj.P.Val < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Pseudobulk")
 
 
 p2 <- ggplot(de_result_pseudobulk, aes(x=logFC, y=-log10(P.Value), col=adj.P.Val < 0.05)) +
-  geom_point(col='black') +
+  geom_point() +
+  scale_colour_manual(values=c('TRUE'="red",'FALSE'="black")) + 
   theme_bw() +
   ggtitle("Pseudobulk Test (Volcano)")
 
