@@ -119,7 +119,7 @@
 
 \title{scRNAseq Analysis in R with Seurat}
 \author{}
-\date{\vspace{-2.5em}2023-09-11}
+\date{\vspace{-2.5em}2023-09-12}
 
 \begin{document}
 \maketitle
@@ -1015,20 +1015,20 @@ Seurat offers several non-linear dimensional reduction techniques, such as tSNE 
 \CommentTok{\#\textgreater{} Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R{-}native UWOT using the cosine metric}
 \CommentTok{\#\textgreater{} To use Python UMAP via reticulate, set umap.method to \textquotesingle{}umap{-}learn\textquotesingle{} and metric to \textquotesingle{}correlation\textquotesingle{}}
 \CommentTok{\#\textgreater{} This message will be shown once per session}
-\CommentTok{\#\textgreater{} 10:34:42 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 10:34:42 Read 2638 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 10:34:42 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 10:34:42 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 13:55:46 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 13:55:46 Read 2638 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 13:55:46 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 13:55:46 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 10:34:42 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpVlgEIH/file5f4f7df4c007}
-\CommentTok{\#\textgreater{} 10:34:42 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 10:34:43 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 10:34:43 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 10:34:43 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 10:34:43 Commencing optimization for 500 epochs, with 105140 positive edges}
-\CommentTok{\#\textgreater{} 10:34:46 Optimization finished}
+\CommentTok{\#\textgreater{} 13:55:46 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmp7whBhj/fileb2ee15ddcc8c}
+\CommentTok{\#\textgreater{} 13:55:46 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 13:55:46 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 13:55:47 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 13:55:47 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 13:55:47 Commencing optimization for 500 epochs, with 105140 positive edges}
+\CommentTok{\#\textgreater{} 13:55:49 Optimization finished}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1610,7 +1610,7 @@ DotPlots
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-31-1.pdf}
 
-\texttt{DoHeatmap()} generates an expression heatmap for given cells and features. In this case, we are plotting the top 20 markers (or all markers if less than 20) for each cluster.
+\texttt{DoHeatmap()} generates an expression heatmap for given cells and features. In this case, we are plotting the top 10 markers (or all markers if less than 10) for each cluster.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2538,20 +2538,20 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{kang }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"harmony"}\NormalTok{, }\AttributeTok{dims=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{reduction.name=}\StringTok{"umap\_harmony"}\NormalTok{)}
-\CommentTok{\#\textgreater{} 10:37:12 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 10:37:12 Read 5000 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 10:37:12 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 10:37:12 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 13:58:13 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 13:58:13 Read 5000 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 13:58:13 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 13:58:13 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 10:37:12 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpVlgEIH/file5f4f2df3373e}
-\CommentTok{\#\textgreater{} 10:37:13 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 10:37:14 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 10:37:14 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 10:37:15 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 10:37:15 Commencing optimization for 500 epochs, with 210490 positive edges}
-\CommentTok{\#\textgreater{} 10:37:20 Optimization finished}
+\CommentTok{\#\textgreater{} 13:58:14 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmp7whBhj/fileb2eee24165b}
+\CommentTok{\#\textgreater{} 13:58:14 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 13:58:15 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 13:58:15 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 13:58:16 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 13:58:16 Commencing optimization for 500 epochs, with 210490 positive edges}
+\CommentTok{\#\textgreater{} 13:58:20 Optimization finished}
 \CommentTok{\#\textgreater{} Warning: Cannot add objects with duplicate keys (offending}
 \CommentTok{\#\textgreater{} key: UMAP\_), setting key to \textquotesingle{}umap\_harmony\_\textquotesingle{}}
 
