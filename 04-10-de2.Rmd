@@ -5,12 +5,9 @@ There are many different methods for calculating differential expression between
 
 There is the [Seurat differential expression Vignette](https://satijalab.org/seurat/archive/v3.1/de_vignette.html) which walks through the variety implemented in Seurat. 
 
-There is also a good 
-This includes a good discussion of useing [pseudobulk approaches](http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples), worth checking out for  differential expression analyses.
+There is also a good discussion of useing [pseudobulk approaches](http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html#creating-pseudo-bulk-samples) which is worth checking out if youre planning differential expression analyses.
 
-
-The example below quickly looks at 3 different methods on the Kang 2018 PBMC dataset ....
-
+---
 
 We will now look at [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583), another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
 
@@ -30,7 +27,7 @@ How many cells per individuals per group?
 ```{r}
 table(kang$ind, kang$stim)
 ```
-And for each individual, how many of each cell type has been classified?
+And for each sample, how many of each cell type has been classified?
 
 ```{r}
 table(paste(kang$ind,kang$stim), kang$cell)
@@ -40,40 +37,53 @@ table(paste(kang$ind,kang$stim), kang$cell)
 
 ## Prefiltering
 
-When doing differential expression, you generally ignore genes with low experssion.
-If expression is below a certain level, it will be almost impossible to see differential expression. 
+### Why do we need to do this? {- .rmdimportant}
 
-In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less agressive correction for multiple hypotheses.
+If expression is below a certain level, it will be almost impossible to see any differential expression.
+
+### {-}
 
 
-How many genes originally?
+When doing differential expression, you generally ignore genes with low expression.
+In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less aggressive correction for multiple hypotheses.
+
+How many genes before filtering?
 ```{r}
 kang
 ```
 
+
+How many copies of each gene are there?
 ```{R}
 total_per_gene <- rowSums(GetAssayData(kang, 'counts'))
 hist(log10(total_per_gene))
+```
+
+
+
+Lets keep only those genes with at least 50 copies across the entire experiment.
+```{r}
 kang <- kang[total_per_gene >= 50, ] 
 ```
 
 
-How many genes now?
+How many genes after filtering?
 ```{r}
 kang
 ```
 
 
 
-We might like to see the effect of IFN-beta stimulation on each cell type individually. For the purpopses of this workshop, just going to test one cell type; CD14+ Monocytes 
+We might like to see the effect of IFN-beta stimulation on each cell type individually. For the purposes of this workshop, just going to test one cell type; CD14+ Monocytes 
 
 An easy way is to subset the object. 
 
 ```{r}
 # Set idents to 'cell' column.
 Idents(kang) <- kang$cell
+DimPlot(kang)
 kang.celltype <- kang[, kang$cell == "CD14+ Monocytes" ]
-DimPlot(kang) + DimPlot(kang.celltype)
+DimPlot(kang.celltype)
 ```
 
 
@@ -81,7 +91,7 @@ DimPlot(kang) + DimPlot(kang.celltype)
 
 ##  Default Wilcox test
 
-To run this test, we change the Idents to the factor(column) we want to test. In this case, thats 'stim'.
+To run this test, we change the Idents to the factor(column) we want to test. In this case, that's 'stim'.
 
 ```{r}
 # Change Ident to Condition
@@ -187,19 +197,28 @@ kang.celltype$sample <- factor(paste(kang.celltype$stim, kang.celltype$ind, sep=
 Idents(kang.celltype) <- kang.celltype$sample
 
 # THen pool together counts in those groups
-pseudobulk_matrix <- AggregateExpression( kang.celltype,  slot = 'counts', assays='RNA' )[['RNA']]
+# AggregateExperssion returns a list of matricies - one for each assay requested (even just requesting one)
+pseudobulk_matrix_list <- AggregateExpression( kang.celltype,  slot = 'counts', assays='RNA' )
+pseudobulk_matrix      <- pseudobulk_matrix_list[['RNA']]
 colnames(pseudobulk_matrix) <- as.character(colnames(pseudobulk_matrix)) # Changes colnames to simple text
-pseudobulk_matrix[1:5,]
+pseudobulk_matrix[1:5,1:4]
 ```
 
 Now it looks like a bulk RNAseq experiment, so treat it like one.
+
+We can use the popular `limma` package for differential expression. Here is one [tutorial](https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html), and the hefty reference manual is hosted by [bioconductor](https://bioconductor.org/packages/release/bioc/html/limma.html).
+
+In brief, this code below constructs a linear model for this experiment that accounts for the variation in individuals and treatment. It then tests for differential expression between 'stim' and 'ctrl' groups.
 
 ```{R}
 dge <- DGEList(pseudobulk_matrix)
 dge <- calcNormFactors(dge)
 
-stim <- gsub("_.*","",colnames(pseudobulk_matrix))
-ind  <- as.character(gsub(".*_","",colnames(pseudobulk_matrix))) # ind should be treated as text, not a number!
+# Remove _ and everything after it - yeilds stim group
+stim <- gsub("_.*","",colnames(pseudobulk_matrix)) 
+
+# Removing everything before the _ for the individua, then converting those numerical ind explictiy to text. Else limma will treat them as numbers!
+ind  <- as.character(gsub(".*_","",colnames(pseudobulk_matrix))) 
 
 design <- model.matrix( ~0 + stim + ind)
 vm  <- voom(dge, design = design, plot = FALSE)
@@ -240,6 +259,6 @@ p1 + p2
 
 #### Challenge: What method? {- .rmdtip}
 
-These methods give different results. How could and decide which to use? How could you check an individual gene?
+These methods give different results. How would you decide which to use? How could you check an individual gene?
 
 

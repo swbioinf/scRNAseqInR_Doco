@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 13 Data set integration with Harmony | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="13.0.1 Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  13.0.2  When data is collected from multiple samples,...">
+<meta name="description" content="Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  When data is collected from multiple samples, multiple runs...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 13 Data set integration with Harmony | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="13.0.1 Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  13.0.2  When data is collected from multiple samples,...">
+<meta property="og:description" content="Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  When data is collected from multiple samples, multiple runs...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 13 Data set integration with Harmony | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="13.0.1 Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  13.0.2  When data is collected from multiple samples,...">
+<meta name="twitter:description" content="Why do we need to do this? You can have data coming from different samples, batches or experiments and you will need to combine them.  When data is collected from multiple samples, multiple runs...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -70,21 +70,18 @@
 <h1>
 <span class="header-section-number">13</span> Data set integration with Harmony<a class="anchor" aria-label="anchor" href="#Harmony"><i class="fas fa-link"></i></a>
 </h1>
-<div id="why-do-we-need-to-do-this-2" class="section level3 rational" number="13.0.1">
-<h3>
-<span class="header-section-number">13.0.1</span> Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-2"><i class="fas fa-link"></i></a>
+<div id="why-do-we-need-to-do-this-3" class="section level3 unnumbered rmdimportant">
+<h3>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-3"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can have data coming from different samples, batches or experiments and you will need to combine them.</p>
 </div>
-<div id="section-2" class="section level3" number="13.0.2">
-<h3>
-<span class="header-section-number">13.0.2</span> <a class="anchor" aria-label="anchor" href="#section-2"><i class="fas fa-link"></i></a>
-</h3>
+<div id="section-3" class="section level3 unnumbered">
+<h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-3"><i class="fas fa-link"></i></a></h3>
 <p>When data is collected from multiple samples, multiple runs of the single cell sequencing library preparation, or multiple conditions, cells of the same type may become separated in the UMAP and be put into several different clusters.</p>
 <p>For the purpose of clustering and cell identification, we would like to remove such effects.</p>
 <p>We will now look at <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583">GSE96583</a>, another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.</p>
 <p>The data has already been processed as we have done with the first PBMC dataset, and can be loaded from <code>kang2018.rds</code>.</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kang</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/kang2018.rds"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">kang</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
@@ -112,17 +109,15 @@
 <li>
 <code>multiplets</code> classifies cells as singlet or doublet.</li>
 </ul>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"ind"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-65-1.png" width="672"></div>
 <div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-65-2.png" width="672"></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"ind"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-66-1.png" width="672"></div>
 <div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"pca"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-65-3.png" width="672"></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-66-2.png" width="672"></div>
 <div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
+<span></span>
 <span><span class="va">kang</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"pca"</span>, dims<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Computing nearest neighbor graph</span></span>
 <span><span class="co">#&gt; Computing SNN</span></span>
@@ -139,7 +134,7 @@
 <span><span class="va">kang</span><span class="op">$</span><span class="va">pca_clusters</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">$</span><span class="va">seurat_clusters</span></span>
 <span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"pca_clusters"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-65-4.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-66-3.png" width="672"></div>
 <p>There is a big difference between unstimulated and stimulated cells. This has split cells of the same type into pairs of clusters. If the difference was simply uniform, we could regress it out (e.g. using <code>ScaleData(..., vars.to.regress="stim")</code>). However, as can be seen in the PCA plot, the difference is not uniform and we need to do something cleverer.</p>
 <p>We will use <a href="https://github.com/immunogenomics/harmony">Harmony</a>, which can remove non-uniform effects. We will try to remove both the small differences between individuals and the large difference between the unstimulated and stimulated cells.</p>
 <p>Harmony operates only on the PCA scores. The original gene expression levels remain unaltered.</p>
@@ -162,33 +157,36 @@
 <span><span class="co">#&gt; syntactically valid. New object name is</span></span>
 <span><span class="co">#&gt; Seurat..ProjectDim.RNA.harmony; see ?make.names for more</span></span>
 <span><span class="co">#&gt; details on syntax validity</span></span></code></pre></div>
-<p>This has added a new set of reduced dimensions to the Seurat object, <code>kang$harmony</code> which is a modified version of the existing <code>kang$pca</code> reduced dimensions.</p>
+<p>This has added a new set of reduced dimensions to the Seurat object, <code>kang$harmony</code> which is a modified version of the existing <code>kang$pca</code> reduced dimensions. The PCA plot shows a large difference between ‘ctrl’ and ‘stim’, but this has been removed in the harmony reduction.</p>
 <div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"harmony"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-67-1.png" width="672"></div>
-<p>We can use <code>harmony</code> the same way we used the <code>pca</code> reduction to compute a UMAP layout or to find clusters.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"pca"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-68-1.png" width="672"></div>
 <div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"harmony"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-68-2.png" width="672"></div>
+<p>We can use <code>harmony</code> the same way we used the <code>pca</code> reduction to compute a UMAP layout or to find clusters.</p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kang</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"harmony"</span>, dims<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, reduction.name<span class="op">=</span><span class="st">"umap_harmony"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 13:55:07 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 13:55:07 Read 5000 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 13:55:07 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 13:55:07 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 10:50:33 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 10:50:33 Read 5000 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 10:50:33 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 10:50:33 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 13:55:07 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//Rtmpa4iQfg/fileb222ae9266a</span></span>
-<span><span class="co">#&gt; 13:55:07 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 13:55:08 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 13:55:09 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 13:55:10 Initializing from normalized Laplacian + noise (using irlba)</span></span>
-<span><span class="co">#&gt; 13:55:10 Commencing optimization for 500 epochs, with 210490 positive edges</span></span>
-<span><span class="co">#&gt; 13:55:14 Optimization finished</span></span>
+<span><span class="co">#&gt; 10:50:33 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//Rtmpp240iZ/filed6946b12830e</span></span>
+<span><span class="co">#&gt; 10:50:33 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 10:50:34 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 10:50:34 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 10:50:35 Initializing from normalized Laplacian + noise (using irlba)</span></span>
+<span><span class="co">#&gt; 10:50:35 Commencing optimization for 500 epochs, with 210490 positive edges</span></span>
+<span><span class="co">#&gt; 10:50:40 Optimization finished</span></span>
 <span><span class="co">#&gt; Warning: Cannot add objects with duplicate keys (offending</span></span>
 <span><span class="co">#&gt; key: UMAP_), setting key to 'umap_harmony_'</span></span>
 <span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap_harmony"</span>, group.by<span class="op">=</span><span class="st">"stim"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-68-1.png" width="672"></div>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-69-1.png" width="672"></div>
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">kang</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindNeighbors.html">FindNeighbors</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"harmony"</span>, dims<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Computing nearest neighbor graph</span></span>
@@ -206,10 +204,10 @@
 <span><span class="va">kang</span><span class="op">$</span><span class="va">harmony_clusters</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">$</span><span class="va">seurat_clusters</span></span>
 <span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap_harmony"</span>, group.by<span class="op">=</span><span class="st">"harmony_clusters"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-68-2.png" width="672"></div>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-69-2.png" width="672"></div>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span>, reduction<span class="op">=</span><span class="st">"umap"</span>, group.by<span class="op">=</span><span class="st">"harmony_clusters"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-68-3.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-69-3.png" width="672"></div>
 <p>Having found a good set of clusters, we would usually perform differential expression analysis on the original data and include batches/runs/individuals as predictors in the linear model. In this example we could now compare un-stimulated and stimulated cells within each cluster. A particularly nice statistical approach that is possible here would be to convert the counts to pseudo-bulk data for the eight individuals, and then apply a bulk RNA-Seq differential expression analysis method. However there is still the problem that unstimulated and stimulated cells were processed in separate batches.</p>
 
 </div>
@@ -221,8 +219,8 @@
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav"><li>
 <a class="nav-link" href="#Harmony"><span class="header-section-number">13</span> Data set integration with Harmony</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#why-do-we-need-to-do-this-2"><span class="header-section-number">13.0.1</span> Why do we need to do this?</a></li>
-<li><a class="nav-link" href="#section-2"><span class="header-section-number">13.0.2</span></a></li>
+<li><a class="nav-link" href="#why-do-we-need-to-do-this-3">Why do we need to do this?</a></li>
+<li><a class="nav-link" href="#section-3"></a></li>
 </ul>
 </li></ul>
 
@@ -241,7 +239,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-12.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

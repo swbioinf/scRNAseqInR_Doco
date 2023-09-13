@@ -119,7 +119,7 @@
 
 \title{scRNAseq Analysis in R with Seurat}
 \author{}
-\date{\vspace{-2.5em}2023-09-12}
+\date{\vspace{-2.5em}2023-09-13}
 
 \begin{document}
 \maketitle
@@ -1015,20 +1015,20 @@ Seurat offers several non-linear dimensional reduction techniques, such as tSNE 
 \CommentTok{\#\textgreater{} Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R{-}native UWOT using the cosine metric}
 \CommentTok{\#\textgreater{} To use Python UMAP via reticulate, set umap.method to \textquotesingle{}umap{-}learn\textquotesingle{} and metric to \textquotesingle{}correlation\textquotesingle{}}
 \CommentTok{\#\textgreater{} This message will be shown once per session}
-\CommentTok{\#\textgreater{} 13:55:46 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 13:55:46 Read 2638 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 13:55:46 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 13:55:46 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 10:51:11 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 10:51:11 Read 2638 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 10:51:11 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 10:51:11 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 13:55:46 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmp7whBhj/fileb2ee15ddcc8c}
-\CommentTok{\#\textgreater{} 13:55:46 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 13:55:46 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 13:55:47 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 13:55:47 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 13:55:47 Commencing optimization for 500 epochs, with 105140 positive edges}
-\CommentTok{\#\textgreater{} 13:55:49 Optimization finished}
+\CommentTok{\#\textgreater{} 10:51:11 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmJJsoS/filed75469d6429c}
+\CommentTok{\#\textgreater{} 10:51:11 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 10:51:11 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 10:51:11 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 10:51:12 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 10:51:12 Commencing optimization for 500 epochs, with 105140 positive edges}
+\CommentTok{\#\textgreater{} 10:51:14 Optimization finished}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1803,10 +1803,9 @@ There are many different methods for calculating differential expression between
 
 There is the \href{https://satijalab.org/seurat/archive/v3.1/de_vignette.html}{Seurat differential expression Vignette} which walks through the variety implemented in Seurat.
 
-There is also a good
-This includes a good discussion of useing \href{http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html\#creating-pseudo-bulk-samples}{pseudobulk approaches}, worth checking out for differential expression analyses.
+There is also a good discussion of useing \href{http://bioconductor.org/books/3.15/OSCA.multisample/multi-sample-comparisons.html\#creating-pseudo-bulk-samples}{pseudobulk approaches} which is worth checking out if youre planning differential expression analyses.
 
-The example below quickly looks at 3 different methods on the Kang 2018 PBMC dataset \ldots.
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 We will now look at \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583}{GSE96583}, another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
 
@@ -1862,7 +1861,7 @@ How many cells per individuals per group?
 \end{Highlighting}
 \end{Shaded}
 
-And for each individual, how many of each cell type has been classified?
+And for each sample, how many of each cell type has been classified?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1927,12 +1926,20 @@ And for each individual, how many of each cell type has been classified?
 \hypertarget{prefiltering}{%
 \section{Prefiltering}\label{prefiltering}}
 
-When doing differential expression, you generally ignore genes with low experssion.
-If expression is below a certain level, it will be almost impossible to see differential expression.
+\hypertarget{why-do-we-need-to-do-this-2}{%
+\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-2}}
+\addcontentsline{toc}{subsection}{Why do we need to do this?}
 
-In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less agressive correction for multiple hypotheses.
+If expression is below a certain level, it will be almost impossible to see any differential expression.
 
-How many genes originally?
+\hypertarget{section-2}{%
+\subsection*{}\label{section-2}}
+\addcontentsline{toc}{subsection}{}
+
+When doing differential expression, you generally ignore genes with low expression.
+In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less aggressive correction for multiple hypotheses.
+
+How many genes before filtering?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1944,6 +1951,8 @@ How many genes originally?
 \end{Highlighting}
 \end{Shaded}
 
+How many copies of each gene are there?
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{total\_per\_gene }\OtherTok{\textless{}{-}} \FunctionTok{rowSums}\NormalTok{(}\FunctionTok{GetAssayData}\NormalTok{(kang, }\StringTok{\textquotesingle{}counts\textquotesingle{}}\NormalTok{))}
@@ -1953,13 +1962,15 @@ How many genes originally?
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-47-1.pdf}
 
+Lets keep only those genes with at least 50 copies across the entire experiment.
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{kang }\OtherTok{\textless{}{-}}\NormalTok{ kang[total\_per\_gene }\SpecialCharTok{\textgreater{}=} \DecValTok{50}\NormalTok{, ] }
 \end{Highlighting}
 \end{Shaded}
 
-How many genes now?
+How many genes after filtering?
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1971,7 +1982,7 @@ How many genes now?
 \end{Highlighting}
 \end{Shaded}
 
-We might like to see the effect of IFN-beta stimulation on each cell type individually. For the purpopses of this workshop, just going to test one cell type; CD14+ Monocytes
+We might like to see the effect of IFN-beta stimulation on each cell type individually. For the purposes of this workshop, just going to test one cell type; CD14+ Monocytes
 
 An easy way is to subset the object.
 
@@ -1979,17 +1990,25 @@ An easy way is to subset the object.
 \begin{Highlighting}[]
 \CommentTok{\# Set idents to \textquotesingle{}cell\textquotesingle{} column.}
 \FunctionTok{Idents}\NormalTok{(kang) }\OtherTok{\textless{}{-}}\NormalTok{ kang}\SpecialCharTok{$}\NormalTok{cell}
-\NormalTok{kang.celltype }\OtherTok{\textless{}{-}}\NormalTok{ kang[, kang}\SpecialCharTok{$}\NormalTok{cell }\SpecialCharTok{==} \StringTok{"CD14+ Monocytes"}\NormalTok{ ]}
-\FunctionTok{DimPlot}\NormalTok{(kang) }\SpecialCharTok{+} \FunctionTok{DimPlot}\NormalTok{(kang.celltype)}
+\FunctionTok{DimPlot}\NormalTok{(kang)}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-49-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-50-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kang.celltype }\OtherTok{\textless{}{-}}\NormalTok{ kang[, kang}\SpecialCharTok{$}\NormalTok{cell }\SpecialCharTok{==} \StringTok{"CD14+ Monocytes"}\NormalTok{ ]}
+\FunctionTok{DimPlot}\NormalTok{(kang.celltype)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-50-2.pdf}
 
 \hypertarget{default-wilcox-test}{%
 \section{Default Wilcox test}\label{default-wilcox-test}}
 
-To run this test, we change the Idents to the factor(column) we want to test. In this case, thats `stim'.
+To run this test, we change the Idents to the factor(column) we want to test. In this case, that's `stim'.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2050,7 +2069,7 @@ Look at the top differentially expressed genes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-52-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-53-1.pdf}
 
 \hypertarget{seurat-negative-binomial}{%
 \section{Seurat Negative binomial}\label{seurat-negative-binomial}}
@@ -2111,7 +2130,7 @@ Look at the top differentially expressed genes.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-55-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-56-1.pdf}
 
 \hypertarget{pseudobulk}{%
 \section{Pseudobulk}\label{pseudobulk}}
@@ -2142,45 +2161,36 @@ First, you need to build a pseudobulk matrix - the \texttt{AggregateExpression()
 \FunctionTok{Idents}\NormalTok{(kang.celltype) }\OtherTok{\textless{}{-}}\NormalTok{ kang.celltype}\SpecialCharTok{$}\NormalTok{sample}
 
 \CommentTok{\# THen pool together counts in those groups}
-\NormalTok{pseudobulk\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{AggregateExpression}\NormalTok{( kang.celltype,  }\AttributeTok{slot =} \StringTok{\textquotesingle{}counts\textquotesingle{}}\NormalTok{, }\AttributeTok{assays=}\StringTok{\textquotesingle{}RNA\textquotesingle{}}\NormalTok{ )[[}\StringTok{\textquotesingle{}RNA\textquotesingle{}}\NormalTok{]]}
+\CommentTok{\# AggregateExperssion returns a list of matricies {-} one for each assay requested (even just requesting one)}
+\NormalTok{pseudobulk\_matrix\_list }\OtherTok{\textless{}{-}} \FunctionTok{AggregateExpression}\NormalTok{( kang.celltype,  }\AttributeTok{slot =} \StringTok{\textquotesingle{}counts\textquotesingle{}}\NormalTok{, }\AttributeTok{assays=}\StringTok{\textquotesingle{}RNA\textquotesingle{}}\NormalTok{ )}
+\NormalTok{pseudobulk\_matrix      }\OtherTok{\textless{}{-}}\NormalTok{ pseudobulk\_matrix\_list[[}\StringTok{\textquotesingle{}RNA\textquotesingle{}}\NormalTok{]]}
 \FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix) }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix)) }\CommentTok{\# Changes colnames to simple text}
-\NormalTok{pseudobulk\_matrix[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{,]}
-\CommentTok{\#\textgreater{}          ctrl\_101 ctrl\_1015 ctrl\_1016 ctrl\_1039 ctrl\_107}
-\CommentTok{\#\textgreater{} NOC2L           2         7         0         0        3}
-\CommentTok{\#\textgreater{} HES4            0         3         2         1        0}
-\CommentTok{\#\textgreater{} ISG15          31       185       236        41       26}
-\CommentTok{\#\textgreater{} TNFRSF18        0         3         4         2        0}
-\CommentTok{\#\textgreater{} TNFRSF4         0         2         0         0        0}
-\CommentTok{\#\textgreater{}          ctrl\_1244 ctrl\_1256 ctrl\_1488 stim\_101 stim\_1015}
-\CommentTok{\#\textgreater{} NOC2L            3         3         1        1         4}
-\CommentTok{\#\textgreater{} HES4             0         0         1       32       161}
-\CommentTok{\#\textgreater{} ISG15           20       125        10     5239     19539}
-\CommentTok{\#\textgreater{} TNFRSF18         0         3         4        1         1}
-\CommentTok{\#\textgreater{} TNFRSF4          1         0         2        2         0}
-\CommentTok{\#\textgreater{}          stim\_1016 stim\_1039 stim\_107 stim\_1244 stim\_1256}
-\CommentTok{\#\textgreater{} NOC2L            1         1        4         2         1}
-\CommentTok{\#\textgreater{} HES4            40        40       54        74        89}
-\CommentTok{\#\textgreater{} ISG15         5556      3135     5012      8114      8277}
-\CommentTok{\#\textgreater{} TNFRSF18         0         0        1         1         0}
-\CommentTok{\#\textgreater{} TNFRSF4          2         0        0         1         2}
-\CommentTok{\#\textgreater{}          stim\_1488}
-\CommentTok{\#\textgreater{} NOC2L            0}
-\CommentTok{\#\textgreater{} HES4            78}
-\CommentTok{\#\textgreater{} ISG15         6401}
-\CommentTok{\#\textgreater{} TNFRSF18         0}
-\CommentTok{\#\textgreater{} TNFRSF4          0}
+\NormalTok{pseudobulk\_matrix[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
+\CommentTok{\#\textgreater{}          ctrl\_101 ctrl\_1015 ctrl\_1016 ctrl\_1039}
+\CommentTok{\#\textgreater{} NOC2L           2         7         0         0}
+\CommentTok{\#\textgreater{} HES4            0         3         2         1}
+\CommentTok{\#\textgreater{} ISG15          31       185       236        41}
+\CommentTok{\#\textgreater{} TNFRSF18        0         3         4         2}
+\CommentTok{\#\textgreater{} TNFRSF4         0         2         0         0}
 \end{Highlighting}
 \end{Shaded}
 
 Now it looks like a bulk RNAseq experiment, so treat it like one.
+
+We can use the popular \texttt{limma} package for differential expression. Here is one \href{https://ucdavis-bioinformatics-training.github.io/2018-June-RNA-Seq-Workshop/thursday/DE.html}{tutorial}, and the hefty reference manual is hosted by \href{https://bioconductor.org/packages/release/bioc/html/limma.html}{bioconductor}.
+
+In brief, this code below constructs a linear model for this experiment that accounts for the variation in individuals and treatment. It then tests for differential expression between `stim' and `ctrl' groups.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{dge }\OtherTok{\textless{}{-}} \FunctionTok{DGEList}\NormalTok{(pseudobulk\_matrix)}
 \NormalTok{dge }\OtherTok{\textless{}{-}} \FunctionTok{calcNormFactors}\NormalTok{(dge)}
 
-\NormalTok{stim }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"\_.*"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix))}
-\NormalTok{ind  }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{gsub}\NormalTok{(}\StringTok{".*\_"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix))) }\CommentTok{\# ind should be treated as text, not a number!}
+\CommentTok{\# Remove \_ and everything after it {-} yeilds stim group}
+\NormalTok{stim }\OtherTok{\textless{}{-}} \FunctionTok{gsub}\NormalTok{(}\StringTok{"\_.*"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix)) }
+
+\CommentTok{\# Removing everything before the \_ for the individua, then converting those numerical ind explictiy to text. Else limma will treat them as numbers!}
+\NormalTok{ind  }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(}\FunctionTok{gsub}\NormalTok{(}\StringTok{".*\_"}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{colnames}\NormalTok{(pseudobulk\_matrix))) }
 
 \NormalTok{design }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{( }\SpecialCharTok{\textasciitilde{}}\DecValTok{0} \SpecialCharTok{+}\NormalTok{ stim }\SpecialCharTok{+}\NormalTok{ ind)}
 \NormalTok{vm  }\OtherTok{\textless{}{-}} \FunctionTok{voom}\NormalTok{(dge, }\AttributeTok{design =}\NormalTok{ design, }\AttributeTok{plot =} \ConstantTok{FALSE}\NormalTok{)}
@@ -2236,13 +2246,13 @@ Look at the significantly differentially expressed genes:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-59-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-60-1.pdf}
 
 \hypertarget{challenge-what-method}{%
 \subsubsection*{Challenge: What method?}\label{challenge-what-method}}
 \addcontentsline{toc}{subsubsection}{Challenge: What method?}
 
-These methods give different results. How could and decide which to use? How could you check an individual gene?
+These methods give different results. How would you decide which to use? How could you check an individual gene?
 
 \hypertarget{CellCycle}{%
 \chapter{Cell cycle Assignment}\label{CellCycle}}
@@ -2387,22 +2397,24 @@ We can then check the cell phase on the UMAP. In this dataset, phase isn't drivi
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-62-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-63-1.pdf}
 
-Where a bias \emph{is} present, your course of action depends on the task at hand. It might involve `regressing out' the cell cycle variation with ScaleData(), omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.
+Where a bias \emph{is} present, your course of action depends on the task at hand. It might involve `regressing out' the cell cycle variation when scaling data \texttt{ScaleData(kang,\ vars.to.regress="Phase")}, omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.
 
 If you are working with non-human data, you will need to convert these gene lists, or find new cell cycle associated genes in your species.
 
 \hypertarget{Harmony}{%
 \chapter{Data set integration with Harmony}\label{Harmony}}
 
-\hypertarget{why-do-we-need-to-do-this-2}{%
-\subsection{Why do we need to do this?}\label{why-do-we-need-to-do-this-2}}
+\hypertarget{why-do-we-need-to-do-this-3}{%
+\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-3}}
+\addcontentsline{toc}{subsection}{Why do we need to do this?}
 
 You can have data coming from different samples, batches or experiments and you will need to combine them.
 
-\hypertarget{section-2}{%
-\subsection{}\label{section-2}}
+\hypertarget{section-3}{%
+\subsection*{}\label{section-3}}
+\addcontentsline{toc}{subsection}{}
 
 When data is collected from multiple samples, multiple runs of the single cell sequencing library preparation, or multiple conditions, cells of the same type may become separated in the UMAP and be put into several different clusters.
 
@@ -2452,7 +2464,7 @@ The data has already been processed as we have done with the first PBMC dataset,
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-65-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-66-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2460,18 +2472,11 @@ The data has already been processed as we have done with the first PBMC dataset,
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-65-2.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-66-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{DimPlot}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"pca"}\NormalTok{, }\AttributeTok{group.by=}\StringTok{"stim"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-65-3.pdf}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 
 \NormalTok{kang }\OtherTok{\textless{}{-}} \FunctionTok{FindNeighbors}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"pca"}\NormalTok{, }\AttributeTok{dims=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
 \CommentTok{\#\textgreater{} Computing nearest neighbor graph}
@@ -2492,7 +2497,7 @@ The data has already been processed as we have done with the first PBMC dataset,
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-65-4.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-66-3.pdf}
 
 There is a big difference between unstimulated and stimulated cells. This has split cells of the same type into pairs of clusters. If the difference was simply uniform, we could regress it out (e.g.~using \texttt{ScaleData(...,\ vars.to.regress="stim")}). However, as can be seen in the PCA plot, the difference is not uniform and we need to do something cleverer.
 
@@ -2523,7 +2528,15 @@ Harmony operates only on the PCA scores. The original gene expression levels rem
 \end{Highlighting}
 \end{Shaded}
 
-This has added a new set of reduced dimensions to the Seurat object, \texttt{kang\$harmony} which is a modified version of the existing \texttt{kang\$pca} reduced dimensions.
+This has added a new set of reduced dimensions to the Seurat object, \texttt{kang\$harmony} which is a modified version of the existing \texttt{kang\$pca} reduced dimensions. The PCA plot shows a large difference between `ctrl' and `stim', but this has been removed in the harmony reduction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{DimPlot}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"pca"}\NormalTok{, }\AttributeTok{group.by=}\StringTok{"stim"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-68-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2531,27 +2544,27 @@ This has added a new set of reduced dimensions to the Seurat object, \texttt{kan
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-67-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-68-2.pdf}
 
 We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to compute a UMAP layout or to find clusters.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{kang }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"harmony"}\NormalTok{, }\AttributeTok{dims=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{reduction.name=}\StringTok{"umap\_harmony"}\NormalTok{)}
-\CommentTok{\#\textgreater{} 13:58:13 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 13:58:13 Read 5000 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 13:58:13 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 13:58:13 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 10:53:35 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 10:53:35 Read 5000 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 10:53:35 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 10:53:35 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 13:58:14 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmp7whBhj/fileb2eee24165b}
-\CommentTok{\#\textgreater{} 13:58:14 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 13:58:15 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 13:58:15 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 13:58:16 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 13:58:16 Commencing optimization for 500 epochs, with 210490 positive edges}
-\CommentTok{\#\textgreater{} 13:58:20 Optimization finished}
+\CommentTok{\#\textgreater{} 10:53:36 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmJJsoS/filed7544d2bc39f}
+\CommentTok{\#\textgreater{} 10:53:36 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 10:53:37 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 10:53:37 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 10:53:38 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 10:53:38 Commencing optimization for 500 epochs, with 210490 positive edges}
+\CommentTok{\#\textgreater{} 10:53:43 Optimization finished}
 \CommentTok{\#\textgreater{} Warning: Cannot add objects with duplicate keys (offending}
 \CommentTok{\#\textgreater{} key: UMAP\_), setting key to \textquotesingle{}umap\_harmony\_\textquotesingle{}}
 
@@ -2559,7 +2572,7 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-68-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-69-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2583,7 +2596,7 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-68-2.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-69-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2591,7 +2604,7 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-68-3.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-69-3.pdf}
 
 Having found a good set of clusters, we would usually perform differential expression analysis on the original data and include batches/runs/individuals as predictors in the linear model. In this example we could now compare un-stimulated and stimulated cells within each cluster. A particularly nice statistical approach that is possible here would be to convert the counts to pseudo-bulk data for the eight individuals, and then apply a bulk RNA-Seq differential expression analysis method. However there is still the problem that unstimulated and stimulated cells were processed in separate batches.
 

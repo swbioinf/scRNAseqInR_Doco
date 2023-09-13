@@ -1,11 +1,11 @@
 # Data set integration with Harmony {#Harmony}
 
 
-### Why do we need to do this? {.rational}
+### Why do we need to do this? {- .rmdimportant}
 
 You can have data coming from different samples, batches or experiments and you will need to combine them.  
 
-###
+### {-}
 
 
 When data is collected from multiple samples, multiple runs of the single cell sequencing library preparation, or multiple conditions, cells of the same type may become separated in the UMAP and be put into several different clusters.
@@ -30,7 +30,7 @@ head(kang@meta.data)
 ```{r }
 DimPlot(kang, reduction="umap", group.by="ind")
 DimPlot(kang, reduction="umap", group.by="stim")
-DimPlot(kang, reduction="pca", group.by="stim")
+
 
 kang <- FindNeighbors(kang, reduction="pca", dims=1:10)
 kang <- FindClusters(kang, resolution=0.25)
@@ -51,9 +51,10 @@ library(harmony)
 kang <- RunHarmony(kang, c("stim", "ind"), reduction="pca")
 ```
 
-This has added a new set of reduced dimensions to the Seurat object, `kang$harmony` which is a modified version of the existing `kang$pca` reduced dimensions.
+This has added a new set of reduced dimensions to the Seurat object, `kang$harmony` which is a modified version of the existing `kang$pca` reduced dimensions. The PCA plot shows a large difference between 'ctrl' and 'stim', but this has been removed in the harmony reduction.
 
 ```{r }
+DimPlot(kang, reduction="pca", group.by="stim")
 DimPlot(kang, reduction="harmony", group.by="stim")
 ```
 

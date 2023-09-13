@@ -31,7 +31,7 @@ We can then check the cell phase on the UMAP. In this dataset, phase isn't drivi
 DimPlot(pbmc, reduction = 'umap', group.by = "Phase")
 ```
 
-Where a bias _is_ present, your course of action depends on the task at hand. It might involve 'regressing out' the cell cycle variation with ScaleData(), omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations. 
+Where a bias _is_ present, your course of action depends on the task at hand. It might involve 'regressing out' the cell cycle variation when scaling data `ScaleData(kang, vars.to.regress="Phase")`, omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.
 
 If you are working with non-human data, you will need to convert these gene lists, or find new cell cycle associated genes in your species.
 

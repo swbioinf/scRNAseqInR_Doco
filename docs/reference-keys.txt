@@ -30,8 +30,6 @@ seurat-negative-binomial
 pseudobulk
 CellCycle
 Harmony
-why-do-we-need-to-do-this-2
-section-2
 resources
 help-and-fruther-resources
 data
