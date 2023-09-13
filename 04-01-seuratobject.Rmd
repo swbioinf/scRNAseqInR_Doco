@@ -50,13 +50,13 @@ The Assay structure has some nuances (see discussion below), but there are funct
 By default this object will return the normalised data (from the only assay in this object, called RNA). Every '.' is a zero.
 
 ```{r}
-GetAssayData(pbmc_processed)[1:15,1:5]
+GetAssayData(pbmc_processed)[1:15,1:2]
 ```
 
 
 But the raw counts data is accessible too.
 ```{r}
-GetAssayData(pbmc_processed, slot='counts')[1:15,1:5]
+GetAssayData(pbmc_processed, slot='counts')[1:15,1:2]
 ```
 
 
@@ -108,6 +108,9 @@ Tip: You can check if the gene is in the dataset by looking for it in the rownam
 Lets take a look at the seurat object we have just created in R, `pbmc_processed`
 
 To accomodate the complexity of data arising from a single cell RNA seq experiment, the seurat object keeps this as a container of multiple data tables that are linked.
+
+![](images/seuratobject.png){width=80%}
+
 
 The functions in seurat can access parts of the data object for analysis and visualisation, we will cover this later on. 
 

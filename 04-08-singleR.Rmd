@@ -17,6 +17,7 @@ For now, we'll just convert our Seurat object into an object called SingleCellEx
 
 ```{r}
 sce <- as.SingleCellExperiment(pbmc)
+sce
 ```
 
 We will now use a package called SingleR to label each cell.  SingleR uses a reference data set of cell types with expression data to infer the best label for each cell.  A convenient collection of cell type reference is in the `celldex` package which currently contains the follow sets:
@@ -27,8 +28,14 @@ ls('package:celldex')
 In this example, we'll use the `HumanPrimaryCellAtlasData` set, which contains high-level, and fine-grained label types. Lets download the reference dataset
 
 ```{r}
+# This too is a sce object,
+# colData is equivalent to seurat's metadata
 ref.set <- celldex::HumanPrimaryCellAtlasData()
-head(unique(ref.set$label.main))
+```
+
+The "main" labels.
+```{r}
+unique(ref.set$label.main)
 ```
 
 An example of the types of "fine" labels.
