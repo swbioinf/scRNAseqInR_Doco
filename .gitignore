@@ -6,6 +6,7 @@
 .DS_Store
 data/
 data.zip
+data.tar.gz
 _bookdown
 _bookdown_files
 _bookdown_files/

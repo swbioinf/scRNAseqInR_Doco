@@ -75,7 +75,7 @@ alot of the observed transcriptomic variation. There may be clustering by phase,
 separation in the UMAP by phase.</p>
 <p>Seurat provides a simple method for assigning cell cycle state to each cell. Other methods are available.</p>
 <p>More information about assigning cell cycle states to cells is in the <a href="https://satijalab.org/seurat/articles/cell_cycle_vignette.html">cell cycle vignette</a></p>
-<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># A list of cell cycle markers, from Tirosh et al, 2015, is loaded with Seurat.  We can</span></span>
 <span><span class="co"># segregate this list into markers of G2/M phase and markers of S phase</span></span>
 <span><span class="va">s.genes</span>   <span class="op">&lt;-</span> <span class="va">cc.genes</span><span class="op">$</span><span class="va">s.genes</span></span>
@@ -90,7 +90,7 @@ separation in the UMAP by phase.</p>
 <span><span class="co">#&gt; object: FAM64A, BUB1, HJURP, CDCA3, TTK, CDC25C, DLGAP5,</span></span>
 <span><span class="co">#&gt; CDCA2, ANLN, GAS2L3, not searching for symbol synonyms</span></span></code></pre></div>
 <p>Which adds S.Score, G2M.Score and Phase calls to the metadata.</p>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                  orig.ident nCount_RNA nFeature_RNA</span></span>
 <span><span class="co">#&gt; AAACATACAACCAC-1     pbmc3k       2419          779</span></span>
@@ -191,7 +191,7 @@ separation in the UMAP by phase.</p>
 <span><span class="co">#&gt; AAACCGTGTATGCG-1   G2M</span></span>
 <span><span class="co">#&gt; AAACGCACTGGTAC-1    G1</span></span></code></pre></div>
 <p>We can then check the cell phase on the UMAP. In this dataset, phase isn’t driving the clustering, and would not require any further handling.</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">"Phase"</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-64-1.png" width="672"></div>
 <p>Where a bias <em>is</em> present, your course of action depends on the task at hand. It might involve ‘regressing out’ the cell cycle variation when scaling data <code>ScaleData(kang, vars.to.regress="Phase")</code>, omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.</p>
@@ -220,7 +220,7 @@ separation in the UMAP by phase.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-13.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

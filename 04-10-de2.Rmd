@@ -9,9 +9,12 @@ There is also a good discussion of useing [pseudobulk approaches](http://biocond
 
 ---
 
-We will now look at [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583), another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
+We will now look at [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583), another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
 
-The data has already been processed as we have done with the first PBMC dataset, and can be loaded from `kang2018.rds`.
+
+
+
+The data has already been processed as we have done with the first PBMC dataset, and can be loaded from the `kang2018.rds` file in the data folder.
 
 ```{r }
 kang <- readRDS("data/kang2018.rds")
@@ -257,7 +260,7 @@ p1 + p2
 
 ```
 
-#### Challenge: What method? {- .rmdtip}
+#### Discussion {- .rmdtip}
 
 These methods give different results. How would you decide which to use? How could you check an individual gene?
 

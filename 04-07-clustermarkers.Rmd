@@ -39,15 +39,18 @@ VlnPlot(pbmc, features = c("MS4A1", "CD79A"))
 VlnPlot(pbmc, features = c("NKG7", "PF4"), slot = 'counts', log = TRUE)
 ```
 
-```{r markerplots, fig.height=8, fig.width=15}
-FeaturePlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
+```{r markerplots}
+FeaturePlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A"))
+FeaturePlot(pbmc, features = c("FCGR3A", "LYZ", "PPBP", "CD8A"))
 ```
+
 <details>
   <summary>**Other useful plots**</summary>
 These are ridgeplots, cell scatter plots and dotplots. Replace `FeaturePlot` with the other functions.
 
-```{r ridgeplots, fig.height=10, fig.width=15}
-RidgePlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A"))
+```{r ridgeplots}
+RidgePlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A"))
+RidgePlot(pbmc, features = c("FCGR3A", "LYZ", "PPBP", "CD8A"))
 ```
 For CellScatter plots, will need the cell id of the cells you want to look at. You can get this from the cell metadata (`pbmc@meta.data`).
 ```{r}

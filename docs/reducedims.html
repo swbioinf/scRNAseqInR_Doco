@@ -206,11 +206,6 @@ However, particularly for advanced users who would like to use this functionalit
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, cells <span class="op">=</span> <span class="fl">500</span>, balanced <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/multi-heatmap-1.png" width="864"></div>
-<div id="challenge-pc-genes" class="section level4 unnumbered rmdtip">
-<h4>Challenge: PC genes<a class="anchor" aria-label="anchor" href="#challenge-pc-genes"><i class="fas fa-link"></i></a>
-</h4>
-<p>Plot some of the highly weighted principal component genes on the pbmc object with the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function. How do they look?</p>
-</div>
 </div>
 <div id="determine-the-dimensionality-of-the-dataset" class="section level2" number="7.4">
 <h2>
@@ -223,7 +218,7 @@ However, particularly for advanced users who would like to use this functionalit
 <p>An alternative heuristic method generates an ‘Elbow plot’: a ranking of principle components based on the percentage of variance explained by each one (<code><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot()</a></code> function). In this example, we can observe an ‘elbow’ around PC9-10, suggesting that the majority of true signal is captured in the first 10 PCs.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/elbow_plot-1.png" width="960"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/elbow_plot-1.png" width="672"></div>
 <p>Identifying the true dimensionality of a dataset – can be challenging/uncertain for the user. We therefore suggest these three approaches to consider. The first is more supervised, exploring PCs to determine relevant sources of heterogeneity, and could be used in conjunction with GSEA for example. The second implements a statistical test based on a random null model, but is time-consuming for large datasets, and may not return a clear PC cutoff. The third is a heuristic that is commonly used, and can be calculated instantly. In this example, all three approaches yielded similar results, but we might have been justified in choosing anything between PC 7-12 as a cutoff.</p>
 <p>We chose 10 here, but encourage users to consider the following:</p>
 <ul>
@@ -244,24 +239,35 @@ However, particularly for advanced users who would like to use this functionalit
 <span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
 <span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
 <span><span class="co">#&gt; This message will be shown once per session</span></span>
-<span><span class="co">#&gt; 12:03:38 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
-<span><span class="co">#&gt; 12:03:38 Read 2638 rows and found 10 numeric columns</span></span>
-<span><span class="co">#&gt; 12:03:38 Using Annoy for neighbor search, n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 12:03:38 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 12:30:43 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 12:30:43 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 12:30:43 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 12:30:43 Building Annoy index with metric = cosine, n_trees = 50</span></span>
 <span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
 <span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
 <span><span class="co">#&gt; **************************************************|</span></span>
-<span><span class="co">#&gt; 12:03:38 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpfcdJvm/filee49a457be765</span></span>
-<span><span class="co">#&gt; 12:03:38 Searching Annoy index using 1 thread, search_k = 3000</span></span>
-<span><span class="co">#&gt; 12:03:38 Annoy recall = 100%</span></span>
-<span><span class="co">#&gt; 12:03:38 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
-<span><span class="co">#&gt; 12:03:39 Initializing from normalized Laplacian + noise (using irlba)</span></span>
-<span><span class="co">#&gt; 12:03:39 Commencing optimization for 500 epochs, with 105140 positive edges</span></span>
-<span><span class="co">#&gt; 12:03:41 Optimization finished</span></span></code></pre></div>
+<span><span class="co">#&gt; 12:30:43 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj_sc0x3/T//RtmpxShBfZ/file139b268b6d327</span></span>
+<span><span class="co">#&gt; 12:30:43 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 12:30:43 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 12:30:44 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 12:30:44 Initializing from normalized Laplacian + noise (using irlba)</span></span>
+<span><span class="co">#&gt; 12:30:44 Commencing optimization for 500 epochs, with 105140 positive edges</span></span>
+<span><span class="co">#&gt; 12:30:46 Optimization finished</span></span></code></pre></div>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/tsneplot-1.png" width="672"></div>
+<div id="challenge-pc-genes" class="section level4 unnumbered rmdtip">
+<h4>Challenge: PC genes<a class="anchor" aria-label="anchor" href="#challenge-pc-genes"><i class="fas fa-link"></i></a>
+</h4>
+<p>You can plot gene expression on the UMAP with the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function.</p>
+<p>Try out some genes that were highly weighted in the principal component analysis. How do they look?</p>
+</div>
+</div>
+<div id="save" class="section level2" number="7.6">
+<h2>
+<span class="header-section-number">7.6</span> Save<a class="anchor" aria-label="anchor" href="#save"><i class="fas fa-link"></i></a>
+</h2>
 <p>You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">pbmc</span>, file <span class="op">=</span> <span class="st">"pbmc_tutorial_saved.rds"</span><span class="op">)</span> </span></code></pre></div>
@@ -280,6 +286,7 @@ However, particularly for advanced users who would like to use this functionalit
 <li><a class="nav-link" href="#perform-linear-dimensional-reduction"><span class="header-section-number">7.3</span> Perform linear dimensional reduction</a></li>
 <li><a class="nav-link" href="#determine-the-dimensionality-of-the-dataset"><span class="header-section-number">7.4</span> Determine the ‘dimensionality’ of the dataset</a></li>
 <li><a class="nav-link" href="#run-non-linear-dimensional-reduction-umaptsne"><span class="header-section-number">7.5</span> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
+<li><a class="nav-link" href="#save"><span class="header-section-number">7.6</span> Save</a></li>
 </ul>
 
       <div class="book-extra">
@@ -297,7 +304,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-13.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

@@ -56,7 +56,7 @@ In the example below, we visualize QC metrics, and use these to filter cells.
 * We filter cells that have unique feature counts over 2,500 or less than 200
 * We filter cells that have >5% mitochondrial counts
     
-```{r qc2, fig.height=7, fig.width=13}
+```{r qc2}
 #Visualize QC metrics as a violin plot
 VlnPlot(pbmc, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
 # FeatureScatter is typically used to visualize feature-feature relationships, 

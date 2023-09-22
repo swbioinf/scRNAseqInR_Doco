@@ -119,7 +119,7 @@
 
 \title{scRNAseq Analysis in R with Seurat}
 \author{}
-\date{\vspace{-2.5em}2023-09-13}
+\date{\vspace{-2.5em}2023-09-22}
 
 \begin{document}
 \maketitle
@@ -140,6 +140,26 @@ It is also drawing from a similar workshop held by Monash Bioinformatics Platfor
 \hypertarget{schedule}{%
 \chapter{Schedule}\label{schedule}}
 
+We will take 2 short breaks between topics each day.
+
+\hypertarget{day-1}{%
+\subsection*{Day 1}\label{day-1}}
+\addcontentsline{toc}{subsection}{Day 1}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Time & Content \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1:00 AEST & Welcome and Intro \\
+1:30 AEST & Seurat Intro \\
+& QC and filtering \\
+& PCA and UMAP \\
+4:30 AEST & Finish \\
+\end{longtable}
+
 \hypertarget{day-2}{%
 \subsection*{Day 2}\label{day-2}}
 \addcontentsline{toc}{subsection}{Day 2}
@@ -151,27 +171,11 @@ Time & Content \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-2:30 AEST & Session: Seurat Intro \\
-3:30 AEST & Break \\
-3:45 AEST & Session: QC \\
-5:00 AEST & Finish \\
-\end{longtable}
-
-\hypertarget{day-2-1}{%
-\subsection*{Day 2}\label{day-2-1}}
-\addcontentsline{toc}{subsection}{Day 2}
-
-\begin{longtable}[]{@{}ll@{}}
-\toprule\noalign{}
-Time & Content \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-2:00 AEST & Session: Clustering and UMAP \\
-3:30 AEST & Break \\
-3:45 AEST & Session: Cell types and beyond \\
-5:00 AEST & Finish \\
+1:00 AEST & PCA and UMAP continued \\
+& Clustering + Markers \\
+& Assigning Celltypes \\
+& Differential Expression \\
+4:30 AEST & Finish \\
 \end{longtable}
 
 \hypertarget{part-content}{%
@@ -898,12 +902,6 @@ In particular \texttt{DimHeatmap()} allows for easy exploration of the primary s
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/multi-heatmap-1.pdf}
 
-\hypertarget{challenge-pc-genes}{%
-\subsubsection*{Challenge: PC genes}\label{challenge-pc-genes}}
-\addcontentsline{toc}{subsubsection}{Challenge: PC genes}
-
-Plot some of the highly weighted principal component genes on the pbmc object with the \texttt{FeaturePlot()} function. How do they look?
-
 \hypertarget{determine-the-dimensionality-of-the-dataset}{%
 \section{Determine the `dimensionality' of the dataset}\label{determine-the-dimensionality-of-the-dataset}}
 
@@ -953,20 +951,20 @@ Seurat offers several non-linear dimensional reduction techniques, such as tSNE 
 \CommentTok{\#\textgreater{} Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R{-}native UWOT using the cosine metric}
 \CommentTok{\#\textgreater{} To use Python UMAP via reticulate, set umap.method to \textquotesingle{}umap{-}learn\textquotesingle{} and metric to \textquotesingle{}correlation\textquotesingle{}}
 \CommentTok{\#\textgreater{} This message will be shown once per session}
-\CommentTok{\#\textgreater{} 12:06:45 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 12:06:45 Read 2638 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 12:06:45 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:06:45 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 12:34:01 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 12:34:01 Read 2638 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 12:34:01 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 12:34:01 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 12:06:45 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmpo5BMop/filee5525ccb0ef0}
-\CommentTok{\#\textgreater{} 12:06:45 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 12:06:45 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 12:06:45 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:06:46 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 12:06:46 Commencing optimization for 500 epochs, with 105140 positive edges}
-\CommentTok{\#\textgreater{} 12:06:48 Optimization finished}
+\CommentTok{\#\textgreater{} 12:34:01 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmvHizU/file13ab7f25901c}
+\CommentTok{\#\textgreater{} 12:34:01 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 12:34:02 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 12:34:02 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 12:34:02 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 12:34:02 Commencing optimization for 500 epochs, with 105140 positive edges}
+\CommentTok{\#\textgreater{} 12:34:04 Optimization finished}
 \end{Highlighting}
 \end{Shaded}
 
@@ -978,6 +976,17 @@ Seurat offers several non-linear dimensional reduction techniques, such as tSNE 
 \end{Shaded}
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/tsneplot-1.pdf}
+
+\hypertarget{challenge-pc-genes}{%
+\subsubsection*{Challenge: PC genes}\label{challenge-pc-genes}}
+\addcontentsline{toc}{subsubsection}{Challenge: PC genes}
+
+You can plot gene expression on the UMAP with the \texttt{FeaturePlot()} function.
+
+Try out some genes that were highly weighted in the principal component analysis. How do they look?
+
+\hypertarget{save}{%
+\section{Save}\label{save}}
 
 You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.
 
@@ -1417,11 +1426,19 @@ We include several tools for visualizing marker expression. \texttt{VlnPlot()} (
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{FeaturePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"MS4A1"}\NormalTok{, }\StringTok{"GNLY"}\NormalTok{, }\StringTok{"CD3E"}\NormalTok{, }\StringTok{"CD14"}\NormalTok{, }\StringTok{"FCER1A"}\NormalTok{, }\StringTok{"FCGR3A"}\NormalTok{, }\StringTok{"LYZ"}\NormalTok{, }\StringTok{"PPBP"}\NormalTok{, }\StringTok{"CD8A"}\NormalTok{))}
+\FunctionTok{FeaturePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"MS4A1"}\NormalTok{, }\StringTok{"GNLY"}\NormalTok{, }\StringTok{"CD3E"}\NormalTok{, }\StringTok{"CD14"}\NormalTok{, }\StringTok{"FCER1A"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/markerplots-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{FeaturePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"FCGR3A"}\NormalTok{, }\StringTok{"LYZ"}\NormalTok{, }\StringTok{"PPBP"}\NormalTok{, }\StringTok{"CD8A"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/markerplots-2.pdf}
 
 \textbf{Other useful plots}
 
@@ -1429,12 +1446,20 @@ These are ridgeplots, cell scatter plots and dotplots. Replace \texttt{FeaturePl
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{RidgePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"MS4A1"}\NormalTok{, }\StringTok{"GNLY"}\NormalTok{, }\StringTok{"CD3E"}\NormalTok{, }\StringTok{"CD14"}\NormalTok{, }\StringTok{"FCER1A"}\NormalTok{, }\StringTok{"FCGR3A"}\NormalTok{, }\StringTok{"LYZ"}\NormalTok{, }\StringTok{"PPBP"}\NormalTok{, }\StringTok{"CD8A"}\NormalTok{))}
+\FunctionTok{RidgePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"MS4A1"}\NormalTok{, }\StringTok{"GNLY"}\NormalTok{, }\StringTok{"CD3E"}\NormalTok{, }\StringTok{"CD14"}\NormalTok{, }\StringTok{"FCER1A"}\NormalTok{))}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0236}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0859}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.126}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0337}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0659}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/ridgeplots-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{RidgePlot}\NormalTok{(pbmc, }\AttributeTok{features =} \FunctionTok{c}\NormalTok{(}\StringTok{"FCGR3A"}\NormalTok{, }\StringTok{"LYZ"}\NormalTok{, }\StringTok{"PPBP"}\NormalTok{, }\StringTok{"CD8A"}\NormalTok{))}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0582}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.309}
 \CommentTok{\#\textgreater{} Picking joint bandwidth of 0.0156}
@@ -1442,7 +1467,7 @@ These are ridgeplots, cell scatter plots and dotplots. Replace \texttt{FeaturePl
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{scRNAseqInR_Doco_files/figure-latex/ridgeplots-1.pdf}
+\includegraphics{scRNAseqInR_Doco_files/figure-latex/ridgeplots-2.pdf}
 For CellScatter plots, will need the cell id of the cells you want to look at. You can get this from the cell metadata (\texttt{pbmc@meta.data}).
 
 \begin{Shaded}
@@ -1784,9 +1809,9 @@ There is also a good discussion of useing \href{http://bioconductor.org/books/3.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-We will now look at \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583}{GSE96583}, another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. A nice feature is that genetic differences allow some of the cell doublets to be identified. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
+We will now look at \href{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583}{GSE96583}, another PBMC dataset. For speed, we will be looking at a subset of 5000 cells from this data. The cells in this dataset were pooled from eight individual donors. This data contains two batches of single cell sequencing. One of the batches was stimulated with IFN-beta.
 
-The data has already been processed as we have done with the first PBMC dataset, and can be loaded from \texttt{kang2018.rds}.
+The data has already been processed as we have done with the first PBMC dataset, and can be loaded from the \texttt{kang2018.rds} file in the data folder.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2225,9 +2250,9 @@ Look at the significantly differentially expressed genes:
 
 \includegraphics{scRNAseqInR_Doco_files/figure-latex/unnamed-chunk-61-1.pdf}
 
-\hypertarget{challenge-what-method}{%
-\subsubsection*{Challenge: What method?}\label{challenge-what-method}}
-\addcontentsline{toc}{subsubsection}{Challenge: What method?}
+\hypertarget{discussion}{%
+\subsubsection*{Discussion}\label{discussion}}
+\addcontentsline{toc}{subsubsection}{Discussion}
 
 These methods give different results. How would you decide which to use? How could you check an individual gene?
 
@@ -2528,20 +2553,20 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{kang }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"harmony"}\NormalTok{, }\AttributeTok{dims=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{reduction.name=}\StringTok{"umap\_harmony"}\NormalTok{)}
-\CommentTok{\#\textgreater{} 12:09:10 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 12:09:10 Read 5000 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 12:09:10 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:09:10 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 12:36:28 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 12:36:28 Read 5000 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 12:36:28 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 12:36:28 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 12:09:10 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//Rtmpo5BMop/filee55228f8c210}
-\CommentTok{\#\textgreater{} 12:09:10 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 12:09:11 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 12:09:11 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:09:12 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 12:09:12 Commencing optimization for 500 epochs, with 210490 positive edges}
-\CommentTok{\#\textgreater{} 12:09:17 Optimization finished}
+\CommentTok{\#\textgreater{} 12:36:29 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmvHizU/file13ab778f8adfa}
+\CommentTok{\#\textgreater{} 12:36:29 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 12:36:30 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 12:36:30 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 12:36:31 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 12:36:31 Commencing optimization for 500 epochs, with 210490 positive edges}
+\CommentTok{\#\textgreater{} 12:36:35 Optimization finished}
 \CommentTok{\#\textgreater{} Warning: Cannot add objects with duplicate keys (offending}
 \CommentTok{\#\textgreater{} key: UMAP\_), setting key to \textquotesingle{}umap\_harmony\_\textquotesingle{}}
 
