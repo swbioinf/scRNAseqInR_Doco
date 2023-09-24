@@ -9,6 +9,11 @@
 
 ## Identification of highly variable features (feature selection)
 
+#### Why do we need to do this? {- .rational}
+Identifying the most variable features allows retaining the real biological variability of the data and reduce noise in the data.                            
+
+####  {-}
+
 We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). We and [others](https://www.nature.com/articles/nmeth.2645) have found that focusing on these genes in downstream analysis helps to highlight biological signal in single-cell datasets.
 
 Our procedure in Seurat is described in detail [here](https://doi.org/10.1016/j.cell.2019.05.031), and improves on previous versions by directly modeling the mean-variance relationship inherent in single-cell data, and is implemented in the `FindVariableFeatures()` function. By default, we return 2,000 features per dataset. These will be used in downstream analysis, like PCA.
@@ -23,7 +28,7 @@ plot2 <- LabelPoints(plot = plot1, points = top10, repel = TRUE)
 plot1 + plot2
 ```
 
-<!-- #### Challenge: Labelling Genes of Interest {- .rmdtip} -->
+<!-- #### Challenge: Labelling Genes of Interest {- .challenge} -->
 
 <!-- What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot. -->
 
@@ -31,6 +36,15 @@ plot1 + plot2
 
 
 ## Scaling the data
+
+#### Why do we need to do this? {- .rational}
+
+Highly expresed genes can overpower the signal of other less expresed genes with equal importance. Within the same cell the assumption is that the underlying RNA content is constant. Aditionally, If variables are provided in vars.to.regress, they are individually regressed against each feature, and the resulting residuals are then scaled and centered.
+This step allows controling for cell cycle and other factors that may bias your clustering.
+
+
+####  {-}
+
 
 Next, we apply a linear transformation ('scaling') that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The `ScaleData()` function:
 
@@ -65,6 +79,15 @@ However, particularly for advanced users who would like to use this functionalit
 \ 
 
 ***
+
+
+# Dimensionality reduction
+
+#### Why do we need to do this? {- .rational}
+
+Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes - how do you collate all the information from each of those genes in a way that allows you to visualise it in a 2 dimensional image. This is where dimensionality reduction comes in, we calculate meta-features that contains combinations of the variation of different genes. From thousands of genes, we end up with 10s of meta-features
+
+####  {-}                    
 
 
 
@@ -139,12 +162,14 @@ DimPlot(pbmc, reduction = 'umap')
 ```
 
 
-#### Challenge: PC genes { - .rmdtip}
+#### Challenge: PC genes { - .challenge}
 
 You can plot gene expression on the UMAP with the `FeaturePlot()` function. 
 
 Try out some genes that were highly weighted in the principal component analysis. How do they look?
 
+
+####  {-}
 
 
 ## Save 

@@ -119,7 +119,7 @@
 
 \title{scRNAseq Analysis in R with Seurat}
 \author{}
-\date{\vspace{-2.5em}2023-09-22}
+\date{\vspace{-2.5em}2023-09-25}
 
 \begin{document}
 \maketitle
@@ -537,6 +537,16 @@ The steps below encompass the standard pre-processing workflow for scRNA-seq dat
 \hypertarget{qc-and-selecting-cells-for-further-analysis}{%
 \section{QC and selecting cells for further analysis}\label{qc-and-selecting-cells-for-further-analysis}}
 
+\hypertarget{why-do-we-need-to-do-this}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this}}
+\addcontentsline{toc}{subsubsection}{Why do we need to do this?}
+
+Low quality cells can add noise to your results leading you to the wrong biological conclusions. Using only good quality cells helps you to avoid this. Reduce noise in the data by filtering out low quality cells such as dying or stressed cells (high mitochondrial expression) and cells with few features that can reflect empty droplets.
+
+\hypertarget{section-1}{%
+\subsubsection*{}\label{section-1}}
+\addcontentsline{toc}{subsubsection}{}
+
 Seurat allows you to easily explore QC metrics and filter cells based on any user-defined criteria. A few QC metrics \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4758103/}{commonly used} by the community include
 
 \begin{itemize}
@@ -602,9 +612,9 @@ Where are QC metrics stored in Seurat?
   several samples in our experiment. Add a \texttt{samplename} column to to the \texttt{meta.data} table.
 \end{enumerate}
 
-\hypertarget{section-1}{%
-\subsection*{}\label{section-1}}
-\addcontentsline{toc}{subsection}{}
+\hypertarget{section-2}{%
+\subsubsection*{}\label{section-2}}
+\addcontentsline{toc}{subsubsection}{}
 
 In the example below, we visualize QC metrics, and use these to filter cells.
 
@@ -699,6 +709,16 @@ The PBMC3k dataset we're working with in this tutorial is quite old. There are a
 \hypertarget{norm}{%
 \chapter{Normalisation}\label{norm}}
 
+\hypertarget{why-do-we-need-to-do-this-1}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-1}}
+\addcontentsline{toc}{subsubsection}{Why do we need to do this?}
+
+The sequencing depth can be different per cell. This can bias the counts of expression showing higher numbers for more sequenced cells leading to the wrong biological conclusions. To correct this the feature counts are normalized.
+
+\hypertarget{section-3}{%
+\subsubsection*{}\label{section-3}}
+\addcontentsline{toc}{subsubsection}{}
+
 After removing unwanted cells from the dataset, the next step is to normalize the data. By default, we employ a global-scaling normalization method ``LogNormalize'' that normalizes the feature expression measurements for each cell by the total expression, multiplies this by a scale factor (10,000 by default), and log-transforms the result. Normalized values are stored in \texttt{pbmc\$RNA@data}.
 
 \begin{Shaded}
@@ -720,6 +740,16 @@ For clarity, in this previous line of code (and in future commands), we provide 
 
 \hypertarget{identification-of-highly-variable-features-feature-selection}{%
 \section{Identification of highly variable features (feature selection)}\label{identification-of-highly-variable-features-feature-selection}}
+
+\hypertarget{why-do-we-need-to-do-this-2}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-2}}
+\addcontentsline{toc}{subsubsection}{Why do we need to do this?}
+
+Identifying the most variable features allows retaining the real biological variability of the data and reduce noise in the data.
+
+\hypertarget{section-4}{%
+\subsubsection*{}\label{section-4}}
+\addcontentsline{toc}{subsubsection}{}
 
 We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). We and \href{https://www.nature.com/articles/nmeth.2645}{others} have found that focusing on these genes in downstream analysis helps to highlight biological signal in single-cell datasets.
 
@@ -746,6 +776,17 @@ Our procedure in Seurat is described in detail \href{https://doi.org/10.1016/j.c
 
 \hypertarget{scaling-the-data}{%
 \section{Scaling the data}\label{scaling-the-data}}
+
+\hypertarget{why-do-we-need-to-do-this-3}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-3}}
+\addcontentsline{toc}{subsubsection}{Why do we need to do this?}
+
+Highly expresed genes can overpower the signal of other less expresed genes with equal importance. Within the same cell the assumption is that the underlying RNA content is constant. Aditionally, If variables are provided in vars.to.regress, they are individually regressed against each feature, and the resulting residuals are then scaled and centered.
+This step allows controling for cell cycle and other factors that may bias your clustering.
+
+\hypertarget{section-5}{%
+\subsubsection*{}\label{section-5}}
+\addcontentsline{toc}{subsubsection}{}
 
 Next, we apply a linear transformation (`scaling') that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The \texttt{ScaleData()} function:
 
@@ -802,6 +843,19 @@ However, particularly for advanced users who would like to use this functionalit
 ~
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{dimensionality-reduction}{%
+\chapter{Dimensionality reduction}\label{dimensionality-reduction}}
+
+\hypertarget{why-do-we-need-to-do-this-4}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-4}}
+\addcontentsline{toc}{subsubsection}{Why do we need to do this?}
+
+Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes - how do you collate all the information from each of those genes in a way that allows you to visualise it in a 2 dimensional image. This is where dimensionality reduction comes in, we calculate meta-features that contains combinations of the variation of different genes. From thousands of genes, we end up with 10s of meta-features
+
+\hypertarget{section-6}{%
+\subsubsection*{}\label{section-6}}
+\addcontentsline{toc}{subsubsection}{}
 
 \hypertarget{perform-linear-dimensional-reduction}{%
 \section{Perform linear dimensional reduction}\label{perform-linear-dimensional-reduction}}
@@ -951,20 +1005,20 @@ Seurat offers several non-linear dimensional reduction techniques, such as tSNE 
 \CommentTok{\#\textgreater{} Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R{-}native UWOT using the cosine metric}
 \CommentTok{\#\textgreater{} To use Python UMAP via reticulate, set umap.method to \textquotesingle{}umap{-}learn\textquotesingle{} and metric to \textquotesingle{}correlation\textquotesingle{}}
 \CommentTok{\#\textgreater{} This message will be shown once per session}
-\CommentTok{\#\textgreater{} 12:34:01 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 12:34:01 Read 2638 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 12:34:01 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:34:01 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 05:58:11 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 05:58:11 Read 2638 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 05:58:11 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 05:58:11 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 12:34:01 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmvHizU/file13ab7f25901c}
-\CommentTok{\#\textgreater{} 12:34:01 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 12:34:02 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 12:34:02 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:34:02 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 12:34:02 Commencing optimization for 500 epochs, with 105140 positive edges}
-\CommentTok{\#\textgreater{} 12:34:04 Optimization finished}
+\CommentTok{\#\textgreater{} 05:58:11 Writing NN index file to temp file /var/folders/my/cwpwt\_rd1znflqb8gm8py418lslkvl/T//Rtmp0mBCdm/file5f655f257857}
+\CommentTok{\#\textgreater{} 05:58:11 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 05:58:11 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 05:58:12 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 05:58:12 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 05:58:12 Commencing optimization for 500 epochs, with 105140 positive edges}
+\CommentTok{\#\textgreater{} 05:58:14 Optimization finished}
 \end{Highlighting}
 \end{Shaded}
 
@@ -985,6 +1039,10 @@ You can plot gene expression on the UMAP with the \texttt{FeaturePlot()} functio
 
 Try out some genes that were highly weighted in the principal component analysis. How do they look?
 
+\hypertarget{section-7}{%
+\subsubsection*{}\label{section-7}}
+\addcontentsline{toc}{subsubsection}{}
+
 \hypertarget{save}{%
 \section{Save}\label{save}}
 
@@ -999,11 +1057,15 @@ You can save the object at this point so that it can easily be loaded back in wi
 \hypertarget{clustering}{%
 \chapter{Clustering}\label{clustering}}
 
-\hypertarget{why-do-we-need-to-do-this}{%
-\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this}}
+\hypertarget{why-do-we-need-to-do-this-5}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-5}}
 \addcontentsline{toc}{subsubsection}{Why do we need to do this?}
 
 Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.
+
+\hypertarget{section-8}{%
+\subsubsection*{}\label{section-8}}
+\addcontentsline{toc}{subsubsection}{}
 
 \hypertarget{cluster-cells}{%
 \section{Cluster cells}\label{cluster-cells}}
@@ -1066,6 +1128,10 @@ Check out the clusters.
 Run \texttt{FindNeighbours} and \texttt{FindClusters} again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using \texttt{DimPlot}.
 
 To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as \texttt{pbmc2}!
+
+\hypertarget{section-9}{%
+\subsubsection*{}\label{section-9}}
+\addcontentsline{toc}{subsubsection}{}
 
 \hypertarget{choosing-a-cluster-resolution}{%
 \section{Choosing a cluster resolution}\label{choosing-a-cluster-resolution}}
@@ -1319,13 +1385,15 @@ Plot the UMAP with colored clusters with Dimplot
 \hypertarget{clustermarkers}{%
 \chapter{Cluster Markers}\label{clustermarkers}}
 
-\hypertarget{why-do-we-need-to-do-this-1}{%
-\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-1}}
+\hypertarget{why-do-we-need-to-do-this-6}{%
+\subsubsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-6}}
 \addcontentsline{toc}{subsubsection}{Why do we need to do this?}
 
 Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step easy, but in reality this step needs the experts curation.
 
-\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+\hypertarget{section-10}{%
+\subsubsection*{}\label{section-10}}
+\addcontentsline{toc}{subsubsection}{}
 
 \hypertarget{finding-differentially-expressed-features-cluster-biomarkers}{%
 \section{Finding differentially expressed features (cluster biomarkers)}\label{finding-differentially-expressed-features-cluster-biomarkers}}
@@ -1928,14 +1996,14 @@ And for each sample, how many of each cell type has been classified?
 \hypertarget{prefiltering}{%
 \section{Prefiltering}\label{prefiltering}}
 
-\hypertarget{why-do-we-need-to-do-this-2}{%
-\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-2}}
+\hypertarget{why-do-we-need-to-do-this-7}{%
+\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-7}}
 \addcontentsline{toc}{subsection}{Why do we need to do this?}
 
 If expression is below a certain level, it will be almost impossible to see any differential expression.
 
-\hypertarget{section-2}{%
-\subsection*{}\label{section-2}}
+\hypertarget{section-11}{%
+\subsection*{}\label{section-11}}
 \addcontentsline{toc}{subsection}{}
 
 When doing differential expression, you generally ignore genes with low expression.
@@ -2408,14 +2476,14 @@ If you are working with non-human data, you will need to convert these gene list
 \hypertarget{Harmony}{%
 \chapter{Data set integration with Harmony}\label{Harmony}}
 
-\hypertarget{why-do-we-need-to-do-this-3}{%
-\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-3}}
+\hypertarget{why-do-we-need-to-do-this-8}{%
+\subsection*{Why do we need to do this?}\label{why-do-we-need-to-do-this-8}}
 \addcontentsline{toc}{subsection}{Why do we need to do this?}
 
 You can have data coming from different samples, batches or experiments and you will need to combine them.
 
-\hypertarget{section-3}{%
-\subsection*{}\label{section-3}}
+\hypertarget{section-12}{%
+\subsection*{}\label{section-12}}
 \addcontentsline{toc}{subsection}{}
 
 When data is collected from multiple samples, multiple runs of the single cell sequencing library preparation, or multiple conditions, cells of the same type may become separated in the UMAP and be put into several different clusters.
@@ -2553,20 +2621,20 @@ We can use \texttt{harmony} the same way we used the \texttt{pca} reduction to c
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{kang }\OtherTok{\textless{}{-}} \FunctionTok{RunUMAP}\NormalTok{(kang, }\AttributeTok{reduction=}\StringTok{"harmony"}\NormalTok{, }\AttributeTok{dims=}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{, }\AttributeTok{reduction.name=}\StringTok{"umap\_harmony"}\NormalTok{)}
-\CommentTok{\#\textgreater{} 12:36:28 UMAP embedding parameters a = 0.9922 b = 1.112}
-\CommentTok{\#\textgreater{} 12:36:28 Read 5000 rows and found 10 numeric columns}
-\CommentTok{\#\textgreater{} 12:36:28 Using Annoy for neighbor search, n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:36:28 Building Annoy index with metric = cosine, n\_trees = 50}
+\CommentTok{\#\textgreater{} 06:00:32 UMAP embedding parameters a = 0.9922 b = 1.112}
+\CommentTok{\#\textgreater{} 06:00:32 Read 5000 rows and found 10 numeric columns}
+\CommentTok{\#\textgreater{} 06:00:32 Using Annoy for neighbor search, n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 06:00:32 Building Annoy index with metric = cosine, n\_trees = 50}
 \CommentTok{\#\textgreater{} 0\%   10   20   30   40   50   60   70   80   90   100\%}
 \CommentTok{\#\textgreater{} [{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|{-}{-}{-}{-}|}
 \CommentTok{\#\textgreater{} **************************************************|}
-\CommentTok{\#\textgreater{} 12:36:29 Writing NN index file to temp file /var/folders/tp/b078yqdd4ydff9fx87lfttpj\_sc0x3/T//RtmpmvHizU/file13ab778f8adfa}
-\CommentTok{\#\textgreater{} 12:36:29 Searching Annoy index using 1 thread, search\_k = 3000}
-\CommentTok{\#\textgreater{} 12:36:30 Annoy recall = 100\%}
-\CommentTok{\#\textgreater{} 12:36:30 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
-\CommentTok{\#\textgreater{} 12:36:31 Initializing from normalized Laplacian + noise (using irlba)}
-\CommentTok{\#\textgreater{} 12:36:31 Commencing optimization for 500 epochs, with 210490 positive edges}
-\CommentTok{\#\textgreater{} 12:36:35 Optimization finished}
+\CommentTok{\#\textgreater{} 06:00:33 Writing NN index file to temp file /var/folders/my/cwpwt\_rd1znflqb8gm8py418lslkvl/T//Rtmp0mBCdm/file5f6564ee70f6}
+\CommentTok{\#\textgreater{} 06:00:33 Searching Annoy index using 1 thread, search\_k = 3000}
+\CommentTok{\#\textgreater{} 06:00:34 Annoy recall = 100\%}
+\CommentTok{\#\textgreater{} 06:00:34 Commencing smooth kNN distance calibration using 1 thread with target n\_neighbors = 30}
+\CommentTok{\#\textgreater{} 06:00:35 Initializing from normalized Laplacian + noise (using irlba)}
+\CommentTok{\#\textgreater{} 06:00:35 Commencing optimization for 500 epochs, with 210490 positive edges}
+\CommentTok{\#\textgreater{} 06:00:39 Optimization finished}
 \CommentTok{\#\textgreater{} Warning: Cannot add objects with duplicate keys (offending}
 \CommentTok{\#\textgreater{} key: UMAP\_), setting key to \textquotesingle{}umap\_harmony\_\textquotesingle{}}
 

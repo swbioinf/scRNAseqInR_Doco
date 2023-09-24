@@ -4,18 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat</title>
+<title>Chapter 12 Differential Expression | scRNAseq Analysis in R with Seurat</title>
 <meta name="description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
-<meta property="og:title" content="Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 12 Differential Expression | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
 <meta property="og:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 11 Differential Expression | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:title" content="Chapter 12 Differential Expression | scRNAseq Analysis in R with Seurat">
 <meta name="twitter:description" content="There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic. There is the Seurat...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1.9000/transition.js"></script><script src="libs/bs3compat-0.5.1.9000/tabs.js"></script><script src="libs/bs3compat-0.5.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -51,14 +51,15 @@
 <li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
 <li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
 <li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">8</span> Clustering</a></li>
-<li><a class="" href="clustermarkers.html"><span class="header-section-number">9</span> Cluster Markers</a></li>
+<li><a class="" href="dimensionality-reduction.html"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
+<li><a class="" href="clustermarkers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">10</span> SingleR</a></li>
-<li><a class="active" href="de2.html"><span class="header-section-number">11</span> Differential Expression</a></li>
-<li><a class="" href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></li>
-<li><a class="" href="Harmony.html"><span class="header-section-number">13</span> Data set integration with Harmony</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">14</span> Resources</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
+<li><a class="active" href="de2.html"><span class="header-section-number">12</span> Differential Expression</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">14</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -66,9 +67,9 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="de2" class="section level1" number="11">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="de2" class="section level1" number="12">
 <h1>
-<span class="header-section-number">11</span> Differential Expression<a class="anchor" aria-label="anchor" href="#de2"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12</span> Differential Expression<a class="anchor" aria-label="anchor" href="#de2"><i class="fas fa-link"></i></a>
 </h1>
 <p>There are many different methods for calculating differential expression between groups in scRNAseq data. There are a number of review papers worth consulting on this topic.</p>
 <p>There is the <a href="https://satijalab.org/seurat/archive/v3.1/de_vignette.html">Seurat differential expression Vignette</a> which walks through the variety implemented in Seurat.</p>
@@ -169,17 +170,17 @@
 <span><span class="co">#&gt;   1256 stim              8       33</span></span>
 <span><span class="co">#&gt;   1488 ctrl              4       18</span></span>
 <span><span class="co">#&gt;   1488 stim              6       38</span></span></code></pre></div>
-<div id="prefiltering" class="section level2" number="11.1">
+<div id="prefiltering" class="section level2" number="12.1">
 <h2>
-<span class="header-section-number">11.1</span> Prefiltering<a class="anchor" aria-label="anchor" href="#prefiltering"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.1</span> Prefiltering<a class="anchor" aria-label="anchor" href="#prefiltering"><i class="fas fa-link"></i></a>
 </h2>
-<div id="why-do-we-need-to-do-this-2" class="section level3 unnumbered rmdimportant">
-<h3>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-2"><i class="fas fa-link"></i></a>
+<div id="why-do-we-need-to-do-this-7" class="section level3 unnumbered rational">
+<h3>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-7"><i class="fas fa-link"></i></a>
 </h3>
 <p>If expression is below a certain level, it will be almost impossible to see any differential expression.</p>
 </div>
-<div id="section-2" class="section level3 unnumbered">
-<h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-2"><i class="fas fa-link"></i></a></h3>
+<div id="section-11" class="section level3 unnumbered">
+<h3 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-11"><i class="fas fa-link"></i></a></h3>
 <p>When doing differential expression, you generally ignore genes with low expression.
 In single cell datasets, there are many genes like this. Filtering here to make our dataset smaller so it runs quicker, and there is less aggressive correction for multiple hypotheses.</p>
 <p>How many genes before filtering?</p>
@@ -217,9 +218,9 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-51-2.png" width="672"></div>
 </div>
 </div>
-<div id="default-wilcox-test" class="section level2" number="11.2">
+<div id="default-wilcox-test" class="section level2" number="12.2">
 <h2>
-<span class="header-section-number">11.2</span> Default Wilcox test<a class="anchor" aria-label="anchor" href="#default-wilcox-test"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.2</span> Default Wilcox test<a class="anchor" aria-label="anchor" href="#default-wilcox-test"><i class="fas fa-link"></i></a>
 </h2>
 <p>To run this test, we change the Idents to the factor(column) we want to test. In this case, that’s ‘stim’.</p>
 <div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
@@ -270,9 +271,9 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-54-1.png" width="672"></div>
 </div>
-<div id="seurat-negative-binomial" class="section level2" number="11.3">
+<div id="seurat-negative-binomial" class="section level2" number="12.3">
 <h2>
-<span class="header-section-number">11.3</span> Seurat Negative binomial<a class="anchor" aria-label="anchor" href="#seurat-negative-binomial"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.3</span> Seurat Negative binomial<a class="anchor" aria-label="anchor" href="#seurat-negative-binomial"><i class="fas fa-link"></i></a>
 </h2>
 <p>Negative binonial test is run almost the same way - just need to specify it under ‘test.use’</p>
 <div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
@@ -318,9 +319,9 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-57-1.png" width="672"></div>
 </div>
-<div id="pseudobulk" class="section level2" number="11.4">
+<div id="pseudobulk" class="section level2" number="12.4">
 <h2>
-<span class="header-section-number">11.4</span> Pseudobulk<a class="anchor" aria-label="anchor" href="#pseudobulk"><i class="fas fa-link"></i></a>
+<span class="header-section-number">12.4</span> Pseudobulk<a class="anchor" aria-label="anchor" href="#pseudobulk"><i class="fas fa-link"></i></a>
 </h2>
 <p>Pseudobulk analysis is an option where you have biological replicates. It is essentially pooling the individual cell counts and treating your expreiment like a bulk RNAseq.</p>
 <p>First, you need to build a pseudobulk matrix - the <code><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression()</a></code> function can do this, once you set the ‘Idents’ of your seurat object to your grouping factor (here, thats a combination of individual+treatment called ‘sample’, instead of the ‘stim’ treatment column).</p>
@@ -412,7 +413,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-61-1.png" width="672"></div>
-<div id="discussion" class="section level4 unnumbered rmdtip">
+<div id="discussion" class="section level4 unnumbered challenge">
 <h4>Discussion<a class="anchor" aria-label="anchor" href="#discussion"><i class="fas fa-link"></i></a>
 </h4>
 <p>These methods give different results. How would you decide which to use? How could you check an individual gene?</p>
@@ -421,21 +422,21 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 </div>
 </div>
   <div class="chapter-nav">
-<div class="prev"><a href="singler.html"><span class="header-section-number">10</span> SingleR</a></div>
-<div class="next"><a href="CellCycle.html"><span class="header-section-number">12</span> Cell cycle Assignment</a></div>
+<div class="prev"><a href="singler.html"><span class="header-section-number">11</span> SingleR</a></div>
+<div class="next"><a href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#de2"><span class="header-section-number">11</span> Differential Expression</a></li>
+<li><a class="nav-link" href="#de2"><span class="header-section-number">12</span> Differential Expression</a></li>
 <li>
-<a class="nav-link" href="#prefiltering"><span class="header-section-number">11.1</span> Prefiltering</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#why-do-we-need-to-do-this-2">Why do we need to do this?</a></li>
-<li><a class="nav-link" href="#section-2"></a></li>
+<a class="nav-link" href="#prefiltering"><span class="header-section-number">12.1</span> Prefiltering</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#why-do-we-need-to-do-this-7">Why do we need to do this?</a></li>
+<li><a class="nav-link" href="#section-11"></a></li>
 </ul>
 </li>
-<li><a class="nav-link" href="#default-wilcox-test"><span class="header-section-number">11.2</span> Default Wilcox test</a></li>
-<li><a class="nav-link" href="#seurat-negative-binomial"><span class="header-section-number">11.3</span> Seurat Negative binomial</a></li>
-<li><a class="nav-link" href="#pseudobulk"><span class="header-section-number">11.4</span> Pseudobulk</a></li>
+<li><a class="nav-link" href="#default-wilcox-test"><span class="header-section-number">12.2</span> Default Wilcox test</a></li>
+<li><a class="nav-link" href="#seurat-negative-binomial"><span class="header-section-number">12.3</span> Seurat Negative binomial</a></li>
+<li><a class="nav-link" href="#pseudobulk"><span class="header-section-number">12.4</span> Pseudobulk</a></li>
 </ul>
 
       <div class="book-extra">
@@ -453,7 +454,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-22.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

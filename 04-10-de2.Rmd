@@ -40,7 +40,7 @@ table(paste(kang$ind,kang$stim), kang$cell)
 
 ## Prefiltering
 
-### Why do we need to do this? {- .rmdimportant}
+### Why do we need to do this? {- .rational}
 
 If expression is below a certain level, it will be almost impossible to see any differential expression.
 
@@ -260,7 +260,7 @@ p1 + p2
 
 ```
 
-#### Discussion {- .rmdtip}
+#### Discussion {- .challenge}
 
 These methods give different results. How would you decide which to use? How could you check an individual gene?
 

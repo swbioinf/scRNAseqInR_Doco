@@ -1,11 +1,12 @@
 # Cluster Markers {#clustermarkers}
 
-#### Why do we need to do this?  {- .rmdimportant}
+#### Why do we need to do this?  {- .rational}
 
 Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step easy, but in reality this step needs the experts curation.
 
 
-***
+####  {-}
+
 
 ## Finding differentially expressed features (cluster biomarkers)
 

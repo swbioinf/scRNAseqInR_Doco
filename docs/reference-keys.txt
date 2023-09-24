@@ -12,6 +12,7 @@ norm
 reducedims
 identification-of-highly-variable-features-feature-selection
 scaling-the-data
+dimensionality-reduction
 perform-linear-dimensional-reduction
 determine-the-dimensionality-of-the-dataset
 run-non-linear-dimensional-reduction-umaptsne

@@ -92,7 +92,7 @@ And what about showing CD14 expression across which clusters (or any other categ
 VlnPlot(pbmc_processed, features = 'CD14')
 ```
 
-#### Challenge: Plotting { - .rmdtip}
+#### Challenge: Plotting { - .challenge}
 
 Plot your favourite gene. What cluster is it found in?
 
@@ -103,7 +103,7 @@ Tip: You can check if the gene is in the dataset by looking for it in the rownam
 
 <!-- Taken from MBP material,  -->
 
-#### Discussion: The Seurat Object in R { - .rmdtip}
+#### Discussion: The Seurat Object in R { - .challenge}
 
 Lets take a look at the seurat object we have just created in R, `pbmc_processed`
 

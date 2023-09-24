@@ -1,7 +1,7 @@
 # Data set integration with Harmony {#Harmony}
 
 
-### Why do we need to do this? {- .rmdimportant}
+### Why do we need to do this? {- .rational}
 
 You can have data coming from different samples, batches or experiments and you will need to combine them.  
 

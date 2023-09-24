@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Dimensionality reduction | scRNAseq Analysis in R with Seurat</title>
+<meta name="description" content="Why do we need to do this? Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes...">
+<meta name="generator" content="bookdown 0.35 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Dimensionality reduction | scRNAseq Analysis in R with Seurat">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Why do we need to do this? Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Dimensionality reduction | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:description" content="Why do we need to do this? Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1.9000/transition.js"></script><script src="libs/bs3compat-0.5.1.9000/tabs.js"></script><script src="libs/bs3compat-0.5.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">scRNAseq Analysis in R with Seurat</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
+<li><a class="" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
+<li class="book-part">Content</li>
+<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
+<li class="book-part">Seurat PBMC3k Tutorial</li>
+<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
+<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
+<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
+<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
+<li><a class="active" href="dimensionality-reduction.html"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
+<li><a class="" href="clustermarkers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
+<li class="book-part">Futher Analysis</li>
+<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
+<li><a class="" href="de2.html"><span class="header-section-number">12</span> Differential Expression</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">14</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/rstudio/bookdown-demo">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="dimensionality-reduction" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Dimensionality reduction<a class="anchor" aria-label="anchor" href="#dimensionality-reduction"><i class="fas fa-link"></i></a>
+</h1>
+<div id="why-do-we-need-to-do-this-4" class="section level4 unnumbered rational">
+<h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-4"><i class="fas fa-link"></i></a>
+</h4>
+<p>Imagine each gene represents a dimension - or an axis on a plot. We could plot the expression of two genes with a simple scatterplot. But a genome has thousands of genes - how do you collate all the information from each of those genes in a way that allows you to visualise it in a 2 dimensional image. This is where dimensionality reduction comes in, we calculate meta-features that contains combinations of the variation of different genes. From thousands of genes, we end up with 10s of meta-features</p>
+</div>
+<div id="section-6" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-6"><i class="fas fa-link"></i></a></h4>
+</div>
+<div id="perform-linear-dimensional-reduction" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Perform linear dimensional reduction<a class="anchor" aria-label="anchor" href="#perform-linear-dimensional-reduction"><i class="fas fa-link"></i></a>
+</h2>
+<p>Next we perform PCA on the scaled data. By default, only the previously determined variable features are used as input, but can be defined using <code>features</code> argument if you wish to choose a different subset.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunPCA.html">RunPCA</a></span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">pbmc</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; PC_ 1 </span></span>
+<span><span class="co">#&gt; Positive:  CST3, TYROBP, LST1, AIF1, FTL, FTH1, LYZ, FCN1, S100A9, TYMP </span></span>
+<span><span class="co">#&gt;     FCER1G, CFD, LGALS1, S100A8, CTSS, LGALS2, SERPINA1, IFITM3, SPI1, CFP </span></span>
+<span><span class="co">#&gt;     PSAP, IFI30, SAT1, COTL1, S100A11, NPC2, GRN, LGALS3, GSTP1, PYCARD </span></span>
+<span><span class="co">#&gt; Negative:  MALAT1, LTB, IL32, IL7R, CD2, B2M, ACAP1, CD27, STK17A, CTSW </span></span>
+<span><span class="co">#&gt;     CD247, GIMAP5, AQP3, CCL5, SELL, TRAF3IP3, GZMA, MAL, CST7, ITM2A </span></span>
+<span><span class="co">#&gt;     MYC, GIMAP7, HOPX, BEX2, LDLRAP1, GZMK, ETS1, ZAP70, TNFAIP8, RIC3 </span></span>
+<span><span class="co">#&gt; PC_ 2 </span></span>
+<span><span class="co">#&gt; Positive:  CD79A, MS4A1, TCL1A, HLA-DQA1, HLA-DQB1, HLA-DRA, LINC00926, CD79B, HLA-DRB1, CD74 </span></span>
+<span><span class="co">#&gt;     HLA-DMA, HLA-DPB1, HLA-DQA2, CD37, HLA-DRB5, HLA-DMB, HLA-DPA1, FCRLA, HVCN1, LTB </span></span>
+<span><span class="co">#&gt;     BLNK, P2RX5, IGLL5, IRF8, SWAP70, ARHGAP24, FCGR2B, SMIM14, PPP1R14A, C16orf74 </span></span>
+<span><span class="co">#&gt; Negative:  NKG7, PRF1, CST7, GZMB, GZMA, FGFBP2, CTSW, GNLY, B2M, SPON2 </span></span>
+<span><span class="co">#&gt;     CCL4, GZMH, FCGR3A, CCL5, CD247, XCL2, CLIC3, AKR1C3, SRGN, HOPX </span></span>
+<span><span class="co">#&gt;     TTC38, APMAP, CTSC, S100A4, IGFBP7, ANXA1, ID2, IL32, XCL1, RHOC </span></span>
+<span><span class="co">#&gt; PC_ 3 </span></span>
+<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79A, CD79B, HLA-DQB1, HLA-DPB1, HLA-DPA1, CD74, MS4A1, HLA-DRB1, HLA-DRA </span></span>
+<span><span class="co">#&gt;     HLA-DRB5, HLA-DQA2, TCL1A, LINC00926, HLA-DMB, HLA-DMA, CD37, HVCN1, FCRLA, IRF8 </span></span>
+<span><span class="co">#&gt;     PLAC8, BLNK, MALAT1, SMIM14, PLD4, P2RX5, IGLL5, LAT2, SWAP70, FCGR2B </span></span>
+<span><span class="co">#&gt; Negative:  PPBP, PF4, SDPR, SPARC, GNG11, NRGN, GP9, RGS18, TUBB1, CLU </span></span>
+<span><span class="co">#&gt;     HIST1H2AC, AP001189.4, ITGA2B, CD9, TMEM40, PTCRA, CA2, ACRBP, MMD, TREML1 </span></span>
+<span><span class="co">#&gt;     NGFRAP1, F13A1, SEPT5, RUFY1, TSC22D1, MPP1, CMTM5, RP11-367G6.3, MYL9, GP1BA </span></span>
+<span><span class="co">#&gt; PC_ 4 </span></span>
+<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1, CD74, HIST1H2AC, HLA-DPB1, PF4, SDPR </span></span>
+<span><span class="co">#&gt;     TCL1A, HLA-DRB1, HLA-DPA1, HLA-DQA2, PPBP, HLA-DRA, LINC00926, GNG11, SPARC, HLA-DRB5 </span></span>
+<span><span class="co">#&gt;     GP9, AP001189.4, CA2, PTCRA, CD9, NRGN, RGS18, CLU, TUBB1, GZMB </span></span>
+<span><span class="co">#&gt; Negative:  VIM, IL7R, S100A6, IL32, S100A8, S100A4, GIMAP7, S100A10, S100A9, MAL </span></span>
+<span><span class="co">#&gt;     AQP3, CD2, CD14, FYB, LGALS2, GIMAP4, ANXA1, CD27, FCN1, RBP7 </span></span>
+<span><span class="co">#&gt;     LYZ, S100A11, GIMAP5, MS4A6A, S100A12, FOLR3, TRABD2A, AIF1, IL8, IFI6 </span></span>
+<span><span class="co">#&gt; PC_ 5 </span></span>
+<span><span class="co">#&gt; Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY, CCL4, CST7, PRF1, GZMA, SPON2 </span></span>
+<span><span class="co">#&gt;     GZMH, S100A9, LGALS2, CCL3, CTSW, XCL2, CD14, CLIC3, S100A12, RBP7 </span></span>
+<span><span class="co">#&gt;     CCL5, MS4A6A, GSTP1, FOLR3, IGFBP7, TYROBP, TTC38, AKR1C3, XCL1, HOPX </span></span>
+<span><span class="co">#&gt; Negative:  LTB, IL7R, CKB, VIM, MS4A7, AQP3, CYTIP, RP11-290F20.3, SIGLEC10, HMOX1 </span></span>
+<span><span class="co">#&gt;     LILRB2, PTGES3, MAL, CD27, HN1, CD2, GDI2, CORO1B, ANXA5, TUBA1B </span></span>
+<span><span class="co">#&gt;     FAM110A, ATP1A1, TRADD, PPA1, CCDC109B, ABRACL, CTD-2006K23.1, WARS, VMO1, FYB</span></span></code></pre></div>
+<p>Seurat provides several useful ways of visualizing both cells and features that define the PCA, including <code>VizDimReduction()</code>, <code><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot()</a></code>, and <code><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap()</a></code></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Examine and visualize PCA results a few different ways</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">$</span><span class="va">pca</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, nfeatures <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; PC_ 1 </span></span>
+<span><span class="co">#&gt; Positive:  CST3, TYROBP, LST1, AIF1, FTL </span></span>
+<span><span class="co">#&gt; Negative:  MALAT1, LTB, IL32, IL7R, CD2 </span></span>
+<span><span class="co">#&gt; PC_ 2 </span></span>
+<span><span class="co">#&gt; Positive:  CD79A, MS4A1, TCL1A, HLA-DQA1, HLA-DQB1 </span></span>
+<span><span class="co">#&gt; Negative:  NKG7, PRF1, CST7, GZMB, GZMA </span></span>
+<span><span class="co">#&gt; PC_ 3 </span></span>
+<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79A, CD79B, HLA-DQB1, HLA-DPB1 </span></span>
+<span><span class="co">#&gt; Negative:  PPBP, PF4, SDPR, SPARC, GNG11 </span></span>
+<span><span class="co">#&gt; PC_ 4 </span></span>
+<span><span class="co">#&gt; Positive:  HLA-DQA1, CD79B, CD79A, MS4A1, HLA-DQB1 </span></span>
+<span><span class="co">#&gt; Negative:  VIM, IL7R, S100A6, IL32, S100A8 </span></span>
+<span><span class="co">#&gt; PC_ 5 </span></span>
+<span><span class="co">#&gt; Positive:  GZMB, NKG7, S100A8, FGFBP2, GNLY </span></span>
+<span><span class="co">#&gt; Negative:  LTB, IL7R, CKB, VIM, MS4A7</span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/VizDimLoadings.html">VizDimLoadings</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, reduction <span class="op">=</span> <span class="st">'pca'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/pca_viz-1.png" width="672"></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'pca'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/pca_viz-2.png" width="672"></div>
+<p>In particular <code><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap()</a></code> allows for easy exploration of the primary sources of heterogeneity in a dataset, and can be useful when trying to decide which PCs to include for further downstream analyses. Both cells and features are ordered according to their PCA scores. Setting <code>cells</code> to a number plots the ‘extreme’ cells on both ends of the spectrum, which dramatically speeds plotting for large datasets. Though clearly a supervised analysis, we find this to be a valuable tool for exploring correlated feature sets.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span>, cells <span class="op">=</span> <span class="fl">500</span>, balanced <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/single-heatmap-1.png" width="672"></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimHeatmap.html">DimHeatmap</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">15</span>, cells <span class="op">=</span> <span class="fl">500</span>, balanced <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/multi-heatmap-1.png" width="864"></div>
+</div>
+<div id="determine-the-dimensionality-of-the-dataset" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Determine the ‘dimensionality’ of the dataset<a class="anchor" aria-label="anchor" href="#determine-the-dimensionality-of-the-dataset"><i class="fas fa-link"></i></a>
+</h2>
+<p>To overcome the extensive technical noise in any single feature for scRNA-seq data, Seurat clusters cells based on their PCA scores, with each PC essentially representing a ‘metafeature’ that combines information across a correlated feature set. The top principal components therefore represent a robust compression of the dataset. However, how many components should we choose to include? 10? 20? 100?</p>
+<hr>
+<p><em>Note</em>: The Seurat developers suggest using a JackStraw resampling test to determine this. See <a href="http://www.cell.com/abstract/S0092-8674(15)00549-8">Macosko <em>et al</em></a>, and the original <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial.html#determine-the-dimensionality-of-the-dataset-1">pbmc3 vignette</a>. We’re going to use an Elbow Plot instead here, because its much quicker.</p>
+<hr>
+<p>An alternative heuristic method generates an ‘Elbow plot’: a ranking of principle components based on the percentage of variance explained by each one (<code><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot()</a></code> function). In this example, we can observe an ‘elbow’ around PC9-10, suggesting that the majority of true signal is captured in the first 10 PCs.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/ElbowPlot.html">ElbowPlot</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/elbow_plot-1.png" width="672"></div>
+<p>Identifying the true dimensionality of a dataset – can be challenging/uncertain for the user. We therefore suggest these three approaches to consider. The first is more supervised, exploring PCs to determine relevant sources of heterogeneity, and could be used in conjunction with GSEA for example. The second implements a statistical test based on a random null model, but is time-consuming for large datasets, and may not return a clear PC cutoff. The third is a heuristic that is commonly used, and can be calculated instantly. In this example, all three approaches yielded similar results, but we might have been justified in choosing anything between PC 7-12 as a cutoff.</p>
+<p>We chose 10 here, but encourage users to consider the following:</p>
+<ul>
+<li>Dendritic cell and NK aficionados may recognize that genes strongly associated with PCs 12 and 13 define rare immune subsets (i.e. MZB1 is a marker for plasmacytoid DCs). However, these groups are so rare, they are difficult to distinguish from background noise for a dataset of this size without prior knowledge.</li>
+<li>We encourage users to repeat downstream analyses with a different number of PCs (10, 15, or even 50!). As you will observe, the results often do not differ dramatically.</li>
+<li>We advise users to err on the higher side when choosing this parameter. For example, performing downstream analyses with only 5 PCs does significantly and adversely affect results.</li>
+</ul>
+<hr>
+</div>
+<div id="run-non-linear-dimensional-reduction-umaptsne" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> Run non-linear dimensional reduction (UMAP/tSNE)<a class="anchor" aria-label="anchor" href="#run-non-linear-dimensional-reduction-umaptsne"><i class="fas fa-link"></i></a>
+</h2>
+<p>Seurat offers several non-linear dimensional reduction techniques, such as tSNE and UMAP, to visualize and explore these datasets. The goal of these algorithms is to learn the underlying manifold of the data in order to place similar cells together in low-dimensional space. Cells within the graph-based clusters determined above should co-localize on these dimension reduction plots. As input to the UMAP and tSNE, we suggest using the same PCs as input to the clustering analysis.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># If you haven't installed UMAP, you can do so via reticulate::py_install(packages = "umap-learn")</span></span>
+<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/RunUMAP.html">RunUMAP</a></span><span class="op">(</span><span class="va">pbmc</span>, dims <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The default method for RunUMAP has changed from calling Python UMAP via reticulate to the R-native UWOT using the cosine metric</span></span>
+<span><span class="co">#&gt; To use Python UMAP via reticulate, set umap.method to 'umap-learn' and metric to 'correlation'</span></span>
+<span><span class="co">#&gt; This message will be shown once per session</span></span>
+<span><span class="co">#&gt; 05:55:21 UMAP embedding parameters a = 0.9922 b = 1.112</span></span>
+<span><span class="co">#&gt; 05:55:21 Read 2638 rows and found 10 numeric columns</span></span>
+<span><span class="co">#&gt; 05:55:21 Using Annoy for neighbor search, n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 05:55:21 Building Annoy index with metric = cosine, n_trees = 50</span></span>
+<span><span class="co">#&gt; 0%   10   20   30   40   50   60   70   80   90   100%</span></span>
+<span><span class="co">#&gt; [----|----|----|----|----|----|----|----|----|----|</span></span>
+<span><span class="co">#&gt; **************************************************|</span></span>
+<span><span class="co">#&gt; 05:55:21 Writing NN index file to temp file /var/folders/my/cwpwt_rd1znflqb8gm8py418lslkvl/T//Rtmp35AGEz/file5dab58f342ca</span></span>
+<span><span class="co">#&gt; 05:55:21 Searching Annoy index using 1 thread, search_k = 3000</span></span>
+<span><span class="co">#&gt; 05:55:21 Annoy recall = 100%</span></span>
+<span><span class="co">#&gt; 05:55:21 Commencing smooth kNN distance calibration using 1 thread with target n_neighbors = 30</span></span>
+<span><span class="co">#&gt; 05:55:22 Initializing from normalized Laplacian + noise (using irlba)</span></span>
+<span><span class="co">#&gt; 05:55:22 Commencing optimization for 500 epochs, with 105140 positive edges</span></span>
+<span><span class="co">#&gt; 05:55:24 Optimization finished</span></span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># note that you can set `label = TRUE` or use the LabelClusters function to help label individual clusters</span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span><span class="op">)</span></span></code></pre></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/tsneplot-1.png" width="672"></div>
+<div id="challenge-pc-genes" class="section level4 unnumbered challenge">
+<h4>Challenge: PC genes<a class="anchor" aria-label="anchor" href="#challenge-pc-genes"><i class="fas fa-link"></i></a>
+</h4>
+<p>You can plot gene expression on the UMAP with the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function.</p>
+<p>Try out some genes that were highly weighted in the principal component analysis. How do they look?</p>
+</div>
+<div id="section-7" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-7"><i class="fas fa-link"></i></a></h4>
+</div>
+</div>
+<div id="save" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> Save<a class="anchor" aria-label="anchor" href="#save"><i class="fas fa-link"></i></a>
+</h2>
+<p>You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">pbmc</span>, file <span class="op">=</span> <span class="st">"pbmc_tutorial_saved.rds"</span><span class="op">)</span> </span></code></pre></div>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></div>
+<div class="next"><a href="clustering.html"><span class="header-section-number">9</span> Clustering</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#dimensionality-reduction"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
+<li><a class="nav-link" href="#perform-linear-dimensional-reduction"><span class="header-section-number">8.1</span> Perform linear dimensional reduction</a></li>
+<li><a class="nav-link" href="#determine-the-dimensionality-of-the-dataset"><span class="header-section-number">8.2</span> Determine the ‘dimensionality’ of the dataset</a></li>
+<li><a class="nav-link" href="#run-non-linear-dimensional-reduction-umaptsne"><span class="header-section-number">8.3</span> Run non-linear dimensional reduction (UMAP/tSNE)</a></li>
+<li><a class="nav-link" href="#save"><span class="header-section-number">8.4</span> Save</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-05-reducedims.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-05-reducedims.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-25.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,9 +1,10 @@
 # Clustering {#clustering}
 
-#### Why do we need to do this?  {- .rmdimportant}
+#### Why do we need to do this?  {- .rational}
 
-Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.
+Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.   
 
+####  {-}
 
 ## Cluster cells
 
@@ -39,12 +40,14 @@ DimPlot(pbmc)
 ***
 
 
-#### Challenge: Try different cluster settings {- .rmdtip}
+#### Challenge: Try different cluster settings {- .challenge}
 
 Run `FindNeighbours` and `FindClusters` again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using `DimPlot`.
 
 To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as `pbmc2`!
 
+
+####  {-}
 
 
 ## Choosing a cluster resolution

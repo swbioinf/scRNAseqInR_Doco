@@ -12,17 +12,23 @@ pre {
 pre code {
   white-space: inherit;
 }
-
-# https://github.com/MonashBioinformaticsPlatform/Single-Cell-Workshop/blob/main/vignettes/style.css
 .challenge {
-    margin: 2em;
-    padding: 1em;
-    border: 1px solid black;
-    border-radius: 5px;
-    background: #deffb1;
+  margin: 2em;
+  padding: 1em;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: #f4e1fc;
 }
-
-
 .challenge > :first-child, .challenge > :nth-child(2) {
-    margin-top: 0;
+  margin-top: 0;
+}
+.rational {
+  margin: 2em;
+  padding: 1em;
+  border: 1px solid black;
+  border-radius: 5px;
+  background: rgb(201, 249, 245);
+}
+.rational > :first-child, .rational > :nth-child(2) {
+  margin-top: 0;
 }

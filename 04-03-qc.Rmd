@@ -15,6 +15,12 @@ The steps below encompass the standard pre-processing workflow for scRNA-seq dat
 
 ## QC and selecting cells for further analysis
 
+#### Why do we need to do this? {- .rational}
+Low quality cells can add noise to your results leading you to the wrong biological conclusions. Using only good quality cells helps you to avoid this. Reduce noise in the data by filtering out low quality cells such as dying or stressed cells (high mitochondrial expression) and cells with few features that can reflect empty droplets.
+
+####  {-}
+
+
 Seurat allows you to easily explore QC metrics and filter cells based on any user-defined criteria. A few QC metrics [commonly used](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4758103/) by the community include
 
 * The number of unique genes detected in each cell. 
@@ -34,7 +40,7 @@ pbmc$percent.mt <- PercentageFeatureSet(pbmc, pattern = "^MT-")
 
   
 
-#### Challenge: The meta.data slot in the Seurat object { - .rmdtip}
+#### Challenge: The meta.data slot in the Seurat object { - .challenge}
 
 Where are QC metrics stored in Seurat?
 
@@ -46,10 +52,10 @@ Where are QC metrics stored in Seurat?
 2. Imagine that this is the first of 
 several samples in our experiment. Add a `samplename` column to to the `meta.data` table.
 
+####  {-}
 
 
 
-### { - }
 
 In the example below, we visualize QC metrics, and use these to filter cells.
 
@@ -78,7 +84,7 @@ plot3
 
 
 
-<!-- #### Challenge: Ribosomal gene expression as a QC metric {- .rmdtip} -->
+<!-- #### Challenge: Ribosomal gene expression as a QC metric {- .challenge} -->
 <!-- Ribosomal gene expression could be another factor to look into your cells within your experiment. -->
 
 <!-- Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.  -->
@@ -116,7 +122,7 @@ plot6 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA"
 plot5 + plot6
 ```
 
-#### Challenge: Filter the cells {- .rmdtip}
+#### Challenge: Filter the cells {- .challenge}
 
 Apply the filtering thresolds defined above. 
 
