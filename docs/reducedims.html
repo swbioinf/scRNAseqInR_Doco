@@ -5,17 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 PCAs and UMAPs | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="7.1 Identification of highly variable features (feature selection)  Why do we need to do this? Identifying the most variable features allows retaining the real biological variability of the data...">
+<meta name="description" content="7.1 Identification of highly variable features (feature selection) Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#identification-of-highly-variable-features-feature-selection Why...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 7 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="7.1 Identification of highly variable features (feature selection)  Why do we need to do this? Identifying the most variable features allows retaining the real biological variability of the data...">
+<meta property="og:description" content="7.1 Identification of highly variable features (feature selection) Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#identification-of-highly-variable-features-feature-selection Why...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 7 PCAs and UMAPs | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="7.1 Identification of highly variable features (feature selection)  Why do we need to do this? Identifying the most variable features allows retaining the real biological variability of the data...">
+<meta name="twitter:description" content="7.1 Identification of highly variable features (feature selection) Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#identification-of-highly-variable-features-feature-selection Why...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1.9000/transition.js"></script><script src="libs/bs3compat-0.5.1.9000/tabs.js"></script><script src="libs/bs3compat-0.5.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -80,75 +80,29 @@
 <h2>
 <span class="header-section-number">7.1</span> Identification of highly variable features (feature selection)<a class="anchor" aria-label="anchor" href="#identification-of-highly-variable-features-feature-selection"><i class="fas fa-link"></i></a>
 </h2>
+<p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#identification-of-highly-variable-features-feature-selection" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#identification-of-highly-variable-features-feature-selection</a></p>
 <div id="why-do-we-need-to-do-this-2" class="section level4 unnumbered rational">
 <h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-2"><i class="fas fa-link"></i></a>
 </h4>
 <p>Identifying the most variable features allows retaining the real biological variability of the data and reduce noise in the data.</p>
 </div>
-<div id="section-4" class="section level4 unnumbered">
-<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-4"><i class="fas fa-link"></i></a></h4>
-<p>We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). We and <a href="https://www.nature.com/articles/nmeth.2645">others</a> have found that focusing on these genes in downstream analysis helps to highlight biological signal in single-cell datasets.</p>
-<p>Our procedure in Seurat is described in detail <a href="https://doi.org/10.1016/j.cell.2019.05.031">here</a>, and improves on previous versions by directly modeling the mean-variance relationship inherent in single-cell data, and is implemented in the <code><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures()</a></code> function. By default, we return 2,000 features per dataset. These will be used in downstream analysis, like PCA.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindVariableFeatures.html">FindVariableFeatures</a></span><span class="op">(</span><span class="va">pbmc</span>, selection.method <span class="op">=</span> <span class="st">'vst'</span>, nfeatures <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span><span class="co"># Identify the 10 most highly variable genes</span></span>
-<span><span class="va">top10</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/VariableFeatures.html">VariableFeatures</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co"># plot variable features with and without labels</span></span>
-<span><span class="va">plot1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/VariableFeaturePlot.html">VariableFeaturePlot</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span>
-<span><span class="va">plot2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/LabelPoints.html">LabelPoints</a></span><span class="op">(</span>plot <span class="op">=</span> <span class="va">plot1</span>, points <span class="op">=</span> <span class="va">top10</span>, repel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; When using repel, set xnudge and ynudge to 0 for optimal results</span></span>
-<span><span class="va">plot1</span> <span class="op">+</span> <span class="va">plot2</span></span>
-<span><span class="co">#&gt; Warning: Transformation introduced infinite values in continuous</span></span>
-<span><span class="co">#&gt; x-axis</span></span>
-<span><span class="co">#&gt; Transformation introduced infinite values in continuous</span></span>
-<span><span class="co">#&gt; x-axis</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/var_features-1.png" width="1056"></div>
-<!-- #### Challenge: Labelling Genes of Interest {- .challenge} -->
-<!-- What if we wanted to look at genes we are specifically interested in? We can create a character vector of gene names and apply that to this plot. -->
-<!-- Make a plot with labels for the genes IL8, IDH2 and CXCL3. -->
+<div id="section-3" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-3"><i class="fas fa-link"></i></a></h4>
 </div>
 </div>
 <div id="scaling-the-data" class="section level2" number="7.2">
 <h2>
 <span class="header-section-number">7.2</span> Scaling the data<a class="anchor" aria-label="anchor" href="#scaling-the-data"><i class="fas fa-link"></i></a>
 </h2>
+<p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#scaling-the-data" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#scaling-the-data</a></p>
 <div id="why-do-we-need-to-do-this-3" class="section level4 unnumbered rational">
 <h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-3"><i class="fas fa-link"></i></a>
 </h4>
 <p>Highly expresed genes can overpower the signal of other less expresed genes with equal importance. Within the same cell the assumption is that the underlying RNA content is constant. Aditionally, If variables are provided in vars.to.regress, they are individually regressed against each feature, and the resulting residuals are then scaled and centered.
 This step allows controling for cell cycle and other factors that may bias your clustering.</p>
 </div>
-<div id="section-5" class="section level4 unnumbered">
-<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-5"><i class="fas fa-link"></i></a></h4>
-<p>Next, we apply a linear transformation (‘scaling’) that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code> function:</p>
-<ul>
-<li>Shifts the expression of each gene, so that the mean expression across cells is 0</li>
-<li>Scales the expression of each gene, so that the variance across cells is 1
-<ul>
-<li>This step gives equal weight in downstream analyses, so that highly-expressed genes do not dominate</li>
-</ul>
-</li>
-<li>The results of this are stored in <code>pbmc$RNA@scale.data</code>
-</li>
-</ul>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">all.genes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span></span>
-<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData</a></span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span> <span class="va">all.genes</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Centering and scaling data matrix</span></span></code></pre></div>
-<details><summary><strong>This step takes too long! Can I make it faster?</strong>
-</summary><p>Scaling is an essential step in the Seurat workflow, but only on genes that will be used as input to PCA. Therefore, the default in <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code> is only to perform scaling on the previously identified variable features (2,000 by default). To do this, omit the <code>features</code> argument in the previous function call, i.e.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># pbmc &lt;- ScaleData(pbmc)</span></span></code></pre></div>
-Your PCA and clustering results will be unaffected. However, Seurat heatmaps (produced as shown below with <code><a href="https://satijalab.org/seurat/reference/DoHeatmap.html">DoHeatmap()</a></code>) require genes in the heatmap to be scaled, to make sure highly-expressed genes don’t dominate the heatmap. To make sure we don’t leave any genes out of the heatmap later, we are scaling all genes in this tutorial.
-</details>
- 
-<details><summary><strong>How can I remove unwanted sources of variation, as in Seurat v2?</strong>
-</summary><p>In <code>Seurat v2</code> we also use the <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code> function to remove unwanted sources of variation from a single-cell dataset. For example, we could ‘regress out’ heterogeneity associated with (for example) cell cycle stage, or mitochondrial contamination. These features are still supported in <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code> in <code>Seurat v3</code>, i.e.:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># pbmc &lt;- ScaleData(pbmc, vars.to.regress = 'percent.mt')</span></span></code></pre></div>
-However, particularly for advanced users who would like to use this functionality, we strongly recommend the use of our new normalization workflow, <code><a href="https://satijalab.org/seurat/reference/SCTransform.html">SCTransform()</a></code>. The method is described in our <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1874-1">paper</a>, with a separate vignette using Seurat v3 <a href="sctransform_vignette.html">here</a>. As with <code><a href="https://satijalab.org/seurat/reference/ScaleData.html">ScaleData()</a></code>, the function <code><a href="https://satijalab.org/seurat/reference/SCTransform.html">SCTransform()</a></code> also includes a <code>vars.to.regress</code> parameter.
-</details><p> </p>
-<hr>
+<div id="section-4" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-4"><i class="fas fa-link"></i></a></h4>
 </div>
 </div>
 </div>
@@ -178,7 +132,7 @@ However, particularly for advanced users who would like to use this functionalit
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-25.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

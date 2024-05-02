@@ -13,7 +13,6 @@ reducedims
 identification-of-highly-variable-features-feature-selection
 scaling-the-data
 dimensionality-reduction
-perform-linear-dimensional-reduction
 determine-the-dimensionality-of-the-dataset
 run-non-linear-dimensional-reduction-umaptsne
 save
@@ -22,7 +21,7 @@ cluster-cells
 choosing-a-cluster-resolution
 clustermarkers
 finding-differentially-expressed-features-cluster-biomarkers
-use-makers-to-label-or-find-a-cluster
+use-markers-to-label-or-find-a-cluster
 assigning-cell-type-identity-to-clusters
 singler
 de2

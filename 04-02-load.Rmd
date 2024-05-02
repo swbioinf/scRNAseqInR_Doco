@@ -5,16 +5,42 @@
 
 This workshop follows the introductory [Guided Clustering Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) tutorial from Seurat. 
 
-The bulk of this workshop may be found in its original format there.
+We will be jumping between that page - for the original content, and here - for extra tips, tricks and challenges. 
+
+```{r echo=FALSE, warning=FALSE}
+# Running alll the preprocessing steps that are covered in the Seurat tutorial. 
+# Pointing people to the seurat turorial fro this.
+# Then coming back here for the challenges and extra stuff.
+
+library(dplyr)
+library(ggplot2)
+library(Seurat)
+library(patchwork)
+
+pbmc.data <- Read10X(data.dir = "data/pbmc3k/filtered_gene_bc_matrices/hg19/")
+pbmc      <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
+pbmc$percent.mt <- PercentageFeatureSet(pbmc, pattern = "^MT-")
+pbmc <- subset(pbmc, subset = nFeature_RNA > 200 & nFeature_RNA < 2500 & percent.mt < 5)
+pbmc <- NormalizeData(pbmc)
+pbmc <- FindVariableFeatures(pbmc, selection.method = 'vst', nfeatures = 2000)
+all.genes <- rownames(pbmc)
+pbmc <- ScaleData(pbmc, features = all.genes)
+pbmc <- RunPCA(pbmc, features = VariableFeatures(object = pbmc))
+pbmc <- RunUMAP(pbmc, dims = 1:10)
+pbmc <- FindNeighbors(pbmc, dims = 1:10)
+pbmc <- FindClusters(pbmc, resolution = 0.5)
+
+```
+
 
 
 
 ## Setup the Seurat Object
 
-For this tutorial, we will be analyzing the a dataset of Peripheral Blood Mononuclear Cells (PBMC) freely available from 10X Genomics. There are 2,700 single cells that were sequenced on the Illumina NextSeq 500. The raw data can be found [here](https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz).
 
-We start by reading in the data. The `Read10X()` function reads in the output of the [cellranger](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/what-is-cell-ranger) pipeline from 10X, returning a unique molecular identified (UMI) count matrix. The values in this matrix represent the number of molecules for each feature (i.e. gene; row) that are detected in each cell (column).
 
+
+https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object
 
 #### Note: What does the data look like? { - .challenge}
 
@@ -44,46 +70,6 @@ What do the input files look like? It varies, but this is the output of the Cell
 ├── raw_feature_bc_matrix.h5
 └── web_summary.html
 ```
-
-### { - }
-
-
-We next use the count matrix to create a `Seurat` object. The object serves as a container that contains both data (like the count matrix) and analysis (like PCA, or clustering results) for a single-cell dataset. For a technical discussion of the `Seurat` object structure, check out the [GitHub Wiki](https://github.com/satijalab/seurat/wiki). For example, the count matrix is stored in `pbmc@assays$RNA@counts`.
-
-```{r libloader2, results='hide', message=FALSE, warning=FALSE} 
-library(dplyr)
-library(ggplot2)
-library(Seurat)
-library(patchwork)
-```
-
-```{r init, warning=FALSE}
-# Load the PBMC dataset
-pbmc.data <- Read10X(data.dir = "data/pbmc3k/filtered_gene_bc_matrices/hg19/")
-# Initialize the Seurat object with the raw (non-normalized data).
-pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
-pbmc
-```
-
-<details>
-  <summary>**What does data in a count matrix look like?**</summary>
-
-```{r, warning=FALSE}
-# Lets examine a few genes in the first thirty cells
-pbmc.data[c("CD3D","TCL1A","MS4A1"), 1:30]
-```
-
-The `.` values in the matrix represent 0s (no molecules detected). Since most values in an scRNA-seq matrix are 0,  Seurat uses a sparse-matrix representation whenever possible. This results in significant memory and speed savings for Drop-seq/inDrop/10x data.
-
-```{r}
-dense.size <- object.size(as.matrix(pbmc.data))
-dense.size
-sparse.size <- object.size(pbmc.data)
-sparse.size
-dense.size / sparse.size
-```
-
-</details>
 
 
 

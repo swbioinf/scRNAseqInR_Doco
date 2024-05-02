@@ -8,63 +8,44 @@ Clustering the cells will allow you to visualise the variability of your data, c
 
 ## Cluster cells
 
+
+Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cells 
+
 <!-- Do clustering -->
 <!-- Choose a resolution -->
 <!-- What are the clusters? -->
 <!-- Find cluster markers -->
 <!-- Name some. -->
 
-Seurat v3 applies a graph-based clustering approach, building upon initial strategies in ([Macosko *et al*](http://www.cell.com/abstract/S0092-8674(15)00549-8)). Importantly, the *distance metric* which drives the clustering analysis (based on previously identified PCs) remains the same. However, our approach to partitioning the cellular distance matrix into clusters has dramatically improved. Our approach was heavily inspired by recent manuscripts which applied graph-based clustering approaches to scRNA-seq data [[SNN-Cliq, Xu and Su, Bioinformatics, 2015]](http://bioinformatics.oxfordjournals.org/content/early/2015/02/10/bioinformatics.btv088.abstract) and CyTOF data [[PhenoGraph, Levine *et al*., Cell, 2015]](http://www.ncbi.nlm.nih.gov/pubmed/26095251). Briefly, these methods embed cells in a graph structure - for example a K-nearest neighbor (KNN) graph, with edges drawn between cells with similar feature expression patterns, and then attempt to partition this graph into highly interconnected 'quasi-cliques' or 'communities'. 
-
-As in PhenoGraph, we first construct a KNN graph based on the euclidean distance in PCA space, and refine the edge weights between any two cells based on the shared overlap in their local neighborhoods (Jaccard similarity). This step is performed using the `FindNeighbors()` function, and takes as input the previously defined dimensionality of the dataset (first 10 PCs).
-
-To cluster the cells, we next apply modularity optimization techniques such as the Louvain algorithm (default) or SLM [[SLM, Blondel *et al*., Journal of Statistical Mechanics]](http://dx.doi.org/10.1088/1742-5468/2008/10/P10008), to iteratively group cells together, with the goal of optimizing the standard modularity function. The `FindClusters()` function implements this procedure, and contains a resolution parameter that sets the 'granularity' of the downstream clustering, with increased values leading to a greater number of clusters. We find that setting this parameter between 0.4-1.2 typically returns good results for single-cell datasets of around 3K cells. Optimal resolution often increases for larger datasets. The clusters can be found using the `Idents()` function.
-
-
-```{r cluster, fig.height=5, fig.width=7}
-pbmc <- FindNeighbors(pbmc, dims = 1:10)
-pbmc <- FindClusters(pbmc, resolution = 0.5)
-# Look at cluster IDs of the first 5 cells
-head(Idents(pbmc), 5)
-```
-
-
-Check out the clusters.
-```{r}
-DimPlot(pbmc)
-# Equivalent to
-# DimPlot(pbmc,reduction="umap", group.by="seurat_clusters")
-# DimPlot(pbmc,reduction="umap", group.by="RNA_snn_res.0.5")
-```
 
 ***
 
 
-#### Challenge: Try different cluster settings {- .challenge}
+<!-- #### Challenge: Try different cluster settings {- .challenge} -->
 
-Run `FindNeighbours` and `FindClusters` again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using `DimPlot`.
+<!-- Run `FindNeighbours` and `FindClusters` again, with a different number of dimensions or with a different resolution. Examine the resulting clusters using `DimPlot`. -->
 
-To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as `pbmc2`!
+<!-- To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as `pbmc2`! -->
 
-
-####  {-}
+<!-- ####  {-} -->
 
 
 ## Choosing a cluster resolution
 
 
-Its a good idea to try different resolutions when clustering to identify the varibility of your data. 
+Its a good idea to try different resolutions when clustering to identify the variability of your data. 
 
 ```{r}
 resolution = 2
-pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1),
-    dims = 1:10)
+pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1), dims = 1:10)
 
 # the different clustering created
 names(pbmc@meta.data)
 
-# Look at cluster IDs of the first 5 cells
-head(Idents(pbmc), 5)
+# How many clusters (and how many cells in those clusters) do we get at different resolutions?
+table(pbmc$RNA_snn_res.0.1)
+table(pbmc$RNA_snn_res.0.8)
+table(pbmc$RNA_snn_res.2)
 ```
 
 Plot a clustree to decide how many clusters you have and what resolution capture them.
@@ -80,7 +61,7 @@ Name cells with the corresponding cluster name at the resolution you pick. This 
 Idents(pbmc) <- pbmc$RNA_snn_res.0.5
 ```
 
-Plot the UMAP with colored clusters with Dimplot
+Plot the UMAP with coloured clusters with Dimplot
 
 ```{r}
 DimPlot(pbmc, label = TRUE, repel = TRUE, label.box = TRUE) + NoLegend()

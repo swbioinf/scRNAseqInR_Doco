@@ -15,7 +15,7 @@
 <meta name="twitter:description" content="Most of todays workshop will be following the Seurat PBMC tutorial (reproduced in the next section). We’ll load raw counts data, do some QC and setup various useful information in a Seurat object....">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.1.9000/transition.js"></script><script src="libs/bs3compat-0.5.1.9000/tabs.js"></script><script src="libs/bs3compat-0.5.1.9000/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -120,7 +120,7 @@ Extra information gets added to this table as analysis progresses.</p>
 The Assay structure has some nuances (see discussion below), but there are functions that get the assay data out for you.</p>
 <p>By default this object will return the normalised data (from the only assay in this object, called RNA). Every ‘.’ is a zero.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_processed</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_processed</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="co">#&gt; 15 x 2 sparse Matrix of class "dgCMatrix"</span></span>
 <span><span class="co">#&gt;               AAACATACAACCAC-1 AAACATTGAGCTAC-1</span></span>
 <span><span class="co">#&gt; AL627309.1                   .         .       </span></span>
@@ -140,7 +140,7 @@ The Assay structure has some nuances (see discussion below), but there are funct
 <span><span class="co">#&gt; TNFRSF18                     .         1.625141</span></span></code></pre></div>
 <p>But the raw counts data is accessible too.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, slot<span class="op">=</span><span class="st">'counts'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, slot<span class="op">=</span><span class="st">'counts'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="co">#&gt; 15 x 2 sparse Matrix of class "dgCMatrix"</span></span>
 <span><span class="co">#&gt;               AAACATACAACCAC-1 AAACATTGAGCTAC-1</span></span>
 <span><span class="co">#&gt; AL627309.1                   .                .</span></span>
@@ -167,22 +167,22 @@ The Assay structure has some nuances (see discussion below), but there are funct
 <p>Lets plot a classic UMAP with <code>DimPlot</code>- defaults to the clusters on a ‘umap’ view.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># equivalent to</span></span>
 <span><span class="co">#DimPlot(pbmc_processed, reduction = 'umap')</span></span></code></pre></div>
 <p>What about checking some gene expression? Genes are called ‘features’ in a Seurat object (because if it was CITE-seq they’d be proteins!). So the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function will show gene expression.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span>  <span class="st">"CD14"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
 <p>It also works for continuous cell-level data - any column in the metadata table.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span>  <span class="st">"percent.mt"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
 <p>And what about showing CD14 expression across which clusters (or any other categorical information in the metadata)</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span> <span class="st">'CD14'</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
 <div id="challenge-plotting" class="section level4 unnumbered challenge">
 <h4>Challenge: Plotting<a class="anchor" aria-label="anchor" href="#challenge-plotting"><i class="fas fa-link"></i></a>
 </h4>
@@ -254,7 +254,7 @@ The ways to access the slots can be through methods for the class (functions) or
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2023-09-25.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
