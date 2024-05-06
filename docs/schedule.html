@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 2 Schedule | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="We will take 2 short breaks between topics each day. Day 1 Time Content 1:00 AEST Welcome and Intro 1:30 AEST Seurat Intro QC and filtering PCA and UMAP 4:30 AEST Finish  Day 2 Time Content 1:00...">
+<meta name="description" content="Time Content 9:00 Welcome and Intro Seurat Intro QC and filtering PCA and UMAP Clustering + Markers Assigning Celltypes Differential Expression 4:30 AEST Finish   We will be jumping between that...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 2 Schedule | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="We will take 2 short breaks between topics each day. Day 1 Time Content 1:00 AEST Welcome and Intro 1:30 AEST Seurat Intro QC and filtering PCA and UMAP 4:30 AEST Finish  Day 2 Time Content 1:00...">
+<meta property="og:description" content="Time Content 9:00 Welcome and Intro Seurat Intro QC and filtering PCA and UMAP Clustering + Markers Assigning Celltypes Differential Expression 4:30 AEST Finish   We will be jumping between that...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 2 Schedule | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="We will take 2 short breaks between topics each day. Day 1 Time Content 1:00 AEST Welcome and Intro 1:30 AEST Seurat Intro QC and filtering PCA and UMAP 4:30 AEST Finish  Day 2 Time Content 1:00...">
+<meta name="twitter:description" content="Time Content 9:00 Welcome and Intro Seurat Intro QC and filtering PCA and UMAP Clustering + Markers Assigning Celltypes Differential Expression 4:30 AEST Finish   We will be jumping between that...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -44,22 +44,16 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
 <li><a class="active" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
-<li class="book-part">Content</li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
-<li class="book-part">Seurat PBMC3k Tutorial</li>
-<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
-<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
-<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
-<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
-<li><a class="" href="dimensionality-reduction.html"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
-<li><a class="" href="clustermarkers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
+<li class="book-part">Seurat Preprocessing</li>
+<li><a class="" href="preprocessing.html"><span class="header-section-number">3</span> Seurat PBMC3k Tutorial</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">4</span> Clustering</a></li>
+<li><a class="" href="clustermarkers.html"><span class="header-section-number">5</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
-<li><a class="" href="de2.html"><span class="header-section-number">12</span> Differential Expression</a></li>
-<li><a class="" href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></li>
-<li><a class="" href="Harmony.html"><span class="header-section-number">14</span> Data set integration with Harmony</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">6</span> SingleR</a></li>
+<li><a class="" href="de2.html"><span class="header-section-number">7</span> Differential Expression</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">8</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">9</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">10</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -71,10 +65,6 @@
 <h1>
 <span class="header-section-number">2</span> Schedule<a class="anchor" aria-label="anchor" href="#schedule"><i class="fas fa-link"></i></a>
 </h1>
-<p>We will take 2 short breaks between topics each day.</p>
-<div id="day-1" class="section level3 unnumbered">
-<h3>Day 1<a class="anchor" aria-label="anchor" href="#day-1"><i class="fas fa-link"></i></a>
-</h3>
 <div class="inline-table"><table class="table table-sm">
 <thead><tr class="header">
 <th>Time</th>
@@ -82,11 +72,11 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1:00 AEST</td>
+<td>9:00</td>
 <td>Welcome and Intro</td>
 </tr>
 <tr class="even">
-<td>1:30 AEST</td>
+<td></td>
 <td>Seurat Intro</td>
 </tr>
 <tr class="odd">
@@ -98,59 +88,36 @@
 <td>PCA and UMAP</td>
 </tr>
 <tr class="odd">
-<td>4:30 AEST</td>
-<td>Finish</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<div id="day-2" class="section level3 unnumbered">
-<h3>Day 2<a class="anchor" aria-label="anchor" href="#day-2"><i class="fas fa-link"></i></a>
-</h3>
-<div class="inline-table"><table class="table table-sm">
-<thead><tr class="header">
-<th>Time</th>
-<th>Content</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>1:00 AEST</td>
-<td>PCA and UMAP continued</td>
-</tr>
-<tr class="even">
 <td></td>
 <td>Clustering + Markers</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td>Assigning Celltypes</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td>Differential Expression</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>4:30 AEST</td>
 <td>Finish</td>
 </tr>
 </tbody>
 </table></div>
 </div>
-</div>
 
 
 
-  <div class="chapter-nav">
+<p>We will be jumping between that page - for the original content, and here - for extra tips, tricks and challenges.</p>
+<!-- Generate the same objects as the Seurat Tutorial, sans plots -->
+<!-- Runs on build -->
+<div class="chapter-nav">
 <div class="prev"><a href="index.html"><span class="header-section-number">1</span> About</a></div>
-<div class="next"><a href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></div>
+<div class="next"><a href="preprocessing.html"><span class="header-section-number">3</span> Seurat PBMC3k Tutorial</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li>
-<a class="nav-link" href="#schedule"><span class="header-section-number">2</span> Schedule</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#day-1">Day 1</a></li>
-<li><a class="nav-link" href="#day-2">Day 2</a></li>
-</ul>
-</li></ul>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#schedule"><span class="header-section-number">2</span> Schedule</a></li></ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -160,14 +127,18 @@
 </div>
     </nav>
 </div>
+</div>
+  
+
+  
 
 </div>
-</div> <!-- .container -->
+ <!-- .container -->
 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-02.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

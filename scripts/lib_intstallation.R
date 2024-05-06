@@ -2,6 +2,7 @@
 # First an up to date version of R (the most recent will do) - 4.2+
 
 
+
 # Cran
 install.packages("tidyverse")
 install.packages("Seurat")
@@ -26,7 +27,7 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("SingleCellExperiment")
 BiocManager::install("HDF5Array")
 BiocManager::install("SingleR")
-BiocManager::install("celldex")   #download????
+BiocManager::install("celldex")  
 BiocManager::install("limma")
 BiocManager::install("edgeR")
 BiocManager::install("CHETAH") 
@@ -35,7 +36,7 @@ BiocManager::install("CHETAH")
 
 
 #---------------------------
-# Some loading of datasets into cache. 
+# Some loading of datasets into cache. Downloads data.
 # Less important.
 # Run these R commands.
 library(celldex)

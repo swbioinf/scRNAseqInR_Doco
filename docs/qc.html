@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 5 QC Filtering | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low quality cells...">
+<meta name="description" content="Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 5 QC Filtering | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low quality cells...">
+<meta property="og:description" content="Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 5 QC Filtering | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low quality cells...">
+<meta name="twitter:description" content="Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis     5.1 QC and selecting cells for further analysis  Why do we need to do this? Low...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -71,7 +71,7 @@
 <h1>
 <span class="header-section-number">5</span> QC Filtering<a class="anchor" aria-label="anchor" href="#qc"><i class="fas fa-link"></i></a>
 </h1>
-<p><a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis</a></p>
+<p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#qc-and-selecting-cells-for-further-analysis</a></p>
 <!-- Discuss counts per cell/gene and make plots -->
 <!-- Discuss that there's no one threshold -->
 <!-- everyone pick a threshold and go filter -->
@@ -109,28 +109,6 @@ several samples in our experiment. Add a <code>samplename</code> column to to th
 </div>
 <div id="section-1" class="section level4 unnumbered">
 <h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-1"><i class="fas fa-link"></i></a></h4>
-<!-- #### Challenge: Ribosomal gene expression as a QC metric {- .challenge} -->
-<!-- Ribosomal gene expression could be another factor to look into your cells within your experiment. -->
-<!-- Create more columns of metadata using `PercentageFeatureSet` function, this time search for ribosomal genes. We can  calculate the percentage for the large subunit (RPL) and small subunit (RPS) ribosomal genes.  -->
-<!-- Use `FeatureScatter` to plot combinations of metrics available in metadata. How is the mitochondrial gene percentage related to the ribosomal gene percentage? What can you see? Discuss in break out. -->
-<!-- <details> -->
-<!-- <summary>**Code for challenge**</summary> -->
-<!-- Create new meta.data columns to contain percentages of the large and small ribosomal genes. -->
-<!-- Then plot a scatter plot with this new data. You should find that the large and small ribosomal subunit genes are correlated within cell.  -->
-<!-- What about with mitochondria and gene, feature counts? -->
-<!-- These are the cells you may want to exclude. -->
-<!-- </details> -->
-<!-- <details> -->
-<!-- <summary>**Advanced Challenge**</summary> -->
-<!-- Highlight cells with very low percentage of ribosomal genes, create a new column in the meta.data table and with `FeatureScatter` make a plot of the RNA count and mitochondrial percentage with the cells with very low ribosomal gene perentage. -->
-<!-- </details> -->
-<!-- ### { - } -->
-<!-- Lets replot the feature scatters and see what they look like.  -->
-<!-- ```{r qc2_sidebar, fig.height=7, fig.width=13} -->
-<!-- plot5 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "percent.mt")  -->
-<!-- plot6 <- FeatureScatter(pbmc, feature1 = "nCount_RNA", feature2 = "nFeature_RNA")  -->
-<!-- plot5 + plot6 -->
-<!-- ``` -->
 </div>
 <div id="challenge-filter-the-cells" class="section level4 unnumbered challenge">
 <h4>Challenge: Filter the cells<a class="anchor" aria-label="anchor" href="#challenge-filter-the-cells"><i class="fas fa-link"></i></a>
@@ -143,10 +121,12 @@ several samples in our experiment. Add a <code>samplename</code> column to to th
 <ul>
 <li>What thresholds would you chose to apply to this modern dataset?</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc10k_unfiltered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/10k_PBMC_v3.1ChromiumX_Intronic.rds"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc10k_unfiltered</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nFeature_RNA"</span>, <span class="st">"nCount_RNA"</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-
+</div>
+<div id="section-2" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-2"><i class="fas fa-link"></i></a></h4>
 </div>
 </div>
 </div>
@@ -162,8 +142,8 @@ several samples in our experiment. Add a <code>samplename</code> column to to th
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-03-qc.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-03-qc.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="https://github.com/rstudio/bookdown-demo/blob/master/04-02-seurattutorial.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/rstudio/bookdown-demo/edit/master/04-02-seurattutorial.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>

@@ -1,24 +1,12 @@
 # Schedule {#schedule}
 
-We will take 2 short breaks between topics each day.
-
-### Day 1 {-}
 
 | Time      | Content               |
 |-----------|-----------------------|
-| 1:00 AEST | Welcome and Intro     |
-| 1:30 AEST | Seurat Intro          |
+| 9:00      | Welcome and Intro     |
+|           | Seurat Intro          | 
 |           | QC and filtering      |
 |           | PCA and UMAP          |
-| 4:30 AEST | Finish                |
-
-
-### Day 2 {-}
-
-
-| Time      | Content                 |
-|-----------|-------------------------|
-| 1:00 AEST | PCA and UMAP continued  |
 |           | Clustering + Markers    |
 |           | Assigning Celltypes     |
 |           | Differential Expression |

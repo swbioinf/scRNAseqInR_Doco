@@ -37,14 +37,14 @@ Its a good idea to try different resolutions when clustering to identify the var
 
 ```{r}
 resolution = 2
-pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1), dims = 1:10)
-
+#pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1), dims = 1:10)
+pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = c(0.1, 2), dims = 1:10) # TEMP
 # the different clustering created
 names(pbmc@meta.data)
 
 # How many clusters (and how many cells in those clusters) do we get at different resolutions?
 table(pbmc$RNA_snn_res.0.1)
-table(pbmc$RNA_snn_res.0.8)
+table(pbmc$RNA_snn_res.0.5)
 table(pbmc$RNA_snn_res.2)
 ```
 

@@ -47,19 +47,15 @@
 <li class="book-part">Content</li>
 <li><a class="active" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
 <li class="book-part">Seurat PBMC3k Tutorial</li>
-<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
-<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
-<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
-<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
-<li><a class="" href="dimensionality-reduction.html"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
-<li><a class="" href="clustermarkers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
+<li><a class="" href="preprocessing.html"><span class="header-section-number">4</span> Standard Seurat Preprocessing</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">5</span> Clustering</a></li>
+<li><a class="" href="clustermarkers.html"><span class="header-section-number">6</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
-<li><a class="" href="de2.html"><span class="header-section-number">12</span> Differential Expression</a></li>
-<li><a class="" href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></li>
-<li><a class="" href="Harmony.html"><span class="header-section-number">14</span> Data set integration with Harmony</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">7</span> SingleR</a></li>
+<li><a class="" href="de2.html"><span class="header-section-number">8</span> Differential Expression</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">9</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">10</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">11</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -167,22 +163,22 @@ The Assay structure has some nuances (see discussion below), but there are funct
 <p>Lets plot a classic UMAP with <code>DimPlot</code>- defaults to the clusters on a ‘umap’ view.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-18-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-9-1.png" width="672"></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># equivalent to</span></span>
 <span><span class="co">#DimPlot(pbmc_processed, reduction = 'umap')</span></span></code></pre></div>
 <p>What about checking some gene expression? Genes are called ‘features’ in a Seurat object (because if it was CITE-seq they’d be proteins!). So the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function will show gene expression.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span>  <span class="st">"CD14"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-19-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-10-1.png" width="672"></div>
 <p>It also works for continuous cell-level data - any column in the metadata table.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span>  <span class="st">"percent.mt"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-20-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
 <p>And what about showing CD14 expression across which clusters (or any other categorical information in the metadata)</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc_processed</span>, features <span class="op">=</span> <span class="st">'CD14'</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-21-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
 <div id="challenge-plotting" class="section level4 unnumbered challenge">
 <h4>Challenge: Plotting<a class="anchor" aria-label="anchor" href="#challenge-plotting"><i class="fas fa-link"></i></a>
 </h4>
@@ -227,9 +223,12 @@ The ways to access the slots can be through methods for the class (functions) or
 
 
 
-  <div class="chapter-nav">
+<p>We will be jumping between that page - for the original content, and here - for extra tips, tricks and challenges.</p>
+<!-- Generate the same objects as the Seurat Tutorial, sans plots -->
+<!-- Runs on build -->
+<div class="chapter-nav">
 <div class="prev"><a href="schedule.html"><span class="header-section-number">2</span> Schedule</a></div>
-<div class="next"><a href="load.html"><span class="header-section-number">4</span> Load data</a></div>
+<div class="next"><a href="preprocessing.html"><span class="header-section-number">4</span> Standard Seurat Preprocessing</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -247,9 +246,13 @@ The ways to access the slots can be through methods for the class (functions) or
 </div>
     </nav>
 </div>
+</div>
+  
+
+  
 
 </div>
-</div> <!-- .container -->
+ <!-- .container -->
 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 

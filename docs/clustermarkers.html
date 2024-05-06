@@ -4,14 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Chapter 10 Cluster Markers | scRNAseq Analysis in R with Seurat</title>
+<title>Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat</title>
 <meta name="description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
-<meta property="og:title" content="Chapter 10 Cluster Markers | scRNAseq Analysis in R with Seurat">
+<meta property="og:title" content="Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
 <meta property="og:description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chapter 10 Cluster Markers | scRNAseq Analysis in R with Seurat">
+<meta name="twitter:title" content="Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat">
 <meta name="twitter:description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
@@ -44,22 +44,16 @@
         <ul class="book-toc list-unstyled">
 <li><a class="" href="index.html"><span class="header-section-number">1</span> About</a></li>
 <li><a class="" href="schedule.html"><span class="header-section-number">2</span> Schedule</a></li>
-<li class="book-part">Content</li>
-<li><a class="" href="seuratobject.html"><span class="header-section-number">3</span> The Seurat object</a></li>
-<li class="book-part">Seurat PBMC3k Tutorial</li>
-<li><a class="" href="load.html"><span class="header-section-number">4</span> Load data</a></li>
-<li><a class="" href="qc.html"><span class="header-section-number">5</span> QC Filtering</a></li>
-<li><a class="" href="norm.html"><span class="header-section-number">6</span> Normalisation</a></li>
-<li><a class="" href="reducedims.html"><span class="header-section-number">7</span> PCAs and UMAPs</a></li>
-<li><a class="" href="dimensionality-reduction.html"><span class="header-section-number">8</span> Dimensionality reduction</a></li>
-<li><a class="" href="clustering.html"><span class="header-section-number">9</span> Clustering</a></li>
-<li><a class="active" href="clustermarkers.html"><span class="header-section-number">10</span> Cluster Markers</a></li>
+<li class="book-part">Seurat Preprocessing</li>
+<li><a class="" href="preprocessing.html"><span class="header-section-number">3</span> Seurat PBMC3k Tutorial</a></li>
+<li><a class="" href="clustering.html"><span class="header-section-number">4</span> Clustering</a></li>
+<li><a class="active" href="clustermarkers.html"><span class="header-section-number">5</span> Cluster Markers</a></li>
 <li class="book-part">Futher Analysis</li>
-<li><a class="" href="singler.html"><span class="header-section-number">11</span> SingleR</a></li>
-<li><a class="" href="de2.html"><span class="header-section-number">12</span> Differential Expression</a></li>
-<li><a class="" href="CellCycle.html"><span class="header-section-number">13</span> Cell cycle Assignment</a></li>
-<li><a class="" href="Harmony.html"><span class="header-section-number">14</span> Data set integration with Harmony</a></li>
-<li><a class="" href="resources.html"><span class="header-section-number">15</span> Resources</a></li>
+<li><a class="" href="singler.html"><span class="header-section-number">6</span> SingleR</a></li>
+<li><a class="" href="de2.html"><span class="header-section-number">7</span> Differential Expression</a></li>
+<li><a class="" href="CellCycle.html"><span class="header-section-number">8</span> Cell cycle Assignment</a></li>
+<li><a class="" href="Harmony.html"><span class="header-section-number">9</span> Data set integration with Harmony</a></li>
+<li><a class="" href="resources.html"><span class="header-section-number">10</span> Resources</a></li>
 </ul>
 
         <div class="book-extra">
@@ -67,64 +61,58 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="clustermarkers" class="section level1" number="10">
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="clustermarkers" class="section level1" number="5">
 <h1>
-<span class="header-section-number">10</span> Cluster Markers<a class="anchor" aria-label="anchor" href="#clustermarkers"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5</span> Cluster Markers<a class="anchor" aria-label="anchor" href="#clustermarkers"><i class="fas fa-link"></i></a>
 </h1>
-<div id="why-do-we-need-to-do-this-6" class="section level4 unnumbered rational">
-<h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-6"><i class="fas fa-link"></i></a>
+<div id="why-do-we-need-to-do-this-1" class="section level4 unnumbered rational">
+<h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-1"><i class="fas fa-link"></i></a>
 </h4>
 <p>Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step easy, but in reality this step needs the experts curation.</p>
 </div>
-<div id="section-8" class="section level4 unnumbered">
-<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-8"><i class="fas fa-link"></i></a></h4>
+<div id="section-3" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-3"><i class="fas fa-link"></i></a></h4>
 </div>
-<div id="finding-differentially-expressed-features-cluster-biomarkers" class="section level2" number="10.1">
+<div id="finding-differentially-expressed-features-cluster-biomarkers" class="section level2" number="5.1">
 <h2>
-<span class="header-section-number">10.1</span> Finding differentially expressed features (cluster biomarkers)<a class="anchor" aria-label="anchor" href="#finding-differentially-expressed-features-cluster-biomarkers"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.1</span> Finding differentially expressed features (cluster biomarkers)<a class="anchor" aria-label="anchor" href="#finding-differentially-expressed-features-cluster-biomarkers"><i class="fas fa-link"></i></a>
 </h2>
 <p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#finding-differentially-expressed-features-cluster-biomarkers" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#finding-differentially-expressed-features-cluster-biomarkers</a></p>
 </div>
-<div id="use-markers-to-label-or-find-a-cluster" class="section level2" number="10.2">
+<div id="use-markers-to-label-or-find-a-cluster" class="section level2" number="5.2">
 <h2>
-<span class="header-section-number">10.2</span> Use markers to label or find a cluster<a class="anchor" aria-label="anchor" href="#use-markers-to-label-or-find-a-cluster"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.2</span> Use markers to label or find a cluster<a class="anchor" aria-label="anchor" href="#use-markers-to-label-or-find-a-cluster"><i class="fas fa-link"></i></a>
 </h2>
 <p>If you know markers for your cell types, use AddModuleScore to label them.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">genes_markers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Naive_CD4_T <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"IL7R"</span>, <span class="st">"CCR7"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AddModuleScore.html">AddModuleScore</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">pbmc</span>, features <span class="op">=</span> <span class="va">genes_markers</span>, ctrl <span class="op">=</span> <span class="fl">5</span>, name <span class="op">=</span> <span class="st">"Naive_CD4_T"</span>,</span>
+<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu">AddModuleScore</span><span class="op">(</span>object <span class="op">=</span> <span class="va">pbmc</span>, features <span class="op">=</span> <span class="va">genes_markers</span>, ctrl <span class="op">=</span> <span class="fl">5</span>, name <span class="op">=</span> <span class="st">"Naive_CD4_T"</span>,</span>
 <span>    search <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># notice the name of the cluster has a 1 at the end</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "orig.ident"      "nCount_RNA"      "nFeature_RNA"   </span></span>
-<span><span class="co">#&gt;  [4] "percent.mt"      "RNA_snn_res.0.5" "seurat_clusters"</span></span>
-<span><span class="co">#&gt;  [7] "RNA_snn_res.0.1" "RNA_snn_res.0.2" "RNA_snn_res.0.3"</span></span>
-<span><span class="co">#&gt; [10] "RNA_snn_res.0.4" "RNA_snn_res.0.6" "RNA_snn_res.0.7"</span></span>
-<span><span class="co">#&gt; [13] "RNA_snn_res.0.8" "RNA_snn_res.0.9" "RNA_snn_res.1"  </span></span>
-<span><span class="co">#&gt; [16] "RNA_snn_res.1.1" "RNA_snn_res.1.2" "RNA_snn_res.1.3"</span></span>
-<span><span class="co">#&gt; [19] "RNA_snn_res.1.4" "RNA_snn_res.1.5" "RNA_snn_res.1.6"</span></span>
-<span><span class="co">#&gt; [22] "RNA_snn_res.1.7" "RNA_snn_res.1.8" "RNA_snn_res.1.9"</span></span>
-<span><span class="co">#&gt; [25] "RNA_snn_res.2"   "Naive_CD4_T1"</span></span>
+<span><span class="co">#&gt; [1] "orig.ident"      "nCount_RNA"      "nFeature_RNA"   </span></span>
+<span><span class="co">#&gt; [4] "percent.mt"      "RNA_snn_res.0.5" "seurat_clusters"</span></span>
+<span><span class="co">#&gt; [7] "RNA_snn_res.0.1" "RNA_snn_res.2"   "Naive_CD4_T1"</span></span>
 <span></span>
 <span><span class="co"># label that cell type</span></span>
 <span><span class="va">pbmc</span><span class="op">$</span><span class="va">cell_label</span> <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="va">pbmc</span><span class="op">$</span><span class="va">cell_label</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">Naive_CD4_T1</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="st">"Naive_CD4_T"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/SeuratObject/man/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">=</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">cell_label</span></span>
+<span><span class="fu">Idents</span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">=</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">cell_label</span></span>
 <span></span>
 <span><span class="co"># plot</span></span>
 <span><span class="co"># Using a custom colour scale </span></span>
-<span><span class="fu"><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot</a></span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span> <span class="st">"Naive_CD4_T1"</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, repel <span class="op">=</span> <span class="cn">TRUE</span>, <span class="op">)</span> <span class="op">+</span> <span class="fu">scale_colour_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lightblue"</span>,<span class="st">"beige"</span>,<span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">FeaturePlot</span><span class="op">(</span><span class="va">pbmc</span>, features <span class="op">=</span> <span class="st">"Naive_CD4_T1"</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, repel <span class="op">=</span> <span class="cn">TRUE</span>, <span class="op">)</span> <span class="op">+</span> <span class="fu">scale_colour_gradientn</span><span class="op">(</span>colours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"lightblue"</span>,<span class="st">"beige"</span>,<span class="st">"red"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Scale for colour is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for colour, which will replace the</span></span>
 <span><span class="co">#&gt; existing scale.</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-34-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
 </div>
-<div id="assigning-cell-type-identity-to-clusters" class="section level2" number="10.3">
+<div id="assigning-cell-type-identity-to-clusters" class="section level2" number="5.3">
 <h2>
-<span class="header-section-number">10.3</span> Assigning cell type identity to clusters<a class="anchor" aria-label="anchor" href="#assigning-cell-type-identity-to-clusters"><i class="fas fa-link"></i></a>
+<span class="header-section-number">5.3</span> Assigning cell type identity to clusters<a class="anchor" aria-label="anchor" href="#assigning-cell-type-identity-to-clusters"><i class="fas fa-link"></i></a>
 </h2>
 <p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#assigning-cell-type-identity-to-clusters" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#assigning-cell-type-identity-to-clusters</a></p>
 
@@ -134,15 +122,15 @@
 
 
   <div class="chapter-nav">
-<div class="prev"><a href="clustering.html"><span class="header-section-number">9</span> Clustering</a></div>
-<div class="next"><a href="singler.html"><span class="header-section-number">11</span> SingleR</a></div>
+<div class="prev"><a href="clustering.html"><span class="header-section-number">4</span> Clustering</a></div>
+<div class="next"><a href="singler.html"><span class="header-section-number">6</span> SingleR</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#clustermarkers"><span class="header-section-number">10</span> Cluster Markers</a></li>
-<li><a class="nav-link" href="#finding-differentially-expressed-features-cluster-biomarkers"><span class="header-section-number">10.1</span> Finding differentially expressed features (cluster biomarkers)</a></li>
-<li><a class="nav-link" href="#use-markers-to-label-or-find-a-cluster"><span class="header-section-number">10.2</span> Use markers to label or find a cluster</a></li>
-<li><a class="nav-link" href="#assigning-cell-type-identity-to-clusters"><span class="header-section-number">10.3</span> Assigning cell type identity to clusters</a></li>
+<li><a class="nav-link" href="#clustermarkers"><span class="header-section-number">5</span> Cluster Markers</a></li>
+<li><a class="nav-link" href="#finding-differentially-expressed-features-cluster-biomarkers"><span class="header-section-number">5.1</span> Finding differentially expressed features (cluster biomarkers)</a></li>
+<li><a class="nav-link" href="#use-markers-to-label-or-find-a-cluster"><span class="header-section-number">5.2</span> Use markers to label or find a cluster</a></li>
+<li><a class="nav-link" href="#assigning-cell-type-identity-to-clusters"><span class="header-section-number">5.3</span> Assigning cell type identity to clusters</a></li>
 </ul>
 
       <div class="book-extra">
@@ -160,7 +148,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-02.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-06.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
