@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
+<meta name="description" content="Why do we need to do this? Single cell data helps to segregate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
+<meta property="og:description" content="Why do we need to do this? Single cell data helps to segregate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 5 Cluster Markers | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="Why do we need to do this? Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
+<meta name="twitter:description" content="Why do we need to do this? Single cell data helps to segregate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -65,13 +65,13 @@
 <h1>
 <span class="header-section-number">5</span> Cluster Markers<a class="anchor" aria-label="anchor" href="#clustermarkers"><i class="fas fa-link"></i></a>
 </h1>
-<div id="why-do-we-need-to-do-this-1" class="section level4 unnumbered rational">
-<h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this-1"><i class="fas fa-link"></i></a>
+<div id="why-do-we-need-to-do-this" class="section level4 unnumbered rational">
+<h4>Why do we need to do this?<a class="anchor" aria-label="anchor" href="#why-do-we-need-to-do-this"><i class="fas fa-link"></i></a>
 </h4>
-<p>Single cell data helps to segragate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step easy, but in reality this step needs the experts curation.</p>
+<p>Single cell data helps to segregate cell types. Use markers to identify cell types. warning: In this example the cell types/markers are well known and making this step easy, but in reality this step needs the experts curation.</p>
 </div>
-<div id="section-3" class="section level4 unnumbered">
-<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-3"><i class="fas fa-link"></i></a></h4>
+<div id="section-2" class="section level4 unnumbered">
+<h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section-2"><i class="fas fa-link"></i></a></h4>
 </div>
 <div id="finding-differentially-expressed-features-cluster-biomarkers" class="section level2" number="5.1">
 <h2>
@@ -93,9 +93,15 @@
 <span></span>
 <span><span class="co"># notice the name of the cluster has a 1 at the end</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "orig.ident"      "nCount_RNA"      "nFeature_RNA"   </span></span>
-<span><span class="co">#&gt; [4] "percent.mt"      "RNA_snn_res.0.5" "seurat_clusters"</span></span>
-<span><span class="co">#&gt; [7] "RNA_snn_res.0.1" "RNA_snn_res.2"   "Naive_CD4_T1"</span></span>
+<span><span class="co">#&gt;  [1] "orig.ident"      "nCount_RNA"      "nFeature_RNA"   </span></span>
+<span><span class="co">#&gt;  [4] "percent.mt"      "RNA_snn_res.0.5" "seurat_clusters"</span></span>
+<span><span class="co">#&gt;  [7] "RNA_snn_res.0.1" "RNA_snn_res.0.2" "RNA_snn_res.0.3"</span></span>
+<span><span class="co">#&gt; [10] "RNA_snn_res.0.4" "RNA_snn_res.0.6" "RNA_snn_res.0.7"</span></span>
+<span><span class="co">#&gt; [13] "RNA_snn_res.0.8" "RNA_snn_res.0.9" "RNA_snn_res.1"  </span></span>
+<span><span class="co">#&gt; [16] "RNA_snn_res.1.1" "RNA_snn_res.1.2" "RNA_snn_res.1.3"</span></span>
+<span><span class="co">#&gt; [19] "RNA_snn_res.1.4" "RNA_snn_res.1.5" "RNA_snn_res.1.6"</span></span>
+<span><span class="co">#&gt; [22] "RNA_snn_res.1.7" "RNA_snn_res.1.8" "RNA_snn_res.1.9"</span></span>
+<span><span class="co">#&gt; [25] "RNA_snn_res.2"   "Naive_CD4_T1"</span></span>
 <span></span>
 <span><span class="co"># label that cell type</span></span>
 <span><span class="va">pbmc</span><span class="op">$</span><span class="va">cell_label</span> <span class="op">=</span> <span class="cn">NA</span></span>
@@ -108,13 +114,98 @@
 <span><span class="co">#&gt; Scale for colour is already present.</span></span>
 <span><span class="co">#&gt; Adding another scale for colour, which will replace the</span></span>
 <span><span class="co">#&gt; existing scale.</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-34-1.png" width="672"></div>
 </div>
 <div id="assigning-cell-type-identity-to-clusters" class="section level2" number="5.3">
 <h2>
 <span class="header-section-number">5.3</span> Assigning cell type identity to clusters<a class="anchor" aria-label="anchor" href="#assigning-cell-type-identity-to-clusters"><i class="fas fa-link"></i></a>
 </h2>
 <p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#assigning-cell-type-identity-to-clusters" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#assigning-cell-type-identity-to-clusters</a></p>
+<p>NB: The way this is done in the tutorial isn’t realistic!</p>
+<p>Here is a more generic approach that you might try.</p>
+<p>This is just a reccomendation, but it can avoid hassles if you add a letter to your clusters so they are no longer just numbers.</p>
+<p>Here, we prefix a ‘c’ onto the cluster number.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Sometimes you need to change Idents, so make sure your favourite cluster is stored in its own column too!</span></span>
+<span><span class="co"># 5 =&gt; c5</span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"c"</span>, <span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span><span class="op">)</span>,   levels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">'c'</span>, <span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">Idents</span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/levels.html">levels</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "c0" "c1" "c2" "c3" "c4" "c5" "c6" "c7" "c8"</span></span></code></pre></div>
+<p>Now have clusters c0 to c8 - we’re going to need to look at cluster markers and decide one by one what they are.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Template</span></span>
+<span><span class="va">cluster_content</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  c0 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c1 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c2 <span class="op">=</span> <span class="st">""</span>,  </span>
+<span>  c3 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c4 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c5 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c6 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c7 <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  c8 <span class="op">=</span> <span class="st">""</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Next, its time to dig into the biology, and make a call of what cluster corresponds to what cell type. It often won’t be possible to confidently label all clusters.</p>
+<p>Possible techniques:</p>
+<ul>
+<li>Look at the cluster marker genes.</li>
+<li>Look at known cell type markers - are they restricted to the cluster on the UMAP?</li>
+<li>Use a celltype assignment tool (like singleR) to call celltypes against a reference dataset</li>
+<li>Check the QC metrics on difficult to understand clusters - often cells with low counts will group together. These might be an ‘uknown’/‘poor quality’ cluster.</li>
+<li>Check for weird clusters from just one sample. They might be spurious.</li>
+<li>To separate similar clusters, you can subset your data and calculate cell markers within the subset.</li>
+</ul>
+<p>Finally, when you’ve some up with some labels - you can run something like.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cluster_content</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>  c0 <span class="op">=</span> <span class="st">"Naive CD4+ T"</span>,</span>
+<span>  c1 <span class="op">=</span> <span class="st">"CD14+ Mono"</span>,</span>
+<span>  c2 <span class="op">=</span> <span class="st">"Memory CD4+"</span>,  </span>
+<span>  c3 <span class="op">=</span> <span class="st">"B"</span>,</span>
+<span>  c4 <span class="op">=</span> <span class="st">"CD8+ T"</span>,</span>
+<span>  c5 <span class="op">=</span> <span class="st">"Mono"</span>,</span>
+<span>  c6 <span class="op">=</span> <span class="st">"NK"</span>,</span>
+<span>  c7 <span class="op">=</span> <span class="st">"DC"</span>,</span>
+<span>  c8 <span class="op">=</span> <span class="st">"Platelet"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># "c5" =&gt; "Mono" </span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">celltype</span> <span class="op">&lt;-</span> <span class="va">cluster_content</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span><span class="op">]</span></span>
+<span><span class="co">#&gt; Warning in `[&lt;-.data.frame`(`*tmp*`, , i, value = list(c2 =</span></span>
+<span><span class="co">#&gt; "Memory CD4+", : provided 2638 variables to replace 1</span></span>
+<span><span class="co">#&gt; variables</span></span></code></pre></div>
+<p>With a little extra code, we can keep the order of our celltypes, and create labels
+that incorporate the cluster number. It can be useful to keep cluster labels during your analysis
+(‘CD4+ T’ makes for terrible filenames!), especially where you have multiple clusters with the same celltype (e.g. multiple similar yet different ‘stroma’ celltypes are common).</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># "c5" =&gt; "Mono" </span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">celltype</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">cluster_content</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span><span class="op">]</span>, levels<span class="op">=</span><span class="va">cluster_content</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># c5 =&gt; c5: Mono</span></span>
+<span><span class="va">pbmc</span><span class="op">$</span><span class="va">pretty_cluster_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span> <span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">cluster_content</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span><span class="op">]</span><span class="op">)</span>, <span class="st">": "</span>, <span class="va">cluster_content</span><span class="op">[</span><span class="va">pbmc</span><span class="op">$</span><span class="va">cluster</span><span class="op">]</span><span class="op">)</span> , </span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">cluster_content</span><span class="op">)</span>, <span class="st">": "</span>, <span class="va">cluster_content</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>What’s in our sample?</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pbmc</span><span class="op">@</span><span class="va">meta.data</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">RNA_snn_res.0.5</span>, <span class="va">cluster</span>, <span class="va">celltype</span>, <span class="va">pretty_cluster_labels</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>num_cells<span class="op">=</span><span class="fu">n</span><span class="op">(</span><span class="op">)</span>, .groups<span class="op">=</span><span class="st">"drop"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; # A tibble: 9 × 5</span></span>
+<span><span class="co">#&gt;   RNA_snn_res.0.5 cluster celltype     pretty_cluster_labels</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt;           &lt;fct&gt;   &lt;fct&gt;        &lt;fct&gt;                </span></span>
+<span><span class="co">#&gt; 1 0               c0      Naive CD4+ T c0: Naive CD4+ T     </span></span>
+<span><span class="co">#&gt; 2 1               c1      CD14+ Mono   c1: CD14+ Mono       </span></span>
+<span><span class="co">#&gt; 3 2               c2      Memory CD4+  c2: Memory CD4+      </span></span>
+<span><span class="co">#&gt; 4 3               c3      B            c3: B                </span></span>
+<span><span class="co">#&gt; 5 4               c4      CD8+ T       c4: CD8+ T           </span></span>
+<span><span class="co">#&gt; 6 5               c5      Mono         c5: Mono             </span></span>
+<span><span class="co">#&gt; 7 6               c6      NK           c6: NK               </span></span>
+<span><span class="co">#&gt; 8 7               c7      DC           c7: DC               </span></span>
+<span><span class="co">#&gt; 9 8               c8      Platelet     c8: Platelet         </span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: num_cells &lt;int&gt;</span></span></code></pre></div>
+<p>Can we figure out cell types automatically? Yes! There are methods like singleR but they are not perfect - just another tool for you to curate your celltypes.</p>
 
 </div>
 </div>
@@ -148,7 +239,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-06.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-09.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

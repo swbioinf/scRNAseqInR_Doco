@@ -1,15 +1,15 @@
 # Clustering {#clustering}
 
-#### Why do we need to do this?  {- .rational}
+Tutorial:  https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cells 
+
 
 Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.   
 
-####  {-}
+Creating cell clusters the is easy, but understanding what is in them biologically-speaking can take time. We will try some things that aren't in the introductory seruat tutorial.
+
+
 
 ## Cluster cells
-
-
-Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cells 
 
 <!-- Do clustering -->
 <!-- Choose a resolution -->
@@ -17,8 +17,7 @@ Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cell
 <!-- Find cluster markers -->
 <!-- Name some. -->
 
-
-***
+<!-- Not a cfull challange, but encourage people to chhose a random cluster resolution and share --> 
 
 
 <!-- #### Challenge: Try different cluster settings {- .challenge} -->
@@ -28,6 +27,7 @@ Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cell
 <!-- To maintain the flow of this tutorial, please put the output of this exploration in a different variable, such as `pbmc2`! -->
 
 <!-- ####  {-} -->
+<!-- ** -->
 
 
 ## Choosing a cluster resolution
@@ -36,9 +36,8 @@ Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cell
 Its a good idea to try different resolutions when clustering to identify the variability of your data. 
 
 ```{r}
-resolution = 2
-#pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, resolution, 0.1), dims = 1:10)
-pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = c(0.1, 2), dims = 1:10) # TEMP
+# Do clustering at 0.1, 0.2, 0.3... 2.0
+pbmc <- FindClusters(object = pbmc, reduction = "umap", resolution = seq(0.1, 2, 0.1), dims = 1:10)
 # the different clustering created
 names(pbmc@meta.data)
 
@@ -48,7 +47,7 @@ table(pbmc$RNA_snn_res.0.5)
 table(pbmc$RNA_snn_res.2)
 ```
 
-Plot a clustree to decide how many clusters you have and what resolution capture them.
+Plot a 'clustree' to decide how many clusters you have and what resolution capture them.
 
 ```{r fig.height=12}
 library(clustree)
