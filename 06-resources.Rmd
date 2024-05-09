@@ -15,8 +15,7 @@ There are a good many Seurat vigettes for different aspects of the Seurat packag
 * [Guided Clustering tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial.html) : We've just worked through this
 * [Differential expression](https://satijalab.org/seurat/archive/v3.1/de_vignette.html) : An Exploration of differential expression methods within Seurat
 * [Data integration](https://satijalab.org/seurat/articles/integration_introduction.html) : Seurat's data integration is a popular method to combine different datasets into one joint analysis.
-
-
+* [Merging seurat objectsl](https://satijalab.org/seurat/archive/v4.3/merge)): For handling real life experiments with more than one sample!
 
 
 ### Seurat Cheatsheet {-}

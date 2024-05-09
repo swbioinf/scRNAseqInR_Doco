@@ -44,16 +44,11 @@ FeaturePlot(pbmc, features = "Naive_CD4_T1", label = TRUE, repel = TRUE, ) + sca
 
 Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#assigning-cell-type-identity-to-clusters
 
-NB: The way this is done in the tutorial isn't realistic! 
+This is presentend in a very simple way in the tutorial, an expanded approach is below.
 
 
+First, it can avoid downstream hassles if you add a letter to your clusters so they are no longer just numbers. Here, we prefix a 'c' onto the cluster number, and store as a factor. 
 
-Here is a more generic approach that you might try.
-
-
-This is just a reccomendation, but it can avoid hassles if you add a letter to your clusters so they are no longer just numbers.
-
-Here, we prefix a 'c' onto the cluster number. 
 ```{r}
 # Sometimes you need to change Idents, so make sure your favourite cluster is stored in its own column too!
 # 5 => c5
@@ -62,7 +57,16 @@ Idents(pbmc) <- pbmc$cluster
 levels(pbmc$cluster)
 ```
 
-Now have clusters c0 to c8 - we're going to need to look at cluster markers and decide one by one what they are. 
+We have clusters c0 to c8. 
+
+Now, its time to make a biologically-informed call of what cluster corresponds to what cell type. This step can take time! It often won't be possible to confidently label all clusters. Some approaches we can use:
+
+* Look at the cluster marker genes. 
+* Look at known cell type markers - are they restricted to the cluster on the UMAP?
+* Use a celltype assignment tool (like singleR) to call celltypes against a reference dataset
+* Check the QC metrics on difficult to understand clusters - often cells with low counts will group together. These might be an 'unknown'/'poor quality' cluster.
+* Check for weird clusters from just one sample. They might be spurious.
+* To separate similar clusters, you can subset your data and calculate cell markers within the subset.
 
 ```{r eval=FALSE}
 # Template
@@ -79,19 +83,8 @@ cluster_content <- list(
 )
 ```
 
-Next, its time to dig into the biology, and make a call of what cluster corresponds to what cell type. It often won't be possible to confidently label all clusters. 
+Finally, when you've some up with some labels - you can run store them in your object.
 
-Possible techniques:
-
-* Look at the cluster marker genes. 
-* Look at known cell type markers - are they restricted to the cluster on the UMAP?
-* Use a celltype assignment tool (like singleR) to call celltypes against a reference dataset
-* Check the QC metrics on difficult to understand clusters - often cells with low counts will group together. These might be an 'uknown'/'poor quality' cluster.
-* Check for weird clusters from just one sample. They might be spurious.
-* To separate similar clusters, you can subset your data and calculate cell markers within the subset.
-
-
-Finally, when you've some up with some labels - you can run something like.
 ```{r eval=TRUE}
 cluster_content <- list(
   c0 = "Naive CD4+ T",
@@ -106,7 +99,7 @@ cluster_content <- list(
 )
 
 # "c5" => "Mono" 
-pbmc$celltype <- cluster_content[pbmc$cluster]
+pbmc$celltype <- as.character(cluster_content[pbmc$cluster])
 ```
 
 
@@ -116,7 +109,7 @@ that incorporate the cluster number. It can be useful to keep cluster labels dur
 
 ```{r}
 # "c5" => "Mono" 
-pbmc$celltype <-factor(cluster_content[pbmc$cluster], levels=cluster_content)
+pbmc$celltype <-factor(as.character(cluster_content[pbmc$cluster]), levels=cluster_content)
 
 # c5 => c5: Mono
 pbmc$pretty_cluster_labels <- factor (
@@ -131,14 +124,15 @@ What's in our sample?
 ```{r}
 pbmc@meta.data %>% 
   group_by(RNA_snn_res.0.5, cluster, celltype, pretty_cluster_labels) %>%
-  summarise(num_cells=n(), .groups="drop") 
+  summarise(num_cells=n(), .groups="drop")  %>%
+  DT::datatable()
   
 ```
 
 
 
 
-Can we figure out cell types automatically? Yes! There are methods like singleR but they are not perfect - just another tool for you to curate your celltypes.
+Can we figure out cell types automatically? Yes! There are methods like singleR but they are not perfect.
 
 
   

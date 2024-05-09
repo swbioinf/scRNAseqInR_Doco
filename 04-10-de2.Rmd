@@ -57,8 +57,8 @@ kang
 
 
 How many copies of each gene are there?
-```{R}
-total_per_gene <- rowSums(GetAssayData(kang, 'counts'))
+```{r}
+total_per_gene <- rowSums(GetAssayData(kang, 'RNA', layer = "counts")) #Make sure its RNA assay, layer = counts
 hist(log10(total_per_gene))
 ```
 
@@ -109,7 +109,8 @@ de_result_wilcox <- FindMarkers(kang.celltype,
             )
 
 # Add average expression for plotting
-de_result_wilcox$AveExpr<- rowMeans(kang.celltype[["RNA"]][rownames(de_result_wilcox),])
+
+de_result_wilcox$AveExpr<- rowMeans(GetAssayData(kang.celltype,assay="RNA", layer = "data")[rownames(de_result_wilcox),])
 ```
 
 Look at the top differentially expressed genes.
@@ -154,7 +155,7 @@ de_result_negbinom <- FindMarkers(kang.celltype,
 )
 
 # Add average expression for plotting
-de_result_negbinom$AveExpr<- rowMeans(kang.celltype[["RNA"]][rownames(de_result_negbinom),])
+de_result_negbinom$AveExpr<- rowMeans(GetAssayData(kang.celltype,assay="RNA", layer = "data")[rownames(de_result_negbinom),])
 ```
 
 
@@ -201,10 +202,14 @@ Idents(kang.celltype) <- kang.celltype$sample
 
 # THen pool together counts in those groups
 # AggregateExperssion returns a list of matricies - one for each assay requested (even just requesting one)
-pseudobulk_matrix_list <- AggregateExpression( kang.celltype,  slot = 'counts', assays='RNA' )
+pseudobulk_matrix_list <- AggregateExpression( kang.celltype,  assays='RNA')
 pseudobulk_matrix      <- pseudobulk_matrix_list[['RNA']]
 colnames(pseudobulk_matrix) <- as.character(colnames(pseudobulk_matrix)) # Changes colnames to simple text
 pseudobulk_matrix[1:5,1:4]
+
+# Aggregate expression replaces _ with -! We're going to change it back (for limma.)
+colnames(pseudobulk_matrix) <- gsub("-", "_",colnames(pseudobulk_matrix))
+
 ```
 
 Now it looks like a bulk RNAseq experiment, so treat it like one.

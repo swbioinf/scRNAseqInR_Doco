@@ -5,18 +5,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 3 Seurat PBMC3k Tutorial | scRNAseq Analysis in R with Seurat</title>
-<meta name="description" content="3.1 Load data  3.1.1 Setup the Seurat Object Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object  What do the input files look like? It varies, but this is the...">
+<meta name="description" content="3.1 Load data  3.1.1 Input data What do the input files look like? It varies, but this is the output of the CellRanger pipleine for a single sample. ├── analysis │  ├── clustering │  ├── diffexp │...">
 <meta name="generator" content="bookdown 0.35 with bs4_book()">
 <meta property="og:title" content="Chapter 3 Seurat PBMC3k Tutorial | scRNAseq Analysis in R with Seurat">
 <meta property="og:type" content="book">
-<meta property="og:description" content="3.1 Load data  3.1.1 Setup the Seurat Object Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object  What do the input files look like? It varies, but this is the...">
+<meta property="og:description" content="3.1 Load data  3.1.1 Input data What do the input files look like? It varies, but this is the output of the CellRanger pipleine for a single sample. ├── analysis │  ├── clustering │  ├── diffexp │...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 3 Seurat PBMC3k Tutorial | scRNAseq Analysis in R with Seurat">
-<meta name="twitter:description" content="3.1 Load data  3.1.1 Setup the Seurat Object Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object  What do the input files look like? It varies, but this is the...">
+<meta name="twitter:description" content="3.1 Load data  3.1.1 Input data What do the input files look like? It varies, but this is the output of the CellRanger pipleine for a single sample. ├── analysis │  ├── clustering │  ├── diffexp │...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.5.0/transition.js"></script><script src="libs/bs3compat-0.5.0/tabs.js"></script><script src="libs/bs3compat-0.5.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script><link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="libs/datatables-binding-0.28/datatables.js"></script><link href="libs/dt-core-1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="libs/dt-core-1.13.4/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="libs/dt-core-1.13.4/js/jquery.dataTables.min.js"></script><link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet">
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
@@ -69,14 +73,10 @@
 <h2>
 <span class="header-section-number">3.1</span> Load data<a class="anchor" aria-label="anchor" href="#load-data"><i class="fas fa-link"></i></a>
 </h2>
-<div id="setup-the-seurat-object" class="section level3" number="3.1.1">
+<div id="input-data" class="section level3" number="3.1.1">
 <h3>
-<span class="header-section-number">3.1.1</span> Setup the Seurat Object<a class="anchor" aria-label="anchor" href="#setup-the-seurat-object"><i class="fas fa-link"></i></a>
+<span class="header-section-number">3.1.1</span> Input data<a class="anchor" aria-label="anchor" href="#input-data"><i class="fas fa-link"></i></a>
 </h3>
-<p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object</a></p>
-<!-- Walk through web_summary file -->
-<!-- Show directory with 3 core files -->
-<!-- Pulblic data: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802 -->
 <p>What do the input files look like? It varies, but this is the output of the CellRanger pipleine for a single sample.</p>
 <pre><code>├── analysis
 │   ├── clustering
@@ -110,6 +110,26 @@
 </ul>
 <p>The contents are more fully described <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/gex-outputs">here</a>. And 10X provides some example data like this (requires email): <a href="https://www.10xgenomics.com/datasets/5k-human-pbmcs-3-v3-1-chromium-controller-3-1-standard" class="uri">https://www.10xgenomics.com/datasets/5k-human-pbmcs-3-v3-1-chromium-controller-3-1-standard</a></p>
 </div>
+<div id="setup-the-seurat-object" class="section level3" number="3.1.2">
+<h3>
+<span class="header-section-number">3.1.2</span> Setup the Seurat Object<a class="anchor" aria-label="anchor" href="#setup-the-seurat-object"><i class="fas fa-link"></i></a>
+</h3>
+<p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object</a></p>
+<!-- Walk through web_summary file -->
+<!-- Show directory with 3 core files -->
+<!-- Pulblic data: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802 -->
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://satijalab.org/seurat">Seurat</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com">patchwork</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Load the PBMC dataset</span></span>
+<span><span class="va">pbmc.data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/Read10X.html">Read10X</a></span><span class="op">(</span>data.dir <span class="op">=</span> <span class="st">"data/pbmc3k/filtered_gene_bc_matrices/hg19/"</span><span class="op">)</span> <span class="co"># This path on our VMs!</span></span>
+<span><span class="co"># Initialize the Seurat object with the raw (non-normalized data).</span></span>
+<span><span class="va">pbmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/CreateSeuratObject.html">CreateSeuratObject</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">pbmc.data</span>, project <span class="op">=</span> <span class="st">"pbmc3k"</span>, min.cells <span class="op">=</span> <span class="fl">3</span>, min.features <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="va">pbmc</span></span></code></pre></div>
+</div>
 </div>
 <div id="qc-filtering" class="section level2" number="3.2">
 <h2>
@@ -125,9 +145,9 @@
 <p>Low quality cells can add noise to your results leading you to the wrong biological conclusions. Using only good quality cells helps you to avoid this. Reduce noise in the data by filtering out low quality cells such as dying or stressed cells (high mitochondrial expression) and cells with few features that can reflect empty droplets.</p>
 <hr>
 <p>The metadata of a seurat object contains any information about a cell, not just QC <code>pbmc@meta.data</code> or <code>pbmc[[]]</code>.</p>
-<p>Running <code>PercentageFeatureSet()</code> added new columns, but we can also add information ourselves. We will use the metadata a lot!</p>
+<p>Running <code><a href="https://satijalab.org/seurat/reference/PercentageFeatureSet.html">PercentageFeatureSet()</a></code> added new columns, but we can also add information ourselves. We will use the metadata a lot!</p>
 <p>E.g. In a real experiment with multiple samples, you can load each sample, and record information about it- then combine into one, big, seurat object. NB: We won’t cover that today, but see <a href="https://satijalab.org/seurat/archive/v4.3/merge">merging seurat objects tutorial</a></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">so.1</span> <span class="op">&lt;-</span> <span class="co"># load sample 1</span></span>
 <span><span class="va">so.1</span><span class="op">$</span><span class="va">samplename</span> <span class="op">&lt;-</span> <span class="st">"sample1"</span></span>
 <span><span class="va">so.1</span><span class="op">$</span><span class="va">group</span>      <span class="op">&lt;-</span> <span class="st">"treatment"</span></span>
@@ -143,9 +163,10 @@
 <ul>
 <li>What thresholds would you chose to apply to this modern dataset?</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pbmc10k_unfiltered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="st">"data/10k_PBMC_v3.1ChromiumX_Intronic.rds"</span><span class="op">)</span></span>
-<span><span class="fu">VlnPlot</span><span class="op">(</span><span class="va">pbmc10k_unfiltered</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nFeature_RNA"</span>, <span class="st">"nCount_RNA"</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc10k_unfiltered</span>, features <span class="op">=</span> <span class="st">"nCount_RNA"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://satijalab.org/seurat/reference/VlnPlot.html">VlnPlot</a></span><span class="op">(</span><span class="va">pbmc10k_unfiltered</span>, features <span class="op">=</span> <span class="st">"nFeature_RNA"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_y_log10</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="section" class="section level4 unnumbered">
 <h4 class="unnumbered"><a class="anchor" aria-label="anchor" href="#section"><i class="fas fa-link"></i></a></h4>
@@ -182,12 +203,12 @@ This step allows controling for cell cycle and other factors that may bias your 
 <li>
 <strong>Run non-linear dimensional reduction (UMAP/tSNE)</strong> <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#run-non-linear-dimensional-reduction-umaptsne">Tutorial</a>: Finally, make the UMAP plot.</li>
 </ol>
-<div class="inline-figure"><img src="images/genes2umap.png" style="width:80.0%"></div>
+<div class="inline-figure"><img src="images/genes2umap.png"></div>
 <p>NB: We skip clustering for now, as we will return to cover it in greater depth.</p>
 <div id="challenge-pc-genes" class="section level4 unnumbered challenge">
 <h4>Challenge: PC genes<a class="anchor" aria-label="anchor" href="#challenge-pc-genes"><i class="fas fa-link"></i></a>
 </h4>
-<p>You can plot gene expression on the UMAP with the <code>FeaturePlot()</code> function.</p>
+<p>You can plot gene expression on the UMAP with the <code><a href="https://satijalab.org/seurat/reference/FeaturePlot.html">FeaturePlot()</a></code> function.</p>
 <p>Try out some genes that were highly weighted in the principal component analysis. How do they look?</p>
 </div>
 <div id="section-1" class="section level4 unnumbered">
@@ -198,7 +219,7 @@ This step allows controling for cell cycle and other factors that may bias your 
 <span class="header-section-number">3.4.1</span> Save<a class="anchor" aria-label="anchor" href="#save"><i class="fas fa-link"></i></a>
 </h3>
 <p>You can save the object at this point so that it can easily be loaded back in without having to rerun the computationally intensive steps performed above, or easily shared with collaborators.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">pbmc</span>, file <span class="op">=</span> <span class="st">"pbmc_tutorial_saved.rds"</span><span class="op">)</span> </span></code></pre></div>
 </div>
 </div>
@@ -230,7 +251,10 @@ This step allows controling for cell cycle and other factors that may bias your 
       <ul class="nav navbar-nav">
 <li><a class="nav-link" href="#preprocessing"><span class="header-section-number">3</span> Seurat PBMC3k Tutorial</a></li>
 <li>
-<a class="nav-link" href="#load-data"><span class="header-section-number">3.1</span> Load data</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#setup-the-seurat-object"><span class="header-section-number">3.1.1</span> Setup the Seurat Object</a></li></ul>
+<a class="nav-link" href="#load-data"><span class="header-section-number">3.1</span> Load data</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#input-data"><span class="header-section-number">3.1.1</span> Input data</a></li>
+<li><a class="nav-link" href="#setup-the-seurat-object"><span class="header-section-number">3.1.2</span> Setup the Seurat Object</a></li>
+</ul>
 </li>
 <li><a class="nav-link" href="#qc-filtering"><span class="header-section-number">3.2</span> QC Filtering</a></li>
 <li><a class="nav-link" href="#normalisation"><span class="header-section-number">3.3</span> Normalisation</a></li>
@@ -255,7 +279,7 @@ This step allows controling for cell cycle and other factors that may bias your 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-09.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-10.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

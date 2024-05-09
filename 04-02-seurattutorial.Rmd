@@ -35,16 +35,7 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 
 ## Load data
 
-
-
-### Setup the Seurat Object
-
-Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object
-
-<!-- Walk through web_summary file --> 
-<!-- Show directory with 3 core files -->
-<!-- Pulblic data: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802 -->
-
+### Input data
 
 What do the input files look like? It varies, but this is the output of the CellRanger pipleine for a single sample.
 
@@ -79,6 +70,30 @@ We don't usually need to look at all of these, the most useful files are:
 * *filtered_feature_bc_matrix/* folder has 3 files which contain the 'counts matrix', how many copies of each gene per cell. Often available for public data, e.g. [this kidney organioid study](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802)
 
 The contents are more fully described [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/gex-outputs). And 10X provides some example data like this (requires email): https://www.10xgenomics.com/datasets/5k-human-pbmcs-3-v3-1-chromium-controller-3-1-standard
+
+
+
+### Setup the Seurat Object
+
+Tutorial: https://satijalab.org/seurat/articles/pbmc3k_tutorial#setup-the-seurat-object
+
+<!-- Walk through web_summary file --> 
+<!-- Show directory with 3 core files -->
+<!-- Pulblic data: https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802 -->
+
+```{r eval=FALSE}
+library(dplyr)
+library(ggplot2)
+library(Seurat)
+library(patchwork)
+
+# Load the PBMC dataset
+pbmc.data <- Read10X(data.dir = "data/pbmc3k/filtered_gene_bc_matrices/hg19/") # This path on our VMs!
+# Initialize the Seurat object with the raw (non-normalized data).
+pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
+pbmc
+
+```
 
 ## QC Filtering
 
@@ -121,7 +136,9 @@ The PBMC3k dataset we're working with in this tutorial is quite old. There are a
 
 ```{r eval=FALSE}
 pbmc10k_unfiltered <- readRDS("data/10k_PBMC_v3.1ChromiumX_Intronic.rds")
-VlnPlot(pbmc10k_unfiltered, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
+VlnPlot(pbmc10k_unfiltered, features = "nCount_RNA") + scale_y_log10()
+VlnPlot(pbmc10k_unfiltered, features = "nFeature_RNA") + scale_y_log10()
+
 ```
 
 ####  {-}
@@ -158,7 +175,7 @@ This step allows controling for cell cycle and other factors that may bias your 
 4. **Run non-linear dimensional reduction (UMAP/tSNE)** [Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial#run-non-linear-dimensional-reduction-umaptsne): Finally, make the UMAP plot. 
 
 
-![](images/genes2umap.png){width=80%}
+![](images/genes2umap.png)
 
 NB: We skip clustering for now, as we will return to cover it in greater depth.
 
