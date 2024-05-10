@@ -154,7 +154,7 @@
 <code class="sourceCode R"><span><span class="va">lbls.keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">pred.cnts</span><span class="op">$</span><span class="va">labels</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">10</span></span>
 <span><span class="va">pbmc</span><span class="op">$</span><span class="va">SingleR.labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">lbls.keep</span><span class="op">[</span><span class="va">pred.cnts</span><span class="op">$</span><span class="va">labels</span><span class="op">]</span>, <span class="va">pred.cnts</span><span class="op">$</span><span class="va">labels</span>, <span class="st">'Other'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction<span class="op">=</span><span class="st">'umap'</span>, group.by<span class="op">=</span><span class="st">'SingleR.labels'</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-29-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-30-1.png" width="672"></div>
 <p>It is nice to see that even though SingleR does not use the clusters we computed earlier, the labels do seem to match those clusters reasonably well.</p>
 
 </div>

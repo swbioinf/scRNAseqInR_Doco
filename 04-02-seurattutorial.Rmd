@@ -175,7 +175,7 @@ This step allows controling for cell cycle and other factors that may bias your 
 4. **Run non-linear dimensional reduction (UMAP/tSNE)** [Tutorial](https://satijalab.org/seurat/articles/pbmc3k_tutorial#run-non-linear-dimensional-reduction-umaptsne): Finally, make the UMAP plot. 
 
 
-![](images/genes2umap.png)
+![](images/genes2umap.png){width=100%}
 
 NB: We skip clustering for now, as we will return to cover it in greater depth.
 

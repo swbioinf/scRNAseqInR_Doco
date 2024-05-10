@@ -193,7 +193,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang</span>, <span class="st">'RNA'</span>, layer <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="co">#Make sure its RNA assay, layer = counts</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-36-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-37-1.png" width="672"></div>
 <p>Lets keep only those genes with at least 50 copies across the entire experiment.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kang</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">[</span><span class="va">total_per_gene</span> <span class="op">&gt;=</span> <span class="fl">50</span>, <span class="op">]</span> </span></code></pre></div>
@@ -211,11 +211,11 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <code class="sourceCode R"><span><span class="co"># Set idents to 'cell' column.</span></span>
 <span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">$</span><span class="va">cell</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-39-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-40-1.png" width="672"></div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kang.celltype</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">[</span>, <span class="va">kang</span><span class="op">$</span><span class="va">cell</span> <span class="op">==</span> <span class="st">"CD14+ Monocytes"</span> <span class="op">]</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-39-2.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-40-2.png" width="672"></div>
 </div>
 </div>
 <div id="default-wilcox-test" class="section level2" number="7.2">
@@ -234,15 +234,6 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
 <span>            min.pct <span class="op">=</span> <span class="fl">0</span></span>
 <span>            <span class="op">)</span></span>
-<span><span class="co">#&gt; For a (much!) faster implementation of the Wilcoxon Rank Sum Test,</span></span>
-<span><span class="co">#&gt; (default method for FindMarkers) please install the presto package</span></span>
-<span><span class="co">#&gt; --------------------------------------------</span></span>
-<span><span class="co">#&gt; install.packages('devtools')</span></span>
-<span><span class="co">#&gt; devtools::install_github('immunogenomics/presto')</span></span>
-<span><span class="co">#&gt; --------------------------------------------</span></span>
-<span><span class="co">#&gt; After installation of presto, Seurat will automatically use the more </span></span>
-<span><span class="co">#&gt; efficient implementation (no further action necessary).</span></span>
-<span><span class="co">#&gt; This message will be shown once per session</span></span>
 <span></span>
 <span><span class="co"># Add average expression for plotting</span></span>
 <span></span>
@@ -279,7 +270,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Wilcox Test (Volcano)"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-42-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-43-1.png" width="672"></div>
 </div>
 <div id="seurat-negative-binomial" class="section level2" number="7.3">
 <h2>
@@ -327,7 +318,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Negative Bionomial Test (Volcano)"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-45-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-46-1.png" width="672"></div>
 </div>
 <div id="pseudobulk" class="section level2" number="7.4">
 <h2>
@@ -338,17 +329,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/limma/">limma</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'limma'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     plotMA</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/edgeR/">edgeR</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'edgeR'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:SingleCellExperiment':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     cpm</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># Change idents to ind for grouping.</span></span>
@@ -358,8 +339,6 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span><span class="co"># THen pool together counts in those groups</span></span>
 <span><span class="co"># AggregateExperssion returns a list of matricies - one for each assay requested (even just requesting one)</span></span>
 <span><span class="va">pseudobulk_matrix_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">kang.celltype</span>,  assays<span class="op">=</span><span class="st">'RNA'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Names of identity class contain underscores ('_'), replacing with dashes ('-')</span></span>
-<span><span class="co">#&gt; This message is displayed once every 8 hours.</span></span>
 <span><span class="va">pseudobulk_matrix</span>      <span class="op">&lt;-</span> <span class="va">pseudobulk_matrix_list</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">)</span> <span class="co"># Changes colnames to simple text</span></span>
 <span><span class="va">pseudobulk_matrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
@@ -428,7 +407,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Pseudobulk Test (Volcano)"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-49-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-50-1.png" width="672"></div>
 <div id="discussion" class="section level4 unnumbered challenge">
 <h4>Discussion<a class="anchor" aria-label="anchor" href="#discussion"><i class="fas fa-link"></i></a>
 </h4>

@@ -8,7 +8,7 @@ Clustering the cells will allow you to visualise the variability of your data, c
 Creating cell clusters the is easy, but understanding what is in them biologically-speaking can take time. We will try some things that aren't in the introductory seruat tutorial.
 
 
-![](images/pcs2clusters.png)
+![](images/pcs2clusters.png){width=100%}
 
 ## Cluster cells
 

@@ -72,7 +72,7 @@
 <p>Tutorial: <a href="https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cells" class="uri">https://satijalab.org/seurat/articles/pbmc3k_tutorial#cluster-the-cells</a></p>
 <p>Clustering the cells will allow you to visualise the variability of your data, can help to segregate cells into cell types.</p>
 <p>Creating cell clusters the is easy, but understanding what is in them biologically-speaking can take time. We will try some things that aren’t in the introductory seruat tutorial.</p>
-<div class="inline-figure"><img src="images/pcs2clusters.png"></div>
+<div class="inline-figure"><img src="images/pcs2clusters.png" style="width:100.0%"></div>
 <div id="cluster-cells" class="section level2" number="4.1">
 <h2>
 <span class="header-section-number">4.1</span> Cluster cells<a class="anchor" aria-label="anchor" href="#cluster-cells"><i class="fas fa-link"></i></a>
@@ -312,14 +312,8 @@
 <p>Plot a ‘clustree’ to decide how many clusters you have and what resolution capture them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lazappi/clustree">clustree</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Loading required package: ggraph</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'ggraph'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:sp':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     geometry</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/clustree/man/clustree.html">clustree</a></span><span class="op">(</span><span class="va">pbmc</span>, prefix <span class="op">=</span> <span class="st">"RNA_snn_res."</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-12-1.png" width="672"></div>
 <p>Name cells with the corresponding cluster name at the resolution you pick. This case we are happy with 0.5.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The name of the cluster is prefixed with 'RNA_snn_res' and the number of the resolution</span></span>
@@ -327,7 +321,7 @@
 <p>Plot the UMAP with coloured clusters with Dimplot</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, repel <span class="op">=</span> <span class="cn">TRUE</span>, label.box <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SeuratTheme.html">NoLegend</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-13-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-14-1.png" width="672"></div>
 
 </div>
 </div>
