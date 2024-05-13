@@ -69,6 +69,10 @@ We don't usually need to look at all of these, the most useful files are:
 * *web_summary.html* Nice QC summary
 * *filtered_feature_bc_matrix/* folder has 3 files which contain the 'counts matrix', how many copies of each gene per cell. Often available for public data, e.g. [this kidney organioid study](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE114802)
 
+
+![](images/mtx_format.png){width=80%}
+
+
 The contents are more fully described [here](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/gex-outputs). And 10X provides some example data like this (requires email): https://www.10xgenomics.com/datasets/5k-human-pbmcs-3-v3-1-chromium-controller-3-1-standard
 
 

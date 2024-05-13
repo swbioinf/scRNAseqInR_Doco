@@ -199,7 +199,7 @@ separation in the UMAP by phase.</p>
 <p>We can then check the cell phase on the UMAP. In this dataset, phase isn’t driving the clustering, and would not require any further handling.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, reduction <span class="op">=</span> <span class="st">'umap'</span>, group.by <span class="op">=</span> <span class="st">"Phase"</span><span class="op">)</span></span></code></pre></div>
-<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-53-1.png" width="672"></div>
+<div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-52-1.png" width="672"></div>
 <p>Where a bias <em>is</em> present, your course of action depends on the task at hand. It might involve ‘regressing out’ the cell cycle variation when scaling data <code>ScaleData(kang, vars.to.regress="Phase")</code>, omitting cell-cycle dominated clusters, or just accounting for it in your differential expression calculations.</p>
 <p>If you are working with non-human data, you will need to convert these gene lists, or find new cell cycle associated genes in your species.</p>
 
@@ -226,7 +226,7 @@ separation in the UMAP by phase.</p>
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-10.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
