@@ -312,12 +312,18 @@
 <p>Plot a ‘clustree’ to decide how many clusters you have and what resolution capture them.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lazappi/clustree">clustree</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: ggraph</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'ggraph'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:sp':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     geometry</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/clustree/man/clustree.html">clustree</a></span><span class="op">(</span><span class="va">pbmc</span>, prefix <span class="op">=</span> <span class="st">"RNA_snn_res."</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.key.size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-11-1.png" width="672"></div>
 <p>Name cells with the corresponding cluster name at the resolution you pick. This case we are happy with 0.5.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The name of the cluster is prefixed with 'RNA_snn_res' and the number of the resolution</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span></span></code></pre></div>
+<span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">pbmc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">pbmc</span><span class="op">$</span><span class="va">RNA_snn_res.0.5</span></span></code></pre></div>
 <p>Plot the UMAP with coloured clusters with Dimplot</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">pbmc</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, repel <span class="op">=</span> <span class="cn">TRUE</span>, label.box <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/SeuratTheme.html">NoLegend</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -351,7 +357,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-13.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2025-07-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

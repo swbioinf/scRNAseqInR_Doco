@@ -48,7 +48,7 @@ Harmony operates only on the PCA scores. The original gene expression levels rem
 ```{r }
 library(harmony)
 
-kang <- RunHarmony(kang, c("stim", "ind"), reduction="pca")
+kang <- RunHarmony(kang, c("stim", "ind"), reduction.use="pca")
 ```
 
 This has added a new set of reduced dimensions to the Seurat object, `kang$harmony` which is a modified version of the existing `kang$pca` reduced dimensions. The PCA plot shows a large difference between 'ctrl' and 'stim', but this has been removed in the harmony reduction.

@@ -144,6 +144,32 @@ For fans of tidyverse-everything, there's tidyseurat. Example workflow [here](ht
 
 ----------------
 
+## Reference single cell data 
+
+Some reference sites that are useful for checking out gene expression.
+
+### Human protein atlas
+
+https://www.proteinatlas.org/
+
+Includes a search for expression profiles for any given mRNA across multiple single cell 
+
+### PangaloDB 
+
+https://panglaodb.se/
+
+Search for where a particular gene is expressed.
+
+### CellXGene collections
+
+https://cellxgene.cziscience.com/collections
+
+Browse single cell datasets via the browser.
+
+
+
+----------------
+
 ## Preprocessing Tools
 
 Tooks that process raw sequencing data into counts matricies

@@ -191,7 +191,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span><span class="co">#&gt;  2 dimensional reductions calculated: pca, umap</span></span></code></pre></div>
 <p>How many copies of each gene are there?</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang</span>, <span class="st">'RNA'</span>, layer <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="co">#Make sure its RNA assay, layer = counts</span></span>
+<code class="sourceCode R"><span><span class="va">total_per_gene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang</span>, <span class="st">'RNA'</span>, layer <span class="op">=</span> <span class="st">"counts"</span><span class="op">)</span><span class="op">)</span> <span class="co">#Make sure its RNA assay, layer = counts</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">total_per_gene</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-36-1.png" width="672"></div>
 <p>Lets keep only those genes with at least 50 copies across the entire experiment.</p>
@@ -209,7 +209,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <p>An easy way is to subset the object.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Set idents to 'cell' column.</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">$</span><span class="va">cell</span></span>
+<span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang</span><span class="op">$</span><span class="va">cell</span></span>
 <span><span class="fu"><a href="https://satijalab.org/seurat/reference/DimPlot.html">DimPlot</a></span><span class="op">(</span><span class="va">kang</span><span class="op">)</span></span></code></pre></div>
 <div class="inline-figure"><img src="scRNAseqInR_Doco_files/figure-html/unnamed-chunk-39-1.png" width="672"></div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -225,7 +225,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <p>To run this test, we change the Idents to the factor(column) we want to test. In this case, that’s ‘stim’.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Change Ident to Condition</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">stim</span></span>
+<span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">stim</span></span>
 <span></span>
 <span><span class="co"># default, wilcox test</span></span>
 <span><span class="va">de_result_wilcox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">kang.celltype</span>, </span>
@@ -234,10 +234,19 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span>            logfc.threshold <span class="op">=</span> <span class="fl">0</span>, <span class="co"># Give me ALL results</span></span>
 <span>            min.pct <span class="op">=</span> <span class="fl">0</span></span>
 <span>            <span class="op">)</span></span>
+<span><span class="co">#&gt; For a (much!) faster implementation of the Wilcoxon Rank Sum Test,</span></span>
+<span><span class="co">#&gt; (default method for FindMarkers) please install the presto package</span></span>
+<span><span class="co">#&gt; --------------------------------------------</span></span>
+<span><span class="co">#&gt; install.packages('devtools')</span></span>
+<span><span class="co">#&gt; devtools::install_github('immunogenomics/presto')</span></span>
+<span><span class="co">#&gt; --------------------------------------------</span></span>
+<span><span class="co">#&gt; After installation of presto, Seurat will automatically use the more </span></span>
+<span><span class="co">#&gt; efficient implementation (no further action necessary).</span></span>
+<span><span class="co">#&gt; This message will be shown once per session</span></span>
 <span></span>
 <span><span class="co"># Add average expression for plotting</span></span>
 <span></span>
-<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang.celltype</span>,assay<span class="op">=</span><span class="st">"RNA"</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">de_result_wilcox</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang.celltype</span>,assay<span class="op">=</span><span class="st">"RNA"</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Look at the top differentially expressed genes.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_wilcox</span><span class="op">)</span></span>
@@ -280,7 +289,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Change Ident to Condition</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">stim</span></span>
+<span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">stim</span></span>
 <span></span>
 <span><span class="co"># default, wilcox test</span></span>
 <span><span class="va">de_result_negbinom</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/FindMarkers.html">FindMarkers</a></span><span class="op">(</span><span class="va">kang.celltype</span>, </span>
@@ -292,7 +301,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Add average expression for plotting</span></span>
-<span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang.celltype</span>,assay<span class="op">=</span><span class="st">"RNA"</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">de_result_negbinom</span><span class="op">$</span><span class="va">AveExpr</span><span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowMeans</a></span><span class="op">(</span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/AssayData.html">GetAssayData</a></span><span class="op">(</span><span class="va">kang.celltype</span>,assay<span class="op">=</span><span class="st">"RNA"</span>, layer <span class="op">=</span> <span class="st">"data"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>Look at the top differentially expressed genes.</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">de_result_negbinom</span><span class="op">)</span></span>
@@ -329,16 +338,28 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Tools for bulk differential expression</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/limma/">limma</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'limma'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:BiocGenerics':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     plotMA</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioinf.wehi.edu.au/edgeR/">edgeR</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'edgeR'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:SingleCellExperiment':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     cpm</span></span>
 <span></span>
 <span></span>
 <span><span class="co"># Change idents to ind for grouping.</span></span>
 <span><span class="va">kang.celltype</span><span class="op">$</span><span class="va">sample</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">$</span><span class="va">stim</span>, <span class="va">kang.celltype</span><span class="op">$</span><span class="va">ind</span>, sep<span class="op">=</span><span class="st">"_"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://mojaveazure.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">sample</span></span>
+<span><span class="fu"><a href="https://satijalab.github.io/seurat-object/reference/Idents.html">Idents</a></span><span class="op">(</span><span class="va">kang.celltype</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">kang.celltype</span><span class="op">$</span><span class="va">sample</span></span>
 <span></span>
 <span><span class="co"># THen pool together counts in those groups</span></span>
 <span><span class="co"># AggregateExperssion returns a list of matricies - one for each assay requested (even just requesting one)</span></span>
 <span><span class="va">pseudobulk_matrix_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://satijalab.org/seurat/reference/AggregateExpression.html">AggregateExpression</a></span><span class="op">(</span> <span class="va">kang.celltype</span>,  assays<span class="op">=</span><span class="st">'RNA'</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Names of identity class contain underscores ('_'), replacing with dashes ('-')</span></span>
+<span><span class="co">#&gt; This message is displayed once every 8 hours.</span></span>
 <span><span class="va">pseudobulk_matrix</span>      <span class="op">&lt;-</span> <span class="va">pseudobulk_matrix_list</span><span class="op">[[</span><span class="st">'RNA'</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">pseudobulk_matrix</span><span class="op">)</span><span class="op">)</span> <span class="co"># Changes colnames to simple text</span></span>
 <span><span class="va">pseudobulk_matrix</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
@@ -449,7 +470,7 @@ In single cell datasets, there are many genes like this. Filtering here to make 
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2024-05-13.</p>
+    <p>"<strong>scRNAseq Analysis in R with Seurat</strong>" was written by . It was last built on 2025-07-11.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

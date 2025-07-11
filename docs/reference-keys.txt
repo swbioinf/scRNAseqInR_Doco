@@ -28,4 +28,8 @@ resources
 help-and-fruther-resources
 data
 analysis-tools
+reference-single-cell-data
+human-protein-atlas
+pangalodb
+cellxgene-collections
 preprocessing-tools
